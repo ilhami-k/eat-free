@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS Recette (
 
   CONSTRAINT fk_recette_user
     FOREIGN KEY (user_id) REFERENCES Utilisateur(id)
-    ON DELETE SET NULL
+    ON DELETE SET NULL,
+  CONSTRAINT chk_servings_positive CHECK (servings > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Lines of a recipe: quantities stored in grams
@@ -80,7 +81,8 @@ CREATE TABLE IF NOT EXISTS Inventaire_Ingredient (
 
   PRIMARY KEY (inventaire_id, ingredient_id),
   CONSTRAINT fk_ii_inv  FOREIGN KEY (inventaire_id) REFERENCES Inventaire(id)  ON DELETE CASCADE,
-  CONSTRAINT fk_ii_ing  FOREIGN KEY (ingredient_id) REFERENCES Ingredients(id) ON DELETE RESTRICT
+  CONSTRAINT fk_ii_ing  FOREIGN KEY (ingredient_id) REFERENCES Ingredients(id) ON DELETE RESTRICT,
+  CONSTRAINT chk_qty_non_negative CHECK (qty_grams >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ---------- WEEKLY MEAL PLANS ----------
