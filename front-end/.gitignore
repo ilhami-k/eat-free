@@ -90,3 +90,11 @@ typings/
 
 # Electron-Forge
 out/
+
+# Prisma
+# Generated Prisma Client (auto-generated, do not commit)
+main/generated/
+main/generated/**
+
+# Prisma migrations are version-controlled, but runtime files are not
+# Keep migrations, ignore generated client

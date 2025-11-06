@@ -1,0 +1,5 @@
+{
+  "prisma": {
+    "seed": "npm run db:seed"
+  }
+}
