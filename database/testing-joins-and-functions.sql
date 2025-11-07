@@ -14,13 +14,13 @@ SET time_zone = '+00:00';
 
 -- Test 1.1: Verify all users exist
 SELECT '1.1 All Users' AS test_name;
-SELECT id, email, name, created_at FROM Utilisateur ORDER BY id;
+SELECT id, email, name, created_at FROM User ORDER BY id;
 
 -- Test 1.2: Verify inventory was auto-created for all users
 SELECT '1.2 Inventory Auto-Created for Users' AS test_name;
 SELECT i.id, i.user_id, u.email, u.name
-FROM Inventaire i
-JOIN Utilisateur u ON u.id = i.user_id
+FROM Inventory i
+JOIN User u ON u.id = i.user_id
 ORDER BY i.id;
 
 -- ============================================
@@ -52,18 +52,18 @@ ORDER BY kcal_per_100g DESC;
 SELECT '3.1 All Recipes with User Info' AS test_name;
 SELECT r.id, r.name, COALESCE(u.name, 'GLOBAL') AS owner,
        r.servings, r.kcal_per_serving, r.protein_g_per_serving, r.carbs_g_per_serving, r.fat_g_per_serving
-FROM Recette r
-LEFT JOIN Utilisateur u ON u.id = r.user_id
+FROM Recipe r
+LEFT JOIN User u ON u.id = r.user_id
 ORDER BY r.user_id DESC, r.id;
 
--- Test 3.2: Recipe composition (ingredients_recette inner join)
+-- Test 3.2: Recipe composition (recipe_ingredients inner join)
 SELECT '3.2 Recipe Composition - All Recipes with Ingredients' AS test_name;
 SELECT r.id AS recipe_id, r.name AS recipe_name, i.id AS ingredient_id, i.name AS ingredient_name,
        ir.qty_grams, i.kcal_per_100g,
        (i.kcal_per_100g * ir.qty_grams / 100) AS ingredient_kcal,
        ir.notes
-FROM Recette r
-INNER JOIN Ingredients_Recette ir ON ir.recipe_id = r.id
+FROM Recipe r
+INNER JOIN Recipe_Ingredients ir ON ir.recipe_id = r.id
 INNER JOIN Ingredients i ON i.id = ir.ingredient_id
 ORDER BY r.id, i.name;
 
@@ -76,8 +76,8 @@ SELECT r.id, r.name, r.servings,
        ROUND(SUM((ing.protein_g_per_100g * ir.qty_grams) / 100) / r.servings, 2) AS calc_protein_per_serving,
        ROUND(SUM((ing.carbs_g_per_100g * ir.qty_grams) / 100) / r.servings, 2) AS calc_carbs_per_serving,
        ROUND(SUM((ing.fat_g_per_100g * ir.qty_grams) / 100) / r.servings, 2) AS calc_fat_per_serving
-FROM Recette r
-LEFT JOIN Ingredients_Recette ir ON ir.recipe_id = r.id
+FROM Recipe r
+LEFT JOIN Recipe_Ingredients ir ON ir.recipe_id = r.id
 LEFT JOIN Ingredients ing ON ing.id = ir.ingredient_id
 GROUP BY r.id
 ORDER BY r.id;
@@ -85,7 +85,7 @@ ORDER BY r.id;
 -- Test 3.4: Global recipes only
 SELECT '3.4 Global (Admin) Recipes Only' AS test_name;
 SELECT id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving
-FROM Recette
+FROM Recipe
 WHERE user_id IS NULL
 ORDER BY id;
 
@@ -93,8 +93,8 @@ ORDER BY id;
 SELECT '3.5 User-Specific Recipes' AS test_name;
 SELECT r.id, r.name, u.name AS user_name, r.servings,
        r.kcal_per_serving, r.protein_g_per_serving, r.carbs_g_per_serving, r.fat_g_per_serving
-FROM Recette r
-JOIN Utilisateur u ON u.id = r.user_id
+FROM Recipe r
+JOIN User u ON u.id = r.user_id
 ORDER BY u.id, r.id;
 
 -- ============================================
@@ -104,9 +104,9 @@ ORDER BY u.id, r.id;
 -- Test 4.1: User inventories with ingredient counts
 SELECT '4.1 User Inventories with Ingredient Count' AS test_name;
 SELECT i.id, u.name AS user_name, COUNT(ii.ingredient_id) AS ingredient_count, COUNT(ii.ingredient_id) > 0 AS has_stock
-FROM Inventaire i
-JOIN Utilisateur u ON u.id = i.user_id
-LEFT JOIN Inventaire_Ingredient ii ON ii.inventaire_id = i.id
+FROM Inventory i
+JOIN User u ON u.id = i.user_id
+LEFT JOIN Inventory_Ingredient ii ON ii.inventory_id = i.id
 GROUP BY i.id, u.name
 ORDER BY i.id;
 
@@ -115,9 +115,9 @@ SELECT '4.2 Inventory Contents with Ingredient Details' AS test_name;
 SELECT i.id AS inventory_id, u.name AS user_name,
        ing.id AS ingredient_id, ing.name, ii.qty_grams,
        (ii.qty_grams * ing.kcal_per_100g / 100) AS kcal_in_stock
-FROM Inventaire i
-JOIN Utilisateur u ON u.id = i.user_id
-LEFT JOIN Inventaire_Ingredient ii ON ii.inventaire_id = i.id
+FROM Inventory i
+JOIN User u ON u.id = i.user_id
+LEFT JOIN Inventory_Ingredient ii ON ii.inventory_id = i.id
 LEFT JOIN Ingredients ing ON ing.id = ii.ingredient_id
 ORDER BY i.id, ing.name;
 
@@ -130,9 +130,9 @@ SELECT u.id, u.name,
        COALESCE(ROUND(SUM(ii.qty_grams * ing.protein_g_per_100g / 100), 2), 0) AS total_protein_g,
        COALESCE(ROUND(SUM(ii.qty_grams * ing.carbs_g_per_100g / 100), 2), 0) AS total_carbs_g,
        COALESCE(ROUND(SUM(ii.qty_grams * ing.fat_g_per_100g / 100), 2), 0) AS total_fat_g
-FROM Utilisateur u
-LEFT JOIN Inventaire i ON i.user_id = u.id
-LEFT JOIN Inventaire_Ingredient ii ON ii.inventaire_id = i.id
+FROM User u
+LEFT JOIN Inventory i ON i.user_id = u.id
+LEFT JOIN Inventory_Ingredient ii ON ii.inventory_id = i.id
 LEFT JOIN Ingredients ing ON ing.id = ii.ingredient_id
 GROUP BY u.id, u.name
 ORDER BY total_kcal DESC;
@@ -145,8 +145,8 @@ ORDER BY total_kcal DESC;
 SELECT '5.1 All Meal Plans' AS test_name;
 SELECT p.id, u.name AS user_name, p.week_start_date, p.created_at,
        DATE_ADD(p.week_start_date, INTERVAL 6 DAY) AS week_end_date
-FROM PlansRepas p
-JOIN Utilisateur u ON u.id = p.user_id
+FROM Meal_Plan p
+JOIN User u ON u.id = p.user_id
 ORDER BY p.week_start_date DESC, u.name;
 
 -- Test 5.2: Meal plan details (planned meals)
@@ -155,10 +155,10 @@ SELECT p.id AS plan_id, u.name AS user_name, p.week_start_date,
        pr.date, pr.meal_type,
        r.name AS recipe_name, pr.planned_servings,
        r.kcal_per_serving, pr.planned_servings * r.kcal_per_serving AS meal_kcal
-FROM PlansRepas p
-JOIN Utilisateur u ON u.id = p.user_id
-LEFT JOIN PlansRepas_Recette pr ON pr.plan_id = p.id
-LEFT JOIN Recette r ON r.id = pr.recipe_id
+FROM Meal_Plan p
+JOIN User u ON u.id = p.user_id
+LEFT JOIN Meal_Plan_Recipe pr ON pr.plan_id = p.id
+LEFT JOIN Recipe r ON r.id = pr.recipe_id
 ORDER BY p.id, pr.date, FIELD(pr.meal_type, 'breakfast', 'lunch', 'dinner', 'snack');
 
 -- Test 5.3: Daily plan totals
@@ -169,10 +169,10 @@ SELECT p.id AS plan_id, u.name AS user_name, pr.date,
        SUM(pr.planned_servings * r.protein_g_per_serving) AS day_protein_g,
        SUM(pr.planned_servings * r.carbs_g_per_serving) AS day_carbs_g,
        SUM(pr.planned_servings * r.fat_g_per_serving) AS day_fat_g
-FROM PlansRepas p
-JOIN Utilisateur u ON u.id = p.user_id
-LEFT JOIN PlansRepas_Recette pr ON pr.plan_id = p.id
-LEFT JOIN Recette r ON r.id = pr.recipe_id
+FROM Meal_Plan p
+JOIN User u ON u.id = p.user_id
+LEFT JOIN Meal_Plan_Recipe pr ON pr.plan_id = p.id
+LEFT JOIN Recipe r ON r.id = pr.recipe_id
 GROUP BY p.id, u.name, pr.date
 ORDER BY p.id, pr.date;
 
@@ -185,8 +185,8 @@ SELECT '6.1 All Logged Meals' AS test_name;
 SELECT j.id, u.name AS user_name, r.name AS recipe_name, j.servings_eaten,
        j.kcal, j.protein_g, j.carbs_g, j.fat_g, j.logged_at
 FROM Journal j
-JOIN Utilisateur u ON u.id = j.user_id
-JOIN Recette r ON r.id = j.recipe_id
+JOIN User u ON u.id = j.user_id
+JOIN Recipe r ON r.id = j.recipe_id
 ORDER BY j.logged_at DESC;
 
 -- Test 6.2: Daily nutrition summary
@@ -198,7 +198,7 @@ SELECT DATE(j.logged_at) AS log_date, u.name AS user_name,
        SUM(j.carbs_g) AS total_carbs_g,
        SUM(j.fat_g) AS total_fat_g
 FROM Journal j
-JOIN Utilisateur u ON u.id = j.user_id
+JOIN User u ON u.id = j.user_id
 GROUP BY DATE(j.logged_at), u.name
 ORDER BY log_date DESC, u.name;
 
@@ -210,7 +210,7 @@ SELECT u.id, u.name,
        MAX(j.logged_at) AS last_meal,
        ROUND(AVG(j.kcal), 2) AS avg_meal_kcal,
        SUM(j.kcal) AS total_kcal
-FROM Utilisateur u
+FROM User u
 LEFT JOIN Journal j ON j.user_id = u.id AND j.logged_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
 GROUP BY u.id, u.name
 ORDER BY total_kcal DESC;
@@ -221,8 +221,8 @@ SELECT u.name, r.name AS recipe, j.servings_eaten,
        j.kcal, j.protein_g, j.carbs_g, j.fat_g,
        TIME(j.logged_at) AS log_time
 FROM Journal j
-JOIN Utilisateur u ON u.id = j.user_id
-JOIN Recette r ON r.id = j.recipe_id
+JOIN User u ON u.id = j.user_id
+JOIN Recipe r ON r.id = j.recipe_id
 WHERE DATE(j.logged_at) = CURDATE()
 ORDER BY j.logged_at;
 
@@ -234,9 +234,9 @@ ORDER BY j.logged_at;
 SELECT '7.1 All Saved Meals' AS test_name;
 SELECT sr.id, u.name AS user_name, sr.name AS saved_name, r.name AS recipe_name,
        sr.default_servings, r.kcal_per_serving, sr.created_at
-FROM RepasEnregistre sr
-JOIN Utilisateur u ON u.id = sr.user_id
-JOIN Recette r ON r.id = sr.recipe_id
+FROM Saved_Recipe sr
+JOIN User u ON u.id = sr.user_id
+JOIN Recipe r ON r.id = sr.recipe_id
 ORDER BY sr.user_id, sr.name;
 
 -- Test 7.2: Saved meals with computed nutrition
@@ -247,9 +247,9 @@ SELECT sr.id, u.name AS user_name, sr.name,
        ROUND(sr.default_servings * r.protein_g_per_serving, 2) AS default_protein_g,
        ROUND(sr.default_servings * r.carbs_g_per_serving, 2) AS default_carbs_g,
        ROUND(sr.default_servings * r.fat_g_per_serving, 2) AS default_fat_g
-FROM RepasEnregistre sr
-JOIN Utilisateur u ON u.id = sr.user_id
-JOIN Recette r ON r.id = sr.recipe_id
+FROM Saved_Recipe sr
+JOIN User u ON u.id = sr.user_id
+JOIN Recipe r ON r.id = sr.recipe_id
 ORDER BY u.name, sr.name;
 
 -- ============================================
@@ -270,8 +270,8 @@ SELECT r.id, r.name, r.servings,
        ROUND(SUM((i.kcal_per_100g * ir.qty_grams) / 100), 2) AS total_kcal,
        ROUND(SUM((i.kcal_per_100g * ir.qty_grams) / 100) / r.servings, 2) AS kcal_per_serving_calc,
        r.kcal_per_serving AS kcal_per_serving_stored
-FROM Recette r
-LEFT JOIN Ingredients_Recette ir ON ir.recipe_id = r.id
+FROM Recipe r
+LEFT JOIN Recipe_Ingredients ir ON ir.recipe_id = r.id
 LEFT JOIN Ingredients i ON i.id = ir.ingredient_id
 GROUP BY r.id
 HAVING ingredient_count > 0
@@ -287,14 +287,14 @@ SELECT
   u.id AS user_id,
   u.email,
   u.name,
-  (SELECT COUNT(*) FROM Recette WHERE user_id = u.id) AS user_recipes_count,
+  (SELECT COUNT(*) FROM Recipe WHERE user_id = u.id) AS user_recipes_count,
   (SELECT COUNT(*) FROM Journal WHERE user_id = u.id) AS meals_logged_count,
-  (SELECT COUNT(*) FROM PlansRepas WHERE user_id = u.id) AS meal_plans_count,
-  (SELECT COUNT(*) FROM RepasEnregistre WHERE user_id = u.id) AS saved_meals_count,
-  (SELECT COALESCE(SUM(qty_grams), 0) FROM Inventaire_Ingredient ii WHERE ii.inventaire_id = i.id) AS inventory_grams,
+  (SELECT COUNT(*) FROM Meal_Plan WHERE user_id = u.id) AS meal_plans_count,
+  (SELECT COUNT(*) FROM Saved_Recipe WHERE user_id = u.id) AS saved_meals_count,
+  (SELECT COALESCE(SUM(qty_grams), 0) FROM Inventory_Ingredient ii WHERE ii.inventory_id = i.id) AS inventory_grams,
   u.created_at
-FROM Utilisateur u
-LEFT JOIN Inventaire i ON i.user_id = u.id
+FROM User u
+LEFT JOIN Inventory i ON i.user_id = u.id
 ORDER BY u.id;
 
 -- Test 9.2: Complex join - Find recipes with all their related data
@@ -310,10 +310,10 @@ SELECT
   r.protein_g_per_serving,
   r.carbs_g_per_serving,
   r.fat_g_per_serving
-FROM Recette r
-LEFT JOIN Utilisateur u ON u.id = r.user_id
-LEFT JOIN Ingredients_Recette ir ON ir.recipe_id = r.id
-LEFT JOIN PlansRepas_Recette pr ON pr.recipe_id = r.id
+FROM Recipe r
+LEFT JOIN User u ON u.id = r.user_id
+LEFT JOIN Recipe_Ingredients ir ON ir.recipe_id = r.id
+LEFT JOIN Meal_Plan_Recipe pr ON pr.recipe_id = r.id
 LEFT JOIN Journal j ON j.recipe_id = r.id
 GROUP BY r.id
 ORDER BY times_logged DESC, r.name;
@@ -325,12 +325,12 @@ SELECT
   i.name,
   COUNT(DISTINCT ir.recipe_id) AS used_in_recipes,
   SUM(ir.qty_grams) AS total_qty_used,
-  COUNT(DISTINCT ii.inventaire_id) AS in_inventories,
+  COUNT(DISTINCT ii.inventory_id) AS in_inventories,
   COUNT(DISTINCT j.id) AS in_logged_meals
 FROM Ingredients i
-LEFT JOIN Ingredients_Recette ir ON ir.ingredient_id = i.id
-LEFT JOIN Inventaire_Ingredient ii ON ii.ingredient_id = i.id
-LEFT JOIN Journal j ON j.recipe_id IN (SELECT recipe_id FROM Ingredients_Recette WHERE ingredient_id = i.id)
+LEFT JOIN Recipe_Ingredients ir ON ir.ingredient_id = i.id
+LEFT JOIN Inventory_Ingredient ii ON ii.ingredient_id = i.id
+LEFT JOIN Journal j ON j.recipe_id IN (SELECT recipe_id FROM Recipe_Ingredients WHERE ingredient_id = i.id)
 GROUP BY i.id
 HAVING used_in_recipes > 0 OR in_inventories > 0
 ORDER BY used_in_recipes DESC;
@@ -350,9 +350,9 @@ SELECT
   (SELECT SUM(servings_eaten) FROM Journal WHERE user_id = @john_id AND recipe_id = r.id AND DATE(logged_at) = pr.date) AS actual_servings_eaten,
   ROUND(pr.planned_servings * r.kcal_per_serving, 0) AS planned_kcal,
   (SELECT ROUND(SUM(kcal), 0) FROM Journal WHERE user_id = @john_id AND recipe_id = r.id AND DATE(logged_at) = pr.date) AS actual_kcal
-FROM PlansRepas p
-LEFT JOIN PlansRepas_Recette pr ON pr.plan_id = p.id
-LEFT JOIN Recette r ON r.id = pr.recipe_id
+FROM Meal_Plan p
+LEFT JOIN Meal_Plan_Recipe pr ON pr.plan_id = p.id
+LEFT JOIN Recipe r ON r.id = pr.recipe_id
 WHERE p.user_id = @john_id AND p.week_start_date = @week_start
 ORDER BY pr.date, FIELD(pr.meal_type, 'breakfast', 'lunch', 'dinner', 'snack');
 
@@ -364,43 +364,43 @@ ORDER BY pr.date, FIELD(pr.meal_type, 'breakfast', 'lunch', 'dinner', 'snack');
 SELECT '10.1 Data Integrity - Orphaned Records' AS test_name;
 
 -- Check for journals referencing non-existent users
-SELECT 'Journal -> Utilisateur orphans' AS check_type, COUNT(*) AS count
+SELECT 'Journal -> User orphans' AS check_type, COUNT(*) AS count
 FROM Journal j
-WHERE NOT EXISTS (SELECT 1 FROM Utilisateur WHERE id = j.user_id)
+WHERE NOT EXISTS (SELECT 1 FROM User WHERE id = j.user_id)
 UNION ALL
 -- Check for journals referencing non-existent recipes
-SELECT 'Journal -> Recette orphans', COUNT(*)
+SELECT 'Journal -> Recipe orphans', COUNT(*)
 FROM Journal j
-WHERE NOT EXISTS (SELECT 1 FROM Recette WHERE id = j.recipe_id)
+WHERE NOT EXISTS (SELECT 1 FROM Recipe WHERE id = j.recipe_id)
 UNION ALL
 -- Check for inventory referencing non-existent users
-SELECT 'Inventaire -> Utilisateur orphans', COUNT(*)
-FROM Inventaire i
-WHERE NOT EXISTS (SELECT 1 FROM Utilisateur WHERE id = i.user_id)
+SELECT 'Inventory -> User orphans', COUNT(*)
+FROM Inventory i
+WHERE NOT EXISTS (SELECT 1 FROM User WHERE id = i.user_id)
 UNION ALL
 -- Check for inventory_ingredient referencing non-existent inventories
-SELECT 'Inventaire_Ingredient -> Inventaire orphans', COUNT(*)
-FROM Inventaire_Ingredient ii
-WHERE NOT EXISTS (SELECT 1 FROM Inventaire WHERE id = ii.inventaire_id)
+SELECT 'Inventory_Ingredient -> Inventory orphans', COUNT(*)
+FROM Inventory_Ingredient ii
+WHERE NOT EXISTS (SELECT 1 FROM Inventory WHERE id = ii.inventory_id)
 UNION ALL
 -- Check for inventory_ingredient referencing non-existent ingredients
-SELECT 'Inventaire_Ingredient -> Ingredients orphans', COUNT(*)
-FROM Inventaire_Ingredient ii
+SELECT 'Inventory_Ingredient -> Ingredients orphans', COUNT(*)
+FROM Inventory_Ingredient ii
 WHERE NOT EXISTS (SELECT 1 FROM Ingredients WHERE id = ii.ingredient_id);
 
 -- Test 10.2: Constraint violations (should all be 0 if data is clean)
 SELECT '10.2 Constraint Violations Check' AS test_name;
 
 SELECT 'Negative inventory qty' AS violation_type, COUNT(*) AS count
-FROM Inventaire_Ingredient
+FROM Inventory_Ingredient
 WHERE qty_grams < 0
 UNION ALL
 SELECT 'Invalid servings (zero or negative)', COUNT(*)
-FROM Recette
+FROM Recipe
 WHERE servings <= 0
 UNION ALL
 SELECT 'Negative qty in recipe', COUNT(*)
-FROM Ingredients_Recette
+FROM Recipe_Ingredients
 WHERE qty_grams < 0
 UNION ALL
 SELECT 'Zero or negative servings eaten', COUNT(*)
@@ -410,16 +410,16 @@ WHERE servings_eaten <= 0;
 -- Test 10.3: Summary statistics
 SELECT '10.3 Database Summary Statistics' AS test_name;
 SELECT
-  'Utilisateur' AS table_name, COUNT(*) AS record_count FROM Utilisateur
+  'User' AS table_name, COUNT(*) AS record_count FROM User
 UNION ALL SELECT 'Ingredients', COUNT(*) FROM Ingredients
-UNION ALL SELECT 'Recette', COUNT(*) FROM Recette
-UNION ALL SELECT 'Ingredients_Recette', COUNT(*) FROM Ingredients_Recette
-UNION ALL SELECT 'Inventaire', COUNT(*) FROM Inventaire
-UNION ALL SELECT 'Inventaire_Ingredient', COUNT(*) FROM Inventaire_Ingredient
-UNION ALL SELECT 'PlansRepas', COUNT(*) FROM PlansRepas
-UNION ALL SELECT 'PlansRepas_Recette', COUNT(*) FROM PlansRepas_Recette
+UNION ALL SELECT 'Recipe', COUNT(*) FROM Recipe
+UNION ALL SELECT 'Recipe_Ingredients', COUNT(*) FROM Recipe_Ingredients
+UNION ALL SELECT 'Inventory', COUNT(*) FROM Inventory
+UNION ALL SELECT 'Inventory_Ingredient', COUNT(*) FROM Inventory_Ingredient
+UNION ALL SELECT 'Meal_Plan', COUNT(*) FROM Meal_Plan
+UNION ALL SELECT 'Meal_Plan_Recipe', COUNT(*) FROM Meal_Plan_Recipe
 UNION ALL SELECT 'Journal', COUNT(*) FROM Journal
-UNION ALL SELECT 'RepasEnregistre', COUNT(*) FROM RepasEnregistre
+UNION ALL SELECT 'Saved_Recipe', COUNT(*) FROM Saved_Recipe
 ORDER BY record_count DESC;
 
 -- ============================================

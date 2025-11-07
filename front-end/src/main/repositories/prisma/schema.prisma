@@ -1,0 +1,150 @@
+generator client {
+  provider   = "prisma-client-ts"
+  output     = "./generated"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ingredients {
+  id                   BigInt                 @id @default(autoincrement())
+  name                 String                 @unique(map: "name") @db.VarChar(255)
+  kcal_per_100g        Decimal                @default(0.00) @db.Decimal(8, 2)
+  protein_g_per_100g   Decimal                @default(0.00) @db.Decimal(8, 2)
+  carbs_g_per_100g     Decimal                @default(0.00) @db.Decimal(8, 2)
+  fat_g_per_100g       Decimal                @default(0.00) @db.Decimal(8, 2)
+  created_at           DateTime               @default(now()) @db.Timestamp(0)
+  inventory_ingredient inventory_ingredient[]
+  recipe_ingredients   recipe_ingredients[]
+}
+
+model inventory {
+  id                   BigInt                 @id @default(autoincrement())
+  user_id              BigInt                 @unique(map: "user_id")
+  created_at           DateTime               @default(now()) @db.Timestamp(0)
+  user                 user                   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_inventory_user")
+  inventory_ingredient inventory_ingredient[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model inventory_ingredient {
+  inventory_id  BigInt
+  ingredient_id BigInt
+  qty_grams     Decimal     @default(0.000) @db.Decimal(14, 3)
+  ingredients   ingredients @relation(fields: [ingredient_id], references: [id], onUpdate: NoAction, map: "fk_inventory_ingredient_ingredient")
+  inventory     inventory   @relation(fields: [inventory_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_inventory_ingredient_inventory")
+
+  @@id([inventory_id, ingredient_id])
+  @@index([ingredient_id], map: "fk_inventory_ingredient_ingredient")
+}
+
+model journal {
+  id             BigInt   @id @default(autoincrement())
+  user_id        BigInt
+  recipe_id      BigInt
+  servings_eaten Decimal  @default(1.00) @db.Decimal(6, 2)
+  logged_at      DateTime @default(now()) @db.DateTime(0)
+  kcal           Decimal  @db.Decimal(12, 2)
+  protein_g      Decimal  @db.Decimal(12, 2)
+  carbs_g        Decimal  @db.Decimal(12, 2)
+  fat_g          Decimal  @db.Decimal(12, 2)
+  recipe         recipe   @relation(fields: [recipe_id], references: [id], onUpdate: NoAction, map: "fk_journal_recipe")
+  user           user     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_journal_user")
+
+  @@index([recipe_id], map: "fk_journal_recipe")
+  @@index([user_id, logged_at], map: "k_journal_user_time")
+}
+
+model meal_plan {
+  id               BigInt             @id @default(autoincrement())
+  user_id          BigInt
+  week_start_date  DateTime           @db.Date
+  created_at       DateTime           @default(now()) @db.Timestamp(0)
+  user             user               @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_meal_plan_user")
+  meal_plan_recipe meal_plan_recipe[]
+
+  @@unique([user_id, week_start_date], map: "uq_user_week")
+}
+
+model meal_plan_recipe {
+  id               BigInt                     @id @default(autoincrement())
+  plan_id          BigInt
+  date             DateTime                   @db.Date
+  meal_type        meal_plan_recipe_meal_type
+  recipe_id        BigInt
+  planned_servings Decimal                    @default(1.00) @db.Decimal(6, 2)
+  meal_plan        meal_plan                  @relation(fields: [plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_meal_plan_recipe_plan")
+  recipe           recipe                     @relation(fields: [recipe_id], references: [id], onUpdate: NoAction, map: "fk_meal_plan_recipe_recipe")
+
+  @@index([recipe_id], map: "fk_meal_plan_recipe_recipe")
+  @@index([plan_id], map: "k_plan_day")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model recipe {
+  id                    BigInt               @id @default(autoincrement())
+  user_id               BigInt?
+  name                  String               @db.VarChar(255)
+  servings              Decimal              @default(1.00) @db.Decimal(6, 2)
+  kcal_per_serving      Decimal              @default(0.00) @db.Decimal(10, 2)
+  protein_g_per_serving Decimal              @default(0.00) @db.Decimal(10, 2)
+  carbs_g_per_serving   Decimal              @default(0.00) @db.Decimal(10, 2)
+  fat_g_per_serving     Decimal              @default(0.00) @db.Decimal(10, 2)
+  created_at            DateTime             @default(now()) @db.Timestamp(0)
+  journal               journal[]
+  meal_plan_recipe      meal_plan_recipe[]
+  user                  user?                @relation(fields: [user_id], references: [id], onUpdate: NoAction, map: "fk_recipe_user")
+  recipe_ingredients    recipe_ingredients[]
+  saved_recipe          saved_recipe[]
+
+  @@index([user_id], map: "fk_recipe_user")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model recipe_ingredients {
+  recipe_id     BigInt
+  ingredient_id BigInt
+  qty_grams     Decimal     @db.Decimal(12, 3)
+  notes         String?     @db.VarChar(255)
+  ingredients   ingredients @relation(fields: [ingredient_id], references: [id], onUpdate: NoAction, map: "fk_recipe_ing_ingredient")
+  recipe        recipe      @relation(fields: [recipe_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_recipe_ing_recipe")
+
+  @@id([recipe_id, ingredient_id])
+  @@index([ingredient_id], map: "fk_recipe_ing_ingredient")
+}
+
+model saved_recipe {
+  id               BigInt   @id @default(autoincrement())
+  user_id          BigInt
+  name             String   @db.VarChar(255)
+  recipe_id        BigInt
+  default_servings Decimal  @default(1.00) @db.Decimal(6, 2)
+  created_at       DateTime @default(now()) @db.Timestamp(0)
+  recipe           recipe   @relation(fields: [recipe_id], references: [id], onUpdate: NoAction, map: "fk_saved_recipe_recipe")
+  user             user     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_saved_recipe_user")
+
+  @@index([recipe_id], map: "fk_saved_recipe_recipe")
+  @@index([user_id], map: "fk_saved_recipe_user")
+}
+
+model user {
+  id           BigInt         @id @default(autoincrement())
+  email        String         @unique(map: "email") @db.VarChar(255)
+  name         String         @db.VarChar(120)
+  created_at   DateTime       @default(now()) @db.Timestamp(0)
+  inventory    inventory?
+  journal      journal[]
+  meal_plan    meal_plan[]
+  recipe       recipe[]
+  saved_recipe saved_recipe[]
+}
+
+enum meal_plan_recipe_meal_type {
+  breakfast
+  lunch
+  dinner
+  snack
+}
