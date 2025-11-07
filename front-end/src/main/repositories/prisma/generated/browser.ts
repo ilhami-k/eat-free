@@ -23,47 +23,47 @@ export * from './enums.js';
  */
 export type ingredients = Prisma.ingredientsModel
 /**
- * Model ingredients_recette
+ * Model inventory
+ * 
+ */
+export type inventory = Prisma.inventoryModel
+/**
+ * Model inventory_ingredient
  * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
  */
-export type ingredients_recette = Prisma.ingredients_recetteModel
-/**
- * Model inventaire
- * 
- */
-export type inventaire = Prisma.inventaireModel
-/**
- * Model inventaire_ingredient
- * 
- */
-export type inventaire_ingredient = Prisma.inventaire_ingredientModel
+export type inventory_ingredient = Prisma.inventory_ingredientModel
 /**
  * Model journal
  * 
  */
 export type journal = Prisma.journalModel
 /**
- * Model plansrepas
+ * Model meal_plan
  * 
  */
-export type plansrepas = Prisma.plansrepasModel
+export type meal_plan = Prisma.meal_planModel
 /**
- * Model plansrepas_recette
+ * Model meal_plan_recipe
  * 
  */
-export type plansrepas_recette = Prisma.plansrepas_recetteModel
+export type meal_plan_recipe = Prisma.meal_plan_recipeModel
 /**
- * Model recette
- * 
+ * Model recipe
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
  */
-export type recette = Prisma.recetteModel
+export type recipe = Prisma.recipeModel
 /**
- * Model repasenregistre
- * 
+ * Model recipe_ingredients
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
  */
-export type repasenregistre = Prisma.repasenregistreModel
+export type recipe_ingredients = Prisma.recipe_ingredientsModel
 /**
- * Model utilisateur
+ * Model saved_recipe
  * 
  */
-export type utilisateur = Prisma.utilisateurModel
+export type saved_recipe = Prisma.saved_recipeModel
+/**
+ * Model user
+ * 
+ */
+export type user = Prisma.userModel

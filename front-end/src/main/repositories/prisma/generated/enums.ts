@@ -9,11 +9,11 @@
 * 🟢 You can import this file directly.
 */
 
-export const plansrepas_recette_meal_type = {
+export const meal_plan_recipe_meal_type = {
   breakfast: 'breakfast',
   lunch: 'lunch',
   dinner: 'dinner',
   snack: 'snack'
 } as const
 
-export type plansrepas_recette_meal_type = (typeof plansrepas_recette_meal_type)[keyof typeof plansrepas_recette_meal_type]
+export type meal_plan_recipe_meal_type = (typeof meal_plan_recipe_meal_type)[keyof typeof meal_plan_recipe_meal_type]

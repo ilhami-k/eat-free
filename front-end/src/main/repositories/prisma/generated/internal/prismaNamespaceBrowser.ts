@@ -50,15 +50,15 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 export const ModelName = {
   ingredients: 'ingredients',
-  ingredients_recette: 'ingredients_recette',
-  inventaire: 'inventaire',
-  inventaire_ingredient: 'inventaire_ingredient',
+  inventory: 'inventory',
+  inventory_ingredient: 'inventory_ingredient',
   journal: 'journal',
-  plansrepas: 'plansrepas',
-  plansrepas_recette: 'plansrepas_recette',
-  recette: 'recette',
-  repasenregistre: 'repasenregistre',
-  utilisateur: 'utilisateur'
+  meal_plan: 'meal_plan',
+  meal_plan_recipe: 'meal_plan_recipe',
+  recipe: 'recipe',
+  recipe_ingredients: 'recipe_ingredients',
+  saved_recipe: 'saved_recipe',
+  user: 'user'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -90,32 +90,22 @@ export const IngredientsScalarFieldEnum = {
 export type IngredientsScalarFieldEnum = (typeof IngredientsScalarFieldEnum)[keyof typeof IngredientsScalarFieldEnum]
 
 
-export const Ingredients_recetteScalarFieldEnum = {
-  recipe_id: 'recipe_id',
-  ingredient_id: 'ingredient_id',
-  qty_grams: 'qty_grams',
-  notes: 'notes'
-} as const
-
-export type Ingredients_recetteScalarFieldEnum = (typeof Ingredients_recetteScalarFieldEnum)[keyof typeof Ingredients_recetteScalarFieldEnum]
-
-
-export const InventaireScalarFieldEnum = {
+export const InventoryScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   created_at: 'created_at'
 } as const
 
-export type InventaireScalarFieldEnum = (typeof InventaireScalarFieldEnum)[keyof typeof InventaireScalarFieldEnum]
+export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]
 
 
-export const Inventaire_ingredientScalarFieldEnum = {
-  inventaire_id: 'inventaire_id',
+export const Inventory_ingredientScalarFieldEnum = {
+  inventory_id: 'inventory_id',
   ingredient_id: 'ingredient_id',
   qty_grams: 'qty_grams'
 } as const
 
-export type Inventaire_ingredientScalarFieldEnum = (typeof Inventaire_ingredientScalarFieldEnum)[keyof typeof Inventaire_ingredientScalarFieldEnum]
+export type Inventory_ingredientScalarFieldEnum = (typeof Inventory_ingredientScalarFieldEnum)[keyof typeof Inventory_ingredientScalarFieldEnum]
 
 
 export const JournalScalarFieldEnum = {
@@ -133,17 +123,17 @@ export const JournalScalarFieldEnum = {
 export type JournalScalarFieldEnum = (typeof JournalScalarFieldEnum)[keyof typeof JournalScalarFieldEnum]
 
 
-export const PlansrepasScalarFieldEnum = {
+export const Meal_planScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   week_start_date: 'week_start_date',
   created_at: 'created_at'
 } as const
 
-export type PlansrepasScalarFieldEnum = (typeof PlansrepasScalarFieldEnum)[keyof typeof PlansrepasScalarFieldEnum]
+export type Meal_planScalarFieldEnum = (typeof Meal_planScalarFieldEnum)[keyof typeof Meal_planScalarFieldEnum]
 
 
-export const Plansrepas_recetteScalarFieldEnum = {
+export const Meal_plan_recipeScalarFieldEnum = {
   id: 'id',
   plan_id: 'plan_id',
   date: 'date',
@@ -152,10 +142,10 @@ export const Plansrepas_recetteScalarFieldEnum = {
   planned_servings: 'planned_servings'
 } as const
 
-export type Plansrepas_recetteScalarFieldEnum = (typeof Plansrepas_recetteScalarFieldEnum)[keyof typeof Plansrepas_recetteScalarFieldEnum]
+export type Meal_plan_recipeScalarFieldEnum = (typeof Meal_plan_recipeScalarFieldEnum)[keyof typeof Meal_plan_recipeScalarFieldEnum]
 
 
-export const RecetteScalarFieldEnum = {
+export const RecipeScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   name: 'name',
@@ -167,10 +157,20 @@ export const RecetteScalarFieldEnum = {
   created_at: 'created_at'
 } as const
 
-export type RecetteScalarFieldEnum = (typeof RecetteScalarFieldEnum)[keyof typeof RecetteScalarFieldEnum]
+export type RecipeScalarFieldEnum = (typeof RecipeScalarFieldEnum)[keyof typeof RecipeScalarFieldEnum]
 
 
-export const RepasenregistreScalarFieldEnum = {
+export const Recipe_ingredientsScalarFieldEnum = {
+  recipe_id: 'recipe_id',
+  ingredient_id: 'ingredient_id',
+  qty_grams: 'qty_grams',
+  notes: 'notes'
+} as const
+
+export type Recipe_ingredientsScalarFieldEnum = (typeof Recipe_ingredientsScalarFieldEnum)[keyof typeof Recipe_ingredientsScalarFieldEnum]
+
+
+export const Saved_recipeScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   name: 'name',
@@ -179,17 +179,17 @@ export const RepasenregistreScalarFieldEnum = {
   created_at: 'created_at'
 } as const
 
-export type RepasenregistreScalarFieldEnum = (typeof RepasenregistreScalarFieldEnum)[keyof typeof RepasenregistreScalarFieldEnum]
+export type Saved_recipeScalarFieldEnum = (typeof Saved_recipeScalarFieldEnum)[keyof typeof Saved_recipeScalarFieldEnum]
 
 
-export const UtilisateurScalarFieldEnum = {
+export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
   created_at: 'created_at'
 } as const
 
-export type UtilisateurScalarFieldEnum = (typeof UtilisateurScalarFieldEnum)[keyof typeof UtilisateurScalarFieldEnum]
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -215,31 +215,31 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-export const ingredients_recetteOrderByRelevanceFieldEnum = {
+export const recipeOrderByRelevanceFieldEnum = {
+  name: 'name'
+} as const
+
+export type recipeOrderByRelevanceFieldEnum = (typeof recipeOrderByRelevanceFieldEnum)[keyof typeof recipeOrderByRelevanceFieldEnum]
+
+
+export const recipe_ingredientsOrderByRelevanceFieldEnum = {
   notes: 'notes'
 } as const
 
-export type ingredients_recetteOrderByRelevanceFieldEnum = (typeof ingredients_recetteOrderByRelevanceFieldEnum)[keyof typeof ingredients_recetteOrderByRelevanceFieldEnum]
+export type recipe_ingredientsOrderByRelevanceFieldEnum = (typeof recipe_ingredientsOrderByRelevanceFieldEnum)[keyof typeof recipe_ingredientsOrderByRelevanceFieldEnum]
 
 
-export const recetteOrderByRelevanceFieldEnum = {
+export const saved_recipeOrderByRelevanceFieldEnum = {
   name: 'name'
 } as const
 
-export type recetteOrderByRelevanceFieldEnum = (typeof recetteOrderByRelevanceFieldEnum)[keyof typeof recetteOrderByRelevanceFieldEnum]
+export type saved_recipeOrderByRelevanceFieldEnum = (typeof saved_recipeOrderByRelevanceFieldEnum)[keyof typeof saved_recipeOrderByRelevanceFieldEnum]
 
 
-export const repasenregistreOrderByRelevanceFieldEnum = {
-  name: 'name'
-} as const
-
-export type repasenregistreOrderByRelevanceFieldEnum = (typeof repasenregistreOrderByRelevanceFieldEnum)[keyof typeof repasenregistreOrderByRelevanceFieldEnum]
-
-
-export const utilisateurOrderByRelevanceFieldEnum = {
+export const userOrderByRelevanceFieldEnum = {
   email: 'email',
   name: 'name'
 } as const
 
-export type utilisateurOrderByRelevanceFieldEnum = (typeof utilisateurOrderByRelevanceFieldEnum)[keyof typeof utilisateurOrderByRelevanceFieldEnum]
+export type userOrderByRelevanceFieldEnum = (typeof userOrderByRelevanceFieldEnum)[keyof typeof userOrderByRelevanceFieldEnum]
 

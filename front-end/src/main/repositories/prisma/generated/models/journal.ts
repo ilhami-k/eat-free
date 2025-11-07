@@ -276,8 +276,8 @@ export type journalWhereInput = {
   protein_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   carbs_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fat_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  recette?: Prisma.XOR<Prisma.RecetteScalarRelationFilter, Prisma.recetteWhereInput>
-  utilisateur?: Prisma.XOR<Prisma.UtilisateurScalarRelationFilter, Prisma.utilisateurWhereInput>
+  recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
 }
 
 export type journalOrderByWithRelationInput = {
@@ -290,8 +290,8 @@ export type journalOrderByWithRelationInput = {
   protein_g?: Prisma.SortOrder
   carbs_g?: Prisma.SortOrder
   fat_g?: Prisma.SortOrder
-  recette?: Prisma.recetteOrderByWithRelationInput
-  utilisateur?: Prisma.utilisateurOrderByWithRelationInput
+  recipe?: Prisma.recipeOrderByWithRelationInput
+  user?: Prisma.userOrderByWithRelationInput
 }
 
 export type journalWhereUniqueInput = Prisma.AtLeast<{
@@ -307,8 +307,8 @@ export type journalWhereUniqueInput = Prisma.AtLeast<{
   protein_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   carbs_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fat_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  recette?: Prisma.XOR<Prisma.RecetteScalarRelationFilter, Prisma.recetteWhereInput>
-  utilisateur?: Prisma.XOR<Prisma.UtilisateurScalarRelationFilter, Prisma.utilisateurWhereInput>
+  recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
 }, "id">
 
 export type journalOrderByWithAggregationInput = {
@@ -351,8 +351,8 @@ export type journalCreateInput = {
   protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
   carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
   fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  recette: Prisma.recetteCreateNestedOneWithoutJournalInput
-  utilisateur: Prisma.utilisateurCreateNestedOneWithoutJournalInput
+  recipe: Prisma.recipeCreateNestedOneWithoutJournalInput
+  user: Prisma.userCreateNestedOneWithoutJournalInput
 }
 
 export type journalUncheckedCreateInput = {
@@ -375,8 +375,8 @@ export type journalUpdateInput = {
   protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  recette?: Prisma.recetteUpdateOneRequiredWithoutJournalNestedInput
-  utilisateur?: Prisma.utilisateurUpdateOneRequiredWithoutJournalNestedInput
+  recipe?: Prisma.recipeUpdateOneRequiredWithoutJournalNestedInput
+  user?: Prisma.userUpdateOneRequiredWithoutJournalNestedInput
 }
 
 export type journalUncheckedUpdateInput = {
@@ -493,91 +493,91 @@ export type journalOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type journalCreateNestedManyWithoutRecetteInput = {
-  create?: Prisma.XOR<Prisma.journalCreateWithoutRecetteInput, Prisma.journalUncheckedCreateWithoutRecetteInput> | Prisma.journalCreateWithoutRecetteInput[] | Prisma.journalUncheckedCreateWithoutRecetteInput[]
-  connectOrCreate?: Prisma.journalCreateOrConnectWithoutRecetteInput | Prisma.journalCreateOrConnectWithoutRecetteInput[]
-  createMany?: Prisma.journalCreateManyRecetteInputEnvelope
+export type journalCreateNestedManyWithoutRecipeInput = {
+  create?: Prisma.XOR<Prisma.journalCreateWithoutRecipeInput, Prisma.journalUncheckedCreateWithoutRecipeInput> | Prisma.journalCreateWithoutRecipeInput[] | Prisma.journalUncheckedCreateWithoutRecipeInput[]
+  connectOrCreate?: Prisma.journalCreateOrConnectWithoutRecipeInput | Prisma.journalCreateOrConnectWithoutRecipeInput[]
+  createMany?: Prisma.journalCreateManyRecipeInputEnvelope
   connect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
 }
 
-export type journalUncheckedCreateNestedManyWithoutRecetteInput = {
-  create?: Prisma.XOR<Prisma.journalCreateWithoutRecetteInput, Prisma.journalUncheckedCreateWithoutRecetteInput> | Prisma.journalCreateWithoutRecetteInput[] | Prisma.journalUncheckedCreateWithoutRecetteInput[]
-  connectOrCreate?: Prisma.journalCreateOrConnectWithoutRecetteInput | Prisma.journalCreateOrConnectWithoutRecetteInput[]
-  createMany?: Prisma.journalCreateManyRecetteInputEnvelope
+export type journalUncheckedCreateNestedManyWithoutRecipeInput = {
+  create?: Prisma.XOR<Prisma.journalCreateWithoutRecipeInput, Prisma.journalUncheckedCreateWithoutRecipeInput> | Prisma.journalCreateWithoutRecipeInput[] | Prisma.journalUncheckedCreateWithoutRecipeInput[]
+  connectOrCreate?: Prisma.journalCreateOrConnectWithoutRecipeInput | Prisma.journalCreateOrConnectWithoutRecipeInput[]
+  createMany?: Prisma.journalCreateManyRecipeInputEnvelope
   connect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
 }
 
-export type journalUpdateManyWithoutRecetteNestedInput = {
-  create?: Prisma.XOR<Prisma.journalCreateWithoutRecetteInput, Prisma.journalUncheckedCreateWithoutRecetteInput> | Prisma.journalCreateWithoutRecetteInput[] | Prisma.journalUncheckedCreateWithoutRecetteInput[]
-  connectOrCreate?: Prisma.journalCreateOrConnectWithoutRecetteInput | Prisma.journalCreateOrConnectWithoutRecetteInput[]
-  upsert?: Prisma.journalUpsertWithWhereUniqueWithoutRecetteInput | Prisma.journalUpsertWithWhereUniqueWithoutRecetteInput[]
-  createMany?: Prisma.journalCreateManyRecetteInputEnvelope
+export type journalUpdateManyWithoutRecipeNestedInput = {
+  create?: Prisma.XOR<Prisma.journalCreateWithoutRecipeInput, Prisma.journalUncheckedCreateWithoutRecipeInput> | Prisma.journalCreateWithoutRecipeInput[] | Prisma.journalUncheckedCreateWithoutRecipeInput[]
+  connectOrCreate?: Prisma.journalCreateOrConnectWithoutRecipeInput | Prisma.journalCreateOrConnectWithoutRecipeInput[]
+  upsert?: Prisma.journalUpsertWithWhereUniqueWithoutRecipeInput | Prisma.journalUpsertWithWhereUniqueWithoutRecipeInput[]
+  createMany?: Prisma.journalCreateManyRecipeInputEnvelope
   set?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   disconnect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   delete?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   connect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
-  update?: Prisma.journalUpdateWithWhereUniqueWithoutRecetteInput | Prisma.journalUpdateWithWhereUniqueWithoutRecetteInput[]
-  updateMany?: Prisma.journalUpdateManyWithWhereWithoutRecetteInput | Prisma.journalUpdateManyWithWhereWithoutRecetteInput[]
+  update?: Prisma.journalUpdateWithWhereUniqueWithoutRecipeInput | Prisma.journalUpdateWithWhereUniqueWithoutRecipeInput[]
+  updateMany?: Prisma.journalUpdateManyWithWhereWithoutRecipeInput | Prisma.journalUpdateManyWithWhereWithoutRecipeInput[]
   deleteMany?: Prisma.journalScalarWhereInput | Prisma.journalScalarWhereInput[]
 }
 
-export type journalUncheckedUpdateManyWithoutRecetteNestedInput = {
-  create?: Prisma.XOR<Prisma.journalCreateWithoutRecetteInput, Prisma.journalUncheckedCreateWithoutRecetteInput> | Prisma.journalCreateWithoutRecetteInput[] | Prisma.journalUncheckedCreateWithoutRecetteInput[]
-  connectOrCreate?: Prisma.journalCreateOrConnectWithoutRecetteInput | Prisma.journalCreateOrConnectWithoutRecetteInput[]
-  upsert?: Prisma.journalUpsertWithWhereUniqueWithoutRecetteInput | Prisma.journalUpsertWithWhereUniqueWithoutRecetteInput[]
-  createMany?: Prisma.journalCreateManyRecetteInputEnvelope
+export type journalUncheckedUpdateManyWithoutRecipeNestedInput = {
+  create?: Prisma.XOR<Prisma.journalCreateWithoutRecipeInput, Prisma.journalUncheckedCreateWithoutRecipeInput> | Prisma.journalCreateWithoutRecipeInput[] | Prisma.journalUncheckedCreateWithoutRecipeInput[]
+  connectOrCreate?: Prisma.journalCreateOrConnectWithoutRecipeInput | Prisma.journalCreateOrConnectWithoutRecipeInput[]
+  upsert?: Prisma.journalUpsertWithWhereUniqueWithoutRecipeInput | Prisma.journalUpsertWithWhereUniqueWithoutRecipeInput[]
+  createMany?: Prisma.journalCreateManyRecipeInputEnvelope
   set?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   disconnect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   delete?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   connect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
-  update?: Prisma.journalUpdateWithWhereUniqueWithoutRecetteInput | Prisma.journalUpdateWithWhereUniqueWithoutRecetteInput[]
-  updateMany?: Prisma.journalUpdateManyWithWhereWithoutRecetteInput | Prisma.journalUpdateManyWithWhereWithoutRecetteInput[]
+  update?: Prisma.journalUpdateWithWhereUniqueWithoutRecipeInput | Prisma.journalUpdateWithWhereUniqueWithoutRecipeInput[]
+  updateMany?: Prisma.journalUpdateManyWithWhereWithoutRecipeInput | Prisma.journalUpdateManyWithWhereWithoutRecipeInput[]
   deleteMany?: Prisma.journalScalarWhereInput | Prisma.journalScalarWhereInput[]
 }
 
-export type journalCreateNestedManyWithoutUtilisateurInput = {
-  create?: Prisma.XOR<Prisma.journalCreateWithoutUtilisateurInput, Prisma.journalUncheckedCreateWithoutUtilisateurInput> | Prisma.journalCreateWithoutUtilisateurInput[] | Prisma.journalUncheckedCreateWithoutUtilisateurInput[]
-  connectOrCreate?: Prisma.journalCreateOrConnectWithoutUtilisateurInput | Prisma.journalCreateOrConnectWithoutUtilisateurInput[]
-  createMany?: Prisma.journalCreateManyUtilisateurInputEnvelope
+export type journalCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.journalCreateWithoutUserInput, Prisma.journalUncheckedCreateWithoutUserInput> | Prisma.journalCreateWithoutUserInput[] | Prisma.journalUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.journalCreateOrConnectWithoutUserInput | Prisma.journalCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.journalCreateManyUserInputEnvelope
   connect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
 }
 
-export type journalUncheckedCreateNestedManyWithoutUtilisateurInput = {
-  create?: Prisma.XOR<Prisma.journalCreateWithoutUtilisateurInput, Prisma.journalUncheckedCreateWithoutUtilisateurInput> | Prisma.journalCreateWithoutUtilisateurInput[] | Prisma.journalUncheckedCreateWithoutUtilisateurInput[]
-  connectOrCreate?: Prisma.journalCreateOrConnectWithoutUtilisateurInput | Prisma.journalCreateOrConnectWithoutUtilisateurInput[]
-  createMany?: Prisma.journalCreateManyUtilisateurInputEnvelope
+export type journalUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.journalCreateWithoutUserInput, Prisma.journalUncheckedCreateWithoutUserInput> | Prisma.journalCreateWithoutUserInput[] | Prisma.journalUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.journalCreateOrConnectWithoutUserInput | Prisma.journalCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.journalCreateManyUserInputEnvelope
   connect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
 }
 
-export type journalUpdateManyWithoutUtilisateurNestedInput = {
-  create?: Prisma.XOR<Prisma.journalCreateWithoutUtilisateurInput, Prisma.journalUncheckedCreateWithoutUtilisateurInput> | Prisma.journalCreateWithoutUtilisateurInput[] | Prisma.journalUncheckedCreateWithoutUtilisateurInput[]
-  connectOrCreate?: Prisma.journalCreateOrConnectWithoutUtilisateurInput | Prisma.journalCreateOrConnectWithoutUtilisateurInput[]
-  upsert?: Prisma.journalUpsertWithWhereUniqueWithoutUtilisateurInput | Prisma.journalUpsertWithWhereUniqueWithoutUtilisateurInput[]
-  createMany?: Prisma.journalCreateManyUtilisateurInputEnvelope
+export type journalUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.journalCreateWithoutUserInput, Prisma.journalUncheckedCreateWithoutUserInput> | Prisma.journalCreateWithoutUserInput[] | Prisma.journalUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.journalCreateOrConnectWithoutUserInput | Prisma.journalCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.journalUpsertWithWhereUniqueWithoutUserInput | Prisma.journalUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.journalCreateManyUserInputEnvelope
   set?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   disconnect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   delete?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   connect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
-  update?: Prisma.journalUpdateWithWhereUniqueWithoutUtilisateurInput | Prisma.journalUpdateWithWhereUniqueWithoutUtilisateurInput[]
-  updateMany?: Prisma.journalUpdateManyWithWhereWithoutUtilisateurInput | Prisma.journalUpdateManyWithWhereWithoutUtilisateurInput[]
+  update?: Prisma.journalUpdateWithWhereUniqueWithoutUserInput | Prisma.journalUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.journalUpdateManyWithWhereWithoutUserInput | Prisma.journalUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.journalScalarWhereInput | Prisma.journalScalarWhereInput[]
 }
 
-export type journalUncheckedUpdateManyWithoutUtilisateurNestedInput = {
-  create?: Prisma.XOR<Prisma.journalCreateWithoutUtilisateurInput, Prisma.journalUncheckedCreateWithoutUtilisateurInput> | Prisma.journalCreateWithoutUtilisateurInput[] | Prisma.journalUncheckedCreateWithoutUtilisateurInput[]
-  connectOrCreate?: Prisma.journalCreateOrConnectWithoutUtilisateurInput | Prisma.journalCreateOrConnectWithoutUtilisateurInput[]
-  upsert?: Prisma.journalUpsertWithWhereUniqueWithoutUtilisateurInput | Prisma.journalUpsertWithWhereUniqueWithoutUtilisateurInput[]
-  createMany?: Prisma.journalCreateManyUtilisateurInputEnvelope
+export type journalUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.journalCreateWithoutUserInput, Prisma.journalUncheckedCreateWithoutUserInput> | Prisma.journalCreateWithoutUserInput[] | Prisma.journalUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.journalCreateOrConnectWithoutUserInput | Prisma.journalCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.journalUpsertWithWhereUniqueWithoutUserInput | Prisma.journalUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.journalCreateManyUserInputEnvelope
   set?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   disconnect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   delete?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
   connect?: Prisma.journalWhereUniqueInput | Prisma.journalWhereUniqueInput[]
-  update?: Prisma.journalUpdateWithWhereUniqueWithoutUtilisateurInput | Prisma.journalUpdateWithWhereUniqueWithoutUtilisateurInput[]
-  updateMany?: Prisma.journalUpdateManyWithWhereWithoutUtilisateurInput | Prisma.journalUpdateManyWithWhereWithoutUtilisateurInput[]
+  update?: Prisma.journalUpdateWithWhereUniqueWithoutUserInput | Prisma.journalUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.journalUpdateManyWithWhereWithoutUserInput | Prisma.journalUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.journalScalarWhereInput | Prisma.journalScalarWhereInput[]
 }
 
-export type journalCreateWithoutRecetteInput = {
+export type journalCreateWithoutRecipeInput = {
   id?: bigint | number
   servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
   logged_at?: Date | string
@@ -585,10 +585,10 @@ export type journalCreateWithoutRecetteInput = {
   protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
   carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
   fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  utilisateur: Prisma.utilisateurCreateNestedOneWithoutJournalInput
+  user: Prisma.userCreateNestedOneWithoutJournalInput
 }
 
-export type journalUncheckedCreateWithoutRecetteInput = {
+export type journalUncheckedCreateWithoutRecipeInput = {
   id?: bigint | number
   user_id: bigint | number
   servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -599,30 +599,30 @@ export type journalUncheckedCreateWithoutRecetteInput = {
   fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type journalCreateOrConnectWithoutRecetteInput = {
+export type journalCreateOrConnectWithoutRecipeInput = {
   where: Prisma.journalWhereUniqueInput
-  create: Prisma.XOR<Prisma.journalCreateWithoutRecetteInput, Prisma.journalUncheckedCreateWithoutRecetteInput>
+  create: Prisma.XOR<Prisma.journalCreateWithoutRecipeInput, Prisma.journalUncheckedCreateWithoutRecipeInput>
 }
 
-export type journalCreateManyRecetteInputEnvelope = {
-  data: Prisma.journalCreateManyRecetteInput | Prisma.journalCreateManyRecetteInput[]
+export type journalCreateManyRecipeInputEnvelope = {
+  data: Prisma.journalCreateManyRecipeInput | Prisma.journalCreateManyRecipeInput[]
   skipDuplicates?: boolean
 }
 
-export type journalUpsertWithWhereUniqueWithoutRecetteInput = {
+export type journalUpsertWithWhereUniqueWithoutRecipeInput = {
   where: Prisma.journalWhereUniqueInput
-  update: Prisma.XOR<Prisma.journalUpdateWithoutRecetteInput, Prisma.journalUncheckedUpdateWithoutRecetteInput>
-  create: Prisma.XOR<Prisma.journalCreateWithoutRecetteInput, Prisma.journalUncheckedCreateWithoutRecetteInput>
+  update: Prisma.XOR<Prisma.journalUpdateWithoutRecipeInput, Prisma.journalUncheckedUpdateWithoutRecipeInput>
+  create: Prisma.XOR<Prisma.journalCreateWithoutRecipeInput, Prisma.journalUncheckedCreateWithoutRecipeInput>
 }
 
-export type journalUpdateWithWhereUniqueWithoutRecetteInput = {
+export type journalUpdateWithWhereUniqueWithoutRecipeInput = {
   where: Prisma.journalWhereUniqueInput
-  data: Prisma.XOR<Prisma.journalUpdateWithoutRecetteInput, Prisma.journalUncheckedUpdateWithoutRecetteInput>
+  data: Prisma.XOR<Prisma.journalUpdateWithoutRecipeInput, Prisma.journalUncheckedUpdateWithoutRecipeInput>
 }
 
-export type journalUpdateManyWithWhereWithoutRecetteInput = {
+export type journalUpdateManyWithWhereWithoutRecipeInput = {
   where: Prisma.journalScalarWhereInput
-  data: Prisma.XOR<Prisma.journalUpdateManyMutationInput, Prisma.journalUncheckedUpdateManyWithoutRecetteInput>
+  data: Prisma.XOR<Prisma.journalUpdateManyMutationInput, Prisma.journalUncheckedUpdateManyWithoutRecipeInput>
 }
 
 export type journalScalarWhereInput = {
@@ -640,7 +640,7 @@ export type journalScalarWhereInput = {
   fat_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type journalCreateWithoutUtilisateurInput = {
+export type journalCreateWithoutUserInput = {
   id?: bigint | number
   servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
   logged_at?: Date | string
@@ -648,10 +648,10 @@ export type journalCreateWithoutUtilisateurInput = {
   protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
   carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
   fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  recette: Prisma.recetteCreateNestedOneWithoutJournalInput
+  recipe: Prisma.recipeCreateNestedOneWithoutJournalInput
 }
 
-export type journalUncheckedCreateWithoutUtilisateurInput = {
+export type journalUncheckedCreateWithoutUserInput = {
   id?: bigint | number
   recipe_id: bigint | number
   servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -662,33 +662,33 @@ export type journalUncheckedCreateWithoutUtilisateurInput = {
   fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type journalCreateOrConnectWithoutUtilisateurInput = {
+export type journalCreateOrConnectWithoutUserInput = {
   where: Prisma.journalWhereUniqueInput
-  create: Prisma.XOR<Prisma.journalCreateWithoutUtilisateurInput, Prisma.journalUncheckedCreateWithoutUtilisateurInput>
+  create: Prisma.XOR<Prisma.journalCreateWithoutUserInput, Prisma.journalUncheckedCreateWithoutUserInput>
 }
 
-export type journalCreateManyUtilisateurInputEnvelope = {
-  data: Prisma.journalCreateManyUtilisateurInput | Prisma.journalCreateManyUtilisateurInput[]
+export type journalCreateManyUserInputEnvelope = {
+  data: Prisma.journalCreateManyUserInput | Prisma.journalCreateManyUserInput[]
   skipDuplicates?: boolean
 }
 
-export type journalUpsertWithWhereUniqueWithoutUtilisateurInput = {
+export type journalUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.journalWhereUniqueInput
-  update: Prisma.XOR<Prisma.journalUpdateWithoutUtilisateurInput, Prisma.journalUncheckedUpdateWithoutUtilisateurInput>
-  create: Prisma.XOR<Prisma.journalCreateWithoutUtilisateurInput, Prisma.journalUncheckedCreateWithoutUtilisateurInput>
+  update: Prisma.XOR<Prisma.journalUpdateWithoutUserInput, Prisma.journalUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.journalCreateWithoutUserInput, Prisma.journalUncheckedCreateWithoutUserInput>
 }
 
-export type journalUpdateWithWhereUniqueWithoutUtilisateurInput = {
+export type journalUpdateWithWhereUniqueWithoutUserInput = {
   where: Prisma.journalWhereUniqueInput
-  data: Prisma.XOR<Prisma.journalUpdateWithoutUtilisateurInput, Prisma.journalUncheckedUpdateWithoutUtilisateurInput>
+  data: Prisma.XOR<Prisma.journalUpdateWithoutUserInput, Prisma.journalUncheckedUpdateWithoutUserInput>
 }
 
-export type journalUpdateManyWithWhereWithoutUtilisateurInput = {
+export type journalUpdateManyWithWhereWithoutUserInput = {
   where: Prisma.journalScalarWhereInput
-  data: Prisma.XOR<Prisma.journalUpdateManyMutationInput, Prisma.journalUncheckedUpdateManyWithoutUtilisateurInput>
+  data: Prisma.XOR<Prisma.journalUpdateManyMutationInput, Prisma.journalUncheckedUpdateManyWithoutUserInput>
 }
 
-export type journalCreateManyRecetteInput = {
+export type journalCreateManyRecipeInput = {
   id?: bigint | number
   user_id: bigint | number
   servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -699,7 +699,7 @@ export type journalCreateManyRecetteInput = {
   fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type journalUpdateWithoutRecetteInput = {
+export type journalUpdateWithoutRecipeInput = {
   id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -707,21 +707,10 @@ export type journalUpdateWithoutRecetteInput = {
   protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  utilisateur?: Prisma.utilisateurUpdateOneRequiredWithoutJournalNestedInput
+  user?: Prisma.userUpdateOneRequiredWithoutJournalNestedInput
 }
 
-export type journalUncheckedUpdateWithoutRecetteInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
-export type journalUncheckedUpdateManyWithoutRecetteInput = {
+export type journalUncheckedUpdateWithoutRecipeInput = {
   id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -732,7 +721,18 @@ export type journalUncheckedUpdateManyWithoutRecetteInput = {
   fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type journalCreateManyUtilisateurInput = {
+export type journalUncheckedUpdateManyWithoutRecipeInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type journalCreateManyUserInput = {
   id?: bigint | number
   recipe_id: bigint | number
   servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -743,7 +743,7 @@ export type journalCreateManyUtilisateurInput = {
   fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type journalUpdateWithoutUtilisateurInput = {
+export type journalUpdateWithoutUserInput = {
   id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -751,10 +751,10 @@ export type journalUpdateWithoutUtilisateurInput = {
   protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  recette?: Prisma.recetteUpdateOneRequiredWithoutJournalNestedInput
+  recipe?: Prisma.recipeUpdateOneRequiredWithoutJournalNestedInput
 }
 
-export type journalUncheckedUpdateWithoutUtilisateurInput = {
+export type journalUncheckedUpdateWithoutUserInput = {
   id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -765,7 +765,7 @@ export type journalUncheckedUpdateWithoutUtilisateurInput = {
   fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type journalUncheckedUpdateManyWithoutUtilisateurInput = {
+export type journalUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -788,8 +788,8 @@ export type journalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   protein_g?: boolean
   carbs_g?: boolean
   fat_g?: boolean
-  recette?: boolean | Prisma.recetteDefaultArgs<ExtArgs>
-  utilisateur?: boolean | Prisma.utilisateurDefaultArgs<ExtArgs>
+  recipe?: boolean | Prisma.recipeDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.userDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journal"]>
 
 
@@ -808,15 +808,15 @@ export type journalSelectScalar = {
 
 export type journalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "recipe_id" | "servings_eaten" | "logged_at" | "kcal" | "protein_g" | "carbs_g" | "fat_g", ExtArgs["result"]["journal"]>
 export type journalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  recette?: boolean | Prisma.recetteDefaultArgs<ExtArgs>
-  utilisateur?: boolean | Prisma.utilisateurDefaultArgs<ExtArgs>
+  recipe?: boolean | Prisma.recipeDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.userDefaultArgs<ExtArgs>
 }
 
 export type $journalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "journal"
   objects: {
-    recette: Prisma.$recettePayload<ExtArgs>
-    utilisateur: Prisma.$utilisateurPayload<ExtArgs>
+    recipe: Prisma.$recipePayload<ExtArgs>
+    user: Prisma.$userPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: bigint
@@ -1168,8 +1168,8 @@ readonly fields: journalFieldRefs;
  */
 export interface Prisma__journalClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  recette<T extends Prisma.recetteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.recetteDefaultArgs<ExtArgs>>): Prisma.Prisma__recetteClient<runtime.Types.Result.GetResult<Prisma.$recettePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  utilisateur<T extends Prisma.utilisateurDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.utilisateurDefaultArgs<ExtArgs>>): Prisma.Prisma__utilisateurClient<runtime.Types.Result.GetResult<Prisma.$utilisateurPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  recipe<T extends Prisma.recipeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.recipeDefaultArgs<ExtArgs>>): Prisma.Prisma__recipeClient<runtime.Types.Result.GetResult<Prisma.$recipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.userDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.userDefaultArgs<ExtArgs>>): Prisma.Prisma__userClient<runtime.Types.Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

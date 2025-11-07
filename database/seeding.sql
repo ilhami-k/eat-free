@@ -13,12 +13,12 @@ SET sql_mode = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION,ERROR_FOR_DIVISION_BY
 --  1. INSERT USERS
 -- ============================================
 
-INSERT INTO Utilisateur (email, name, created_at) VALUES
+INSERT INTO User (email, name, created_at) VALUES
 ('john@example.com', 'John Doe', CURRENT_TIMESTAMP),
 ('jane@example.com', 'Jane Smith', CURRENT_TIMESTAMP),
 ('bob@example.com', 'Bob Johnson', CURRENT_TIMESTAMP);
 
--- Note: Triggers will auto-create Inventaire entries for each user
+-- Note: Triggers will auto-create Inventory entries for each user
 
 -- ============================================
 --  2. INSERT GLOBAL INGREDIENTS (admin recipes, user_id = NULL)
@@ -63,47 +63,47 @@ INSERT INTO Ingredients (name, kcal_per_100g, protein_g_per_100g, carbs_g_per_10
 -- ============================================
 
 -- Recipe 1: Grilled Chicken with Rice (2 servings)
-INSERT INTO Recette (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
+INSERT INTO Recipe (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
 VALUES (NULL, 'Grilled Chicken with Rice', 2, 300, 35, 28, 8, CURRENT_TIMESTAMP);
 
 -- Get the recipe ID (will be 1)
 SET @recipe_1_id = LAST_INSERT_ID();
 
 -- Add ingredients to Recipe 1
-INSERT INTO Ingredients_Recette (recipe_id, ingredient_id, qty_grams, notes) VALUES
+INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, qty_grams, notes) VALUES
 (@recipe_1_id, 1, 200, 'Grilled chicken breast'),
 (@recipe_1_id, 6, 150, 'Cooked white rice');
 
 -- Recipe 2: Salmon Salad (1 serving)
-INSERT INTO Recette (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
+INSERT INTO Recipe (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
 VALUES (NULL, 'Salmon Salad', 1, 350, 28, 12, 20, CURRENT_TIMESTAMP);
 
 SET @recipe_2_id = LAST_INSERT_ID();
 
-INSERT INTO Ingredients_Recette (recipe_id, ingredient_id, qty_grams, notes) VALUES
+INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, qty_grams, notes) VALUES
 (@recipe_2_id, 2, 150, 'Baked salmon'),
 (@recipe_2_id, 15, 100, 'Fresh spinach'),
 (@recipe_2_id, 14, 50, 'Cherry tomatoes'),
 (@recipe_2_id, 19, 30, 'Olive oil dressing');
 
 -- Recipe 3: Pasta Carbonara (2 servings)
-INSERT INTO Recette (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
+INSERT INTO Recipe (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
 VALUES (NULL, 'Pasta Carbonara', 2, 450, 18, 45, 22, CURRENT_TIMESTAMP);
 
 SET @recipe_3_id = LAST_INSERT_ID();
 
-INSERT INTO Ingredients_Recette (recipe_id, ingredient_id, qty_grams, notes) VALUES
+INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, qty_grams, notes) VALUES
 (@recipe_3_id, 7, 200, 'Cooked pasta'),
 (@recipe_3_id, 3, 100, 'Eggs'),
 (@recipe_3_id, 19, 40, 'Olive oil');
 
 -- Recipe 4: Vegetable Stir-fry (2 servings)
-INSERT INTO Recette (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
+INSERT INTO Recipe (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
 VALUES (NULL, 'Vegetable Stir-fry', 2, 180, 8, 20, 8, CURRENT_TIMESTAMP);
 
 SET @recipe_4_id = LAST_INSERT_ID();
 
-INSERT INTO Ingredients_Recette (recipe_id, ingredient_id, qty_grams, notes) VALUES
+INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, qty_grams, notes) VALUES
 (@recipe_4_id, 11, 150, 'Broccoli florets'),
 (@recipe_4_id, 12, 100, 'Carrots'),
 (@recipe_4_id, 14, 100, 'Tomatoes'),
@@ -114,12 +114,12 @@ INSERT INTO Ingredients_Recette (recipe_id, ingredient_id, qty_grams, notes) VAL
 -- ============================================
 
 -- User Recipe 1: Quick Breakfast (1 serving)
-INSERT INTO Recette (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
+INSERT INTO Recipe (user_id, name, servings, kcal_per_serving, protein_g_per_serving, carbs_g_per_serving, fat_g_per_serving, created_at)
 VALUES (1, 'Oatmeal with Banana', 1, 320, 10, 52, 8, CURRENT_TIMESTAMP);
 
 SET @recipe_user_1 = LAST_INSERT_ID();
 
-INSERT INTO Ingredients_Recette (recipe_id, ingredient_id, qty_grams, notes) VALUES
+INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, qty_grams, notes) VALUES
 (@recipe_user_1, 10, 80, 'Oat cereal'),
 (@recipe_user_1, 23, 100, 'Banana');
 
@@ -128,11 +128,11 @@ INSERT INTO Ingredients_Recette (recipe_id, ingredient_id, qty_grams, notes) VAL
 -- ============================================
 
 -- Get inventory IDs (auto-created by trigger)
-SET @inv_john_id = (SELECT id FROM Inventaire WHERE user_id = 1 LIMIT 1);
-SET @inv_jane_id = (SELECT id FROM Inventaire WHERE user_id = 2 LIMIT 1);
+SET @inv_john_id = (SELECT id FROM Inventory WHERE user_id = 1 LIMIT 1);
+SET @inv_jane_id = (SELECT id FROM Inventory WHERE user_id = 2 LIMIT 1);
 
 -- Stock John's inventory
-INSERT INTO Inventaire_Ingredient (inventaire_id, ingredient_id, qty_grams) VALUES
+INSERT INTO Inventory_Ingredient (inventory_id, ingredient_id, qty_grams) VALUES
 (@inv_john_id, 1, 1000),   -- 1000g Chicken
 (@inv_john_id, 2, 500),    -- 500g Salmon
 (@inv_john_id, 6, 2000),   -- 2kg Rice
@@ -141,7 +141,7 @@ INSERT INTO Inventaire_Ingredient (inventaire_id, ingredient_id, qty_grams) VALU
 (@inv_john_id, 23, 1200);  -- 1200g Bananas
 
 -- Stock Jane's inventory
-INSERT INTO Inventaire_Ingredient (inventaire_id, ingredient_id, qty_grams) VALUES
+INSERT INTO Inventory_Ingredient (inventory_id, ingredient_id, qty_grams) VALUES
 (@inv_jane_id, 5, 500),    -- 500g Tofu
 (@inv_jane_id, 10, 300),   -- 300g Oats
 (@inv_jane_id, 15, 400),   -- 400g Spinach
@@ -155,13 +155,13 @@ INSERT INTO Inventaire_Ingredient (inventaire_id, ingredient_id, qty_grams) VALU
 -- John's meal plan for this week (starting Monday)
 SET @monday = DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY);
 
-INSERT INTO PlansRepas (user_id, week_start_date, created_at)
+INSERT INTO Meal_Plan (user_id, week_start_date, created_at)
 VALUES (1, @monday, CURRENT_TIMESTAMP);
 
 SET @plan_john_id = LAST_INSERT_ID();
 
 -- Add meals to John's plan
-INSERT INTO PlansRepas_Recette (plan_id, date, meal_type, recipe_id, planned_servings) VALUES
+INSERT INTO Meal_Plan_Recipe (plan_id, date, meal_type, recipe_id, planned_servings) VALUES
 (@plan_john_id, @monday, 'breakfast', @recipe_user_1, 1),
 (@plan_john_id, @monday, 'lunch', @recipe_1_id, 1),
 (@plan_john_id, @monday, 'dinner', @recipe_2_id, 1),
@@ -170,12 +170,12 @@ INSERT INTO PlansRepas_Recette (plan_id, date, meal_type, recipe_id, planned_ser
 (@plan_john_id, DATE_ADD(@monday, INTERVAL 1 DAY), 'dinner', @recipe_4_id, 1);
 
 -- Jane's meal plan
-INSERT INTO PlansRepas (user_id, week_start_date, created_at)
+INSERT INTO Meal_Plan (user_id, week_start_date, created_at)
 VALUES (2, @monday, CURRENT_TIMESTAMP);
 
 SET @plan_jane_id = LAST_INSERT_ID();
 
-INSERT INTO PlansRepas_Recette (plan_id, date, meal_type, recipe_id, planned_servings) VALUES
+INSERT INTO Meal_Plan_Recipe (plan_id, date, meal_type, recipe_id, planned_servings) VALUES
 (@plan_jane_id, @monday, 'breakfast', @recipe_user_1, 1),
 (@plan_jane_id, @monday, 'lunch', @recipe_3_id, 1);
 
@@ -204,12 +204,12 @@ INSERT INTO Journal (user_id, recipe_id, servings_eaten, logged_at, kcal, protei
 -- ============================================
 
 -- John's saved meals
-INSERT INTO RepasEnregistre (user_id, name, recipe_id, default_servings, created_at) VALUES
+INSERT INTO Saved_Recipe (user_id, name, recipe_id, default_servings, created_at) VALUES
 (1, 'My Go-to Salmon', @recipe_2_id, 1, CURRENT_TIMESTAMP),
 (1, 'Monday Dinner', @recipe_1_id, 2, CURRENT_TIMESTAMP);
 
 -- Jane's saved meals
-INSERT INTO RepasEnregistre (user_id, name, recipe_id, default_servings, created_at) VALUES
+INSERT INTO Saved_Recipe (user_id, name, recipe_id, default_servings, created_at) VALUES
 (2, 'Quick Breakfast', @recipe_user_1, 1, CURRENT_TIMESTAMP),
 (2, 'Comfort Pasta', @recipe_3_id, 2, CURRENT_TIMESTAMP);
 
