@@ -1,6 +1,7 @@
 import Recipe from "../../shared/recipe";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "./prisma/generated/client";
+import { serializeForIPC } from "../../shared/utils/ipcSerializer";
 
 export class RecipeRepository {
   private dbclient: PrismaClient;
@@ -15,7 +16,7 @@ export class RecipeRepository {
       where: userId ? { user_id: userId } : undefined,
     });
 
-    return recipes.map((r) => {
+    return serializeForIPC(recipes.map((r) => {
       return {
         id: r.id,
         user_id: r.user_id,
@@ -27,7 +28,7 @@ export class RecipeRepository {
         fat_g_per_serving: Number(r.fat_g_per_serving),
         created_at: r.created_at,
       } as Recipe;
-    });
+    })) as Recipe[];
   }
 
   async getRecipeById(id: bigint): Promise<Recipe | null> {
@@ -37,7 +38,7 @@ export class RecipeRepository {
 
     if (!recipe) return null;
 
-    return {
+    return serializeForIPC({
       id: recipe.id,
       user_id: recipe.user_id,
       name: recipe.name,
@@ -47,7 +48,7 @@ export class RecipeRepository {
       carbs_g_per_serving: Number(recipe.carbs_g_per_serving),
       fat_g_per_serving: Number(recipe.fat_g_per_serving),
       created_at: recipe.created_at,
-    } as Recipe;
+    }) as Recipe;
   }
 
   async createRecipe(recipe: Omit<Recipe, "id" | "created_at">): Promise<Recipe> {
@@ -63,7 +64,7 @@ export class RecipeRepository {
       },
     });
 
-    return {
+    return serializeForIPC({
       id: created.id,
       user_id: created.user_id,
       name: created.name,
@@ -73,7 +74,7 @@ export class RecipeRepository {
       carbs_g_per_serving: Number(created.carbs_g_per_serving),
       fat_g_per_serving: Number(created.fat_g_per_serving),
       created_at: created.created_at,
-    } as Recipe;
+    }) as Recipe;
   }
 
   async updateRecipe(id: bigint, recipe: Partial<Omit<Recipe, "id" | "created_at">>): Promise<Recipe> {
@@ -89,7 +90,7 @@ export class RecipeRepository {
       },
     });
 
-    return {
+    return serializeForIPC({
       id: updated.id,
       user_id: updated.user_id,
       name: updated.name,
@@ -99,7 +100,7 @@ export class RecipeRepository {
       carbs_g_per_serving: Number(updated.carbs_g_per_serving),
       fat_g_per_serving: Number(updated.fat_g_per_serving),
       created_at: updated.created_at,
-    } as Recipe;
+    }) as Recipe;
   }
 
   async deleteRecipe(id: bigint): Promise<void> {
