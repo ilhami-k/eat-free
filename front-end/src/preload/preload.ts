@@ -1,5 +1,3 @@
-// moved from front-end/preload/preload.ts
-
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
@@ -8,7 +6,8 @@ import { userService } from "./services/userService";
 import { recipeService } from "./services/recipeService";
 import IElectronService from "../shared/interfaces/IElectronService";
 
+// Expose the electron service to the renderer process
 contextBridge.exposeInMainWorld("electronService", {
-    users: userService(),
-    recipes: recipeService()
-} as IElectronService)
+  users: userService(),
+  recipes: recipeService(),
+} as IElectronService);
