@@ -98,3 +98,4 @@ main/generated/**
 
 # Prisma migrations are version-controlled, but runtime files are not
 # Keep migrations, ignore generated client
+*.md
