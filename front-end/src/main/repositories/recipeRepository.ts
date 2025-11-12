@@ -11,9 +11,13 @@ export class RecipeRepository {
     this.dbclient = new PrismaClient({ adapter });
   }
 
-  async getRecipes(userId?: bigint): Promise<Recipe[]> {
+  async getRecipes(): Promise<Recipe[]> {
     const recipes = await this.dbclient.recipe.findMany({
-      where: userId ? { user_id: userId } : undefined,
+      include: {
+        recipe_ingredients: {
+          include: { ingredients: true },
+        },
+      },
     });
 
     return serializeForIPC(recipes.map((r) => {
@@ -34,6 +38,11 @@ export class RecipeRepository {
   async getRecipeById(id: bigint): Promise<Recipe | null> {
     const recipe = await this.dbclient.recipe.findUnique({
       where: { id },
+      include: {
+        recipe_ingredients: {
+          include: { ingredients: true },
+        },
+      },
     });
 
     if (!recipe) return null;

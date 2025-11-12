@@ -16,9 +16,45 @@
           Logout / Switch User
         </Button>
       </div>
+
+      <!-- Tab Navigation -->
+      <div class="app__tabs">
+        <button
+          :class="['app__tab', activeTab === 'inventory' && 'app__tab--active']"
+          @click="activeTab = 'inventory'"
+        >
+          Inventory
+        </button>
+        <button
+          :class="['app__tab', activeTab === 'recipes' && 'app__tab--active']"
+          @click="activeTab = 'recipes'"
+        >
+          Recipes
+        </button>
+        <button
+          :class="['app__tab', activeTab === 'mealplans' && 'app__tab--active']"
+          @click="activeTab = 'mealplans'"
+        >
+          Meal Plans
+        </button>
+      </div>
+
       <div class="app__content">
-        <!-- Show Inventory for current user -->
-        <Inventory :currentUserId="currentUser.id" />
+        <!-- Inventory Tab -->
+        <Inventory
+          v-if="activeTab === 'inventory'"
+          :currentUserId="currentUser.id"
+        />
+        <!-- Recipes Tab -->
+        <Recipes
+          v-if="activeTab === 'recipes'"
+          :currentUserId="currentUser.id"
+        />
+        <!-- Meal Plans Tab -->
+        <MealPlans
+          v-if="activeTab === 'mealplans'"
+          :currentUserId="currentUser.id"
+        />
       </div>
     </div>
   </div>
@@ -28,6 +64,8 @@
 import { ref, onMounted } from 'vue'
 import Onboarding from '@/renderer/pages/Onboarding.vue'
 import Inventory from '@/renderer/components/Inventory.vue'
+import Recipes from '@/renderer/pages/Recipes.vue'
+import MealPlans from '@/renderer/pages/MealPlans.vue'
 import { Button } from '@/renderer/components/ui'
 import type User from '@/shared/user'
 
@@ -35,6 +73,7 @@ const currentUser = ref<User | null>(null)
 const users = ref<User[]>([])
 const isLoadingUser = ref(false)
 const userError = ref<string>()
+const activeTab = ref<'inventory' | 'recipes' | 'mealplans'>('inventory')
 
 // Get the real backend service from electron preload
 const userService = window.electronService?.users
@@ -101,22 +140,58 @@ onMounted(async () => {
 }
 
 .app__header {
-  margin-bottom: var(--spacing-4);
-  text-align: center;
+  margin-bottom: var(--spacing-6);
+  border-bottom: 1px solid var(--color-neutral-200);
+  padding-bottom: var(--spacing-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .app__header h1 {
-  color: var(--color-fresh-green);
-  margin-bottom: var(--spacing-1);
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-display);
+  color: var(--color-neutral-900);
+  margin: 0;
 }
 
 .app__header p {
-  color: var(--color-dark-gray);
-  margin-bottom: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  margin: 0;
+}
+
+.app__tabs {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.app__tab {
+  padding: var(--spacing-2) var(--spacing-4);
+  background: none;
+  border: none;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-600);
+  cursor: pointer;
+  transition: all 200ms ease;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.app__tab:hover {
+  color: var(--color-neutral-900);
+}
+
+.app__tab--active {
+  color: var(--color-fresh-green);
+  border-bottom-color: var(--color-fresh-green);
 }
 
 .app__content {
-  max-width: 600px;
-  margin: 0 auto;
+  flex: 1;
+  overflow-y: auto;
 }
 </style>
