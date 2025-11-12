@@ -10,17 +10,15 @@
 
     <div v-else class="app__main">
       <div class="app__header">
-        <h1> {{ currentUser.name }}</h1>
+        <h1>{{ currentUser.name }}</h1>
         <p>{{ currentUser.email }}</p>
         <Button variant="secondary" size="sm" @click="logout">
           Logout / Switch User
         </Button>
       </div>
       <div class="app__content">
-        <Card elevation="md">
-          <h2>Welcome to Eat Free!</h2>
-          <p>The app is ready for more features. Current user profile loaded successfully.</p>
-        </Card>
+        <!-- Show Inventory for current user -->
+        <Inventory :currentUserId="currentUser.id" />
       </div>
     </div>
   </div>
@@ -29,7 +27,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import Onboarding from '@/renderer/pages/Onboarding.vue'
-import { Button, Card } from '@/renderer/components/ui'
+import Inventory from '@/renderer/components/Inventory.vue'
+import { Button } from '@/renderer/components/ui'
 import type User from '@/shared/user'
 
 const currentUser = ref<User | null>(null)

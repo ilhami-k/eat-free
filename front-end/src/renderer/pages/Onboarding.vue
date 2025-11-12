@@ -80,7 +80,7 @@
           <div class="onboarding__user-list">
             <button
               v-for="user in users"
-              :key="user.id"
+              :key="`user-${user.id}`"
               @click="selectUser(user)"
               class="onboarding__user-item"
             >

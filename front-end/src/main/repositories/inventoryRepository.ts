@@ -12,7 +12,11 @@ export class InventoryRepository {
 
   async getInventories(): Promise<inventory[]> {
     const inventories = await this.dbclient.inventory.findMany({
-      include: { inventory_ingredient: true },
+      include: {
+        inventory_ingredient: {
+          include: { ingredients: true },
+        },
+      },
     });
     return serializeForIPC(inventories) as inventory[];
   }
@@ -20,7 +24,11 @@ export class InventoryRepository {
   async getInventoryById(id: bigint): Promise<inventory | null> {
     const inventory = await this.dbclient.inventory.findUnique({
       where: { id },
-      include: { inventory_ingredient: true },
+      include: {
+        inventory_ingredient: {
+          include: { ingredients: true },
+        },
+      },
     });
     return serializeForIPC(inventory) as inventory | null;
   }
@@ -28,7 +36,11 @@ export class InventoryRepository {
   async getInventoryByUserId(user_id: bigint): Promise<inventory | null> {
     const inventory = await this.dbclient.inventory.findUnique({
       where: { user_id },
-      include: { inventory_ingredient: true },
+      include: {
+        inventory_ingredient: {
+          include: { ingredients: true },
+        },
+      },
     });
     return serializeForIPC(inventory) as inventory | null;
   }
@@ -36,7 +48,11 @@ export class InventoryRepository {
   async createInventory(user_id: bigint): Promise<inventory> {
     const inventory = await this.dbclient.inventory.create({
       data: { user_id },
-      include: { inventory_ingredient: true },
+      include: {
+        inventory_ingredient: {
+          include: { ingredients: true },
+        },
+      },
     });
     return serializeForIPC(inventory) as inventory;
   }

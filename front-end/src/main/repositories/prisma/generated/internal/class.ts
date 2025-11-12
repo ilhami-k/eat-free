@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client-ts"
     },
     "output": {
-      "value": "c:\\Users\\zenleis\\Documents\\GitHub\\eat-free\\front-end\\src\\main\\repositories\\prisma\\generated",
+      "value": "C:\\Users\\ilham\\Documents\\GitHub\\eat-free\\front-end\\src\\main\\repositories\\prisma\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -37,7 +37,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "c:\\Users\\zenleis\\Documents\\GitHub\\eat-free\\front-end\\src\\main\\repositories\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\ilham\\Documents\\GitHub\\eat-free\\front-end\\src\\main\\repositories\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "..",
