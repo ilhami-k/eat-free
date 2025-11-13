@@ -62,7 +62,7 @@ export function useUserService(service: IUserService, options?: UseUserServiceOp
   /**
    * Get a user by ID
    */
-  const getUserById = async (id: bigint): Promise<User | null> => {
+  const getUserById = async (id: number): Promise<User | null> => {
     isLoading.value = true
     error.value = null
 
@@ -83,7 +83,7 @@ export function useUserService(service: IUserService, options?: UseUserServiceOp
    * Update a user
    */
   const updateUser = async (
-    id: bigint,
+    id: number,
     data: { email?: string; name?: string }
   ): Promise<User | null> => {
     isLoading.value = true
@@ -110,7 +110,7 @@ export function useUserService(service: IUserService, options?: UseUserServiceOp
   /**
    * Delete a user
    */
-  const deleteUser = async (id: bigint): Promise<boolean> => {
+  const deleteUser = async (id: number): Promise<boolean> => {
     isLoading.value = true
     error.value = null
 

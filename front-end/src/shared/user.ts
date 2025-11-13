@@ -1,6 +1,6 @@
 export default interface User {
-    id: bigint;
+    id: number;
     email: string;
     name: string;
-    created_at: Date;
+    created_at: string;
 }

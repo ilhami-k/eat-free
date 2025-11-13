@@ -8,7 +8,7 @@ export function registerIngredientsRepository() {
     return ingredientsRepository.getIngredients();
   });
 
-  ipcMain.handle("ingredientsRepository:getIngredientById", (e, id: bigint) => {
+  ipcMain.handle("ingredientsRepository:getIngredientById", (e, id: number) => {
     return ingredientsRepository.getIngredientById(id);
   });
 
@@ -25,12 +25,12 @@ export function registerIngredientsRepository() {
 
   ipcMain.handle(
     "ingredientsRepository:updateIngredient",
-    (e, id: bigint, data: { name?: string; kcal_per_100g?: number; protein_g_per_100g?: number; carbs_g_per_100g?: number; fat_g_per_100g?: number }) => {
+    (e, id: number, data: { name?: string; kcal_per_100g?: number; protein_g_per_100g?: number; carbs_g_per_100g?: number; fat_g_per_100g?: number }) => {
       return ingredientsRepository.updateIngredient(id, data);
     }
   );
 
-  ipcMain.handle("ingredientsRepository:deleteIngredient", (e, id: bigint) => {
+  ipcMain.handle("ingredientsRepository:deleteIngredient", (e, id: number) => {
     return ingredientsRepository.deleteIngredient(id);
   });
 }

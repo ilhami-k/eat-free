@@ -1,6 +1,6 @@
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient, inventory, inventory_ingredient } from "./prisma/generated/client";
-import { serializeForIPC } from "../../shared/utils/ipcSerializer";
+import { PrismaClient } from "./prisma/generated/client";
+import type Inventory from "../../shared/inventory";
 
 export class InventoryRepository {
   private dbclient: PrismaClient;
@@ -10,100 +10,144 @@ export class InventoryRepository {
     this.dbclient = new PrismaClient({ adapter });
   }
 
-  async getInventories(): Promise<inventory[]> {
-    const inventories = await this.dbclient.inventory.findMany({
+  async getInventories(): Promise<Inventory[]> {
+    const result = await this.dbclient.inventory.findMany({
       include: {
         inventory_ingredient: {
           include: { ingredients: true },
         },
       },
     });
-    return serializeForIPC(inventories) as inventory[];
+    return result.map((inv) => ({
+      id: Number(inv.id),
+      user_id: Number(inv.user_id),
+      inventory_ingredient: inv.inventory_ingredient?.map((ii) => ({
+        id: Number(ii.id),
+        inventory_id: Number(ii.inventory_id),
+        ingredient_id: Number(ii.ingredient_id),
+        qty_grams: Number(ii.qty_grams),
+        ingredients: ii.ingredients,
+      })),
+      created_at: inv.created_at.toISOString(),
+    })) as Inventory[];
   }
 
-  async getInventoryById(id: bigint): Promise<inventory | null> {
+  async getInventoryById(id: number): Promise<Inventory | null> {
     const inventory = await this.dbclient.inventory.findUnique({
-      where: { id },
+      where: { id: BigInt(id) },
       include: {
         inventory_ingredient: {
           include: { ingredients: true },
         },
       },
     });
-    return serializeForIPC(inventory) as inventory | null;
+    if (!inventory) return null;
+    return {
+      id: Number(inventory.id),
+      user_id: Number(inventory.user_id),
+      inventory_ingredient: inventory.inventory_ingredient?.map((ii) => ({
+        id: Number(ii.id),
+        inventory_id: Number(ii.inventory_id),
+        ingredient_id: Number(ii.ingredient_id),
+        qty_grams: Number(ii.qty_grams),
+        ingredients: ii.ingredients,
+      })),
+      created_at: inventory.created_at.toISOString(),
+    } as Inventory;
   }
 
-  async getInventoryByUserId(user_id: bigint): Promise<inventory | null> {
+  async getInventoryByUserId(user_id: number): Promise<Inventory | null> {
     const inventory = await this.dbclient.inventory.findUnique({
-      where: { user_id },
+      where: { user_id: BigInt(user_id) },
       include: {
         inventory_ingredient: {
           include: { ingredients: true },
         },
       },
     });
-    return serializeForIPC(inventory) as inventory | null;
+    if (!inventory) return null;
+    return {
+      id: Number(inventory.id),
+      user_id: Number(inventory.user_id),
+      inventory_ingredient: inventory.inventory_ingredient?.map((ii) => ({
+        id: Number(ii.id),
+        inventory_id: Number(ii.inventory_id),
+        ingredient_id: Number(ii.ingredient_id),
+        qty_grams: Number(ii.qty_grams),
+        ingredients: ii.ingredients,
+      })),
+      created_at: inventory.created_at.toISOString(),
+    } as Inventory;
   }
 
-  async createInventory(user_id: bigint): Promise<inventory> {
+  async createInventory(user_id: number): Promise<Inventory> {
     const inventory = await this.dbclient.inventory.create({
-      data: { user_id },
+      data: { user_id: BigInt(user_id) },
       include: {
         inventory_ingredient: {
           include: { ingredients: true },
         },
       },
     });
-    return serializeForIPC(inventory) as inventory;
+    return {
+      id: Number(inventory.id),
+      user_id: Number(inventory.user_id),
+      inventory_ingredient: inventory.inventory_ingredient?.map((ii) => ({
+        id: Number(ii.id),
+        inventory_id: Number(ii.inventory_id),
+        ingredient_id: Number(ii.ingredient_id),
+        qty_grams: Number(ii.qty_grams),
+        ingredients: ii.ingredients,
+      })),
+      created_at: inventory.created_at.toISOString(),
+    } as Inventory;
   }
 
-  async deleteInventory(id: bigint): Promise<void> {
+  async deleteInventory(id: number): Promise<void> {
     await this.dbclient.inventory.delete({
-      where: { id },
+      where: { id: BigInt(id) },
     });
   }
 
   async addIngredientToInventory(
-    inventory_id: bigint,
-    ingredient_id: bigint,
+    inventory_id: number,
+    ingredient_id: number,
     qty_grams: number
-  ): Promise<inventory_ingredient> {
-    const result = await this.dbclient.inventory_ingredient.create({
+  ): Promise<void> {
+    await this.dbclient.inventory_ingredient.create({
       data: {
-        inventory_id,
-        ingredient_id,
+        inventory_id: BigInt(inventory_id),
+        ingredient_id: BigInt(ingredient_id),
         qty_grams,
       },
     });
-    return serializeForIPC(result) as inventory_ingredient;
   }
 
   async updateIngredientInInventory(
-    inventory_id: bigint,
-    ingredient_id: bigint,
+    inventory_id: number,
+    ingredient_id: number,
     qty_grams: number
-  ): Promise<inventory_ingredient> {
-    const result = await this.dbclient.inventory_ingredient.update({
+  ): Promise<void> {
+    await this.dbclient.inventory_ingredient.update({
       where: {
         inventory_id_ingredient_id: {
-          inventory_id,
-          ingredient_id,
+          inventory_id: BigInt(inventory_id),
+          ingredient_id: BigInt(ingredient_id),
         },
       },
       data: { qty_grams },
     });
-    return serializeForIPC(result) as inventory_ingredient;
   }
 
   async removeIngredientFromInventory(
-    inventory_id: bigint,
-    ingredient_id: bigint
+    inventory_id: number,
+    ingredient_id: number
   ): Promise<void> {
     await this.dbclient.inventory_ingredient.delete({
       where: {
         inventory_id_ingredient_id: {
-          inventory_id,
-          ingredient_id,
+          inventory_id: BigInt(inventory_id),
+          ingredient_id: BigInt(ingredient_id),
         },
       },
     });

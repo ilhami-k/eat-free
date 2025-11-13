@@ -2,28 +2,19 @@ import { app, BrowserWindow } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import { registerAllRepositories } from './registerRepositories';
-import * as fs from 'node:fs';
+import * as dotenv from 'dotenv';
 
-// Load environment variables from .env file
-const envPath = path.join(__dirname, '../../.env');
-if (fs.existsSync(envPath)) {
-  const envFile = fs.readFileSync(envPath, 'utf-8');
-  envFile.split('\n').forEach((line) => {
-    const [key, ...valueParts] = line.split('=');
-    if (key && key.trim() && !key.startsWith('#')) {
-      const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
-      process.env[key.trim()] = value;
-    }
-  });
-}
+// Load environment variables
+dotenv.config();
+
+// Register all repositories
+registerAllRepositories();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
   app.quit();
 }
 
-// Register all repositories
-registerAllRepositories();
 
 const createWindow = () => {
   // Create the browser window.
@@ -45,13 +36,17 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools({
+    mode: 'bottom'
+  });
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

@@ -1,6 +1,6 @@
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient, ingredients } from "./prisma/generated/client";
-import { serializeForIPC } from "../../shared/utils/ipcSerializer";
+import { PrismaClient } from "./prisma/generated/client";
+import type Ingredient from "../../shared/ingredient";
 
 export class IngredientsRepository {
   private dbclient: PrismaClient;
@@ -10,23 +10,49 @@ export class IngredientsRepository {
     this.dbclient = new PrismaClient({ adapter });
   }
 
-  async getIngredients(): Promise<unknown> {
+  async getIngredients(): Promise<Ingredient[]> {
     const result = await this.dbclient.ingredients.findMany();
-    return serializeForIPC(result);
+    return result.map((ing) => ({
+      id: Number(ing.id),
+      name: ing.name,
+      kcal_per_100g: Number(ing.kcal_per_100g),
+      protein_g_per_100g: Number(ing.protein_g_per_100g),
+      carbs_g_per_100g: Number(ing.carbs_g_per_100g),
+      fat_g_per_100g: Number(ing.fat_g_per_100g),
+      created_at: ing.created_at.toISOString(),
+    })) as Ingredient[];
   }
 
-  async getIngredientById(id: bigint): Promise<unknown> {
+  async getIngredientById(id: number): Promise<Ingredient | null> {
     const result = await this.dbclient.ingredients.findUnique({
-      where: { id },
+      where: { id: BigInt(id) },
     });
-    return serializeForIPC(result);
+    if (!result) return null;
+    return {
+      id: Number(result.id),
+      name: result.name,
+      kcal_per_100g: Number(result.kcal_per_100g),
+      protein_g_per_100g: Number(result.protein_g_per_100g),
+      carbs_g_per_100g: Number(result.carbs_g_per_100g),
+      fat_g_per_100g: Number(result.fat_g_per_100g),
+      created_at: result.created_at.toISOString(),
+    } as Ingredient;
   }
 
-  async getIngredientByName(name: string): Promise<unknown> {
+  async getIngredientByName(name: string): Promise<Ingredient | null> {
     const result = await this.dbclient.ingredients.findUnique({
       where: { name },
     });
-    return serializeForIPC(result);
+    if (!result) return null;
+    return {
+      id: Number(result.id),
+      name: result.name,
+      kcal_per_100g: Number(result.kcal_per_100g),
+      protein_g_per_100g: Number(result.protein_g_per_100g),
+      carbs_g_per_100g: Number(result.carbs_g_per_100g),
+      fat_g_per_100g: Number(result.fat_g_per_100g),
+      created_at: result.created_at.toISOString(),
+    } as Ingredient;
   }
 
   async createIngredient(
@@ -35,7 +61,7 @@ export class IngredientsRepository {
     protein_g_per_100g: number,
     carbs_g_per_100g: number,
     fat_g_per_100g: number
-  ): Promise<unknown> {
+  ): Promise<Ingredient> {
     const result = await this.dbclient.ingredients.create({
       data: {
         name,
@@ -45,11 +71,19 @@ export class IngredientsRepository {
         fat_g_per_100g,
       },
     });
-    return serializeForIPC(result);
+    return {
+      id: Number(result.id),
+      name: result.name,
+      kcal_per_100g: Number(result.kcal_per_100g),
+      protein_g_per_100g: Number(result.protein_g_per_100g),
+      carbs_g_per_100g: Number(result.carbs_g_per_100g),
+      fat_g_per_100g: Number(result.fat_g_per_100g),
+      created_at: result.created_at.toISOString(),
+    } as Ingredient;
   }
 
   async updateIngredient(
-    id: bigint,
+    id: number,
     data: {
       name?: string;
       kcal_per_100g?: number;
@@ -57,17 +91,25 @@ export class IngredientsRepository {
       carbs_g_per_100g?: number;
       fat_g_per_100g?: number;
     }
-  ): Promise<unknown> {
+  ): Promise<Ingredient> {
     const result = await this.dbclient.ingredients.update({
-      where: { id },
+      where: { id: BigInt(id) },
       data,
     });
-    return serializeForIPC(result);
+    return {
+      id: Number(result.id),
+      name: result.name,
+      kcal_per_100g: Number(result.kcal_per_100g),
+      protein_g_per_100g: Number(result.protein_g_per_100g),
+      carbs_g_per_100g: Number(result.carbs_g_per_100g),
+      fat_g_per_100g: Number(result.fat_g_per_100g),
+      created_at: result.created_at.toISOString(),
+    } as Ingredient;
   }
 
-  async deleteIngredient(id: bigint): Promise<void> {
+  async deleteIngredient(id: number): Promise<void> {
     await this.dbclient.ingredients.delete({
-      where: { id },
+      where: { id: BigInt(id) },
     });
   }
 }

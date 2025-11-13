@@ -1,11 +1,11 @@
 import Recipe from "./recipe";
 
 export default interface Journal {
-  id: bigint;
-  user_id: bigint;
-  recipe_id: bigint;
+  id: number;
+  user_id: number;
+  recipe_id: number;
   servings_eaten: number;
-  logged_at: Date;
+  logged_at: string;
   kcal: number;
   protein_g: number;
   carbs_g: number;

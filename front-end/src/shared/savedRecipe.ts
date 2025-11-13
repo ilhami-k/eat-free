@@ -1,11 +1,11 @@
 import Recipe from "./recipe";
 
 export default interface SavedRecipe {
-  id: bigint;
-  user_id: bigint;
+  id: number;
+  user_id: number;
   name: string;
-  recipe_id: bigint;
+  recipe_id: number;
   default_servings: number;
-  created_at: Date;
+  created_at: string;
   recipe?: Recipe;
 }

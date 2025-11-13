@@ -5,11 +5,11 @@ import Recipe from "../../shared/recipe";
 export function registerRecipeRepository() {
   const recipeRepository = new RecipeRepository();
 
-  ipcMain.handle("recipeRepository:getRecipes", (e, userId?: bigint) => {
-    return recipeRepository.getRecipes(userId);
+  ipcMain.handle("recipeRepository:getRecipes", () => {
+    return recipeRepository.getRecipes();
   });
 
-  ipcMain.handle("recipeRepository:getRecipeById", (e, id: bigint) => {
+  ipcMain.handle("recipeRepository:getRecipeById", (e, id: number) => {
     return recipeRepository.getRecipeById(id);
   });
 
@@ -17,11 +17,11 @@ export function registerRecipeRepository() {
     return recipeRepository.createRecipe(recipe);
   });
 
-  ipcMain.handle("recipeRepository:updateRecipe", (e, id: bigint, recipe: Partial<Omit<Recipe, "id" | "created_at">>) => {
+  ipcMain.handle("recipeRepository:updateRecipe", (e, id: number, recipe: Partial<Omit<Recipe, "id" | "created_at">>) => {
     return recipeRepository.updateRecipe(id, recipe);
   });
 
-  ipcMain.handle("recipeRepository:deleteRecipe", (e, id: bigint) => {
+  ipcMain.handle("recipeRepository:deleteRecipe", (e, id: number) => {
     return recipeRepository.deleteRecipe(id);
   });
 }

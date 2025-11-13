@@ -1,12 +1,12 @@
 export interface InventoryIngredient {
-  inventory_id: bigint;
-  ingredient_id: bigint;
+  inventory_id: number;
+  ingredient_id: number;
   qty_grams: number;
 }
 
 export default interface Inventory {
-  id: bigint;
-  user_id: bigint;
-  created_at: Date;
+  id: number;
+  user_id: number;
+  created_at: string;
   inventory_ingredient?: InventoryIngredient[];
 }

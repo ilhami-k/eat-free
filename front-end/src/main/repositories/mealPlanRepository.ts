@@ -1,6 +1,7 @@
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient, meal_plan, meal_plan_recipe, meal_plan_recipe_meal_type } from "./prisma/generated/client";
-import { serializeForIPC } from "../../shared/utils/ipcSerializer";
+import { PrismaClient, meal_plan_recipe_meal_type } from "./prisma/generated/client";
+import type MealPlan from "../../shared/mealPlan";
+import type { MealPlanRecipe } from "../../shared/mealPlan";
 
 /**
  * Normalize a date to Monday UTC midnight to match the database trigger behavior
@@ -33,9 +34,9 @@ export class MealPlanRepository {
     this.dbclient = new PrismaClient({ adapter });
   }
 
-  async getMealPlans(userId: bigint): Promise<meal_plan[]> {
+  async getMealPlans(userId: number): Promise<MealPlan[]> {
     const plans = await this.dbclient.meal_plan.findMany({
-      where: { user_id: userId },
+      where: { user_id: BigInt(userId) },
       include: {
         meal_plan_recipe: {
           include: {
@@ -50,12 +51,38 @@ export class MealPlanRepository {
         },
       },
     });
-    return serializeForIPC(plans) as meal_plan[];
+    return plans.map((p) => ({
+      id: Number(p.id),
+      user_id: Number(p.user_id),
+      week_start_date: p.week_start_date,
+      created_at: p.created_at,
+      meal_plan_recipe: p.meal_plan_recipe?.map((mpr) => ({
+        id: Number(mpr.id),
+        plan_id: Number(mpr.plan_id),
+        recipe_id: Number(mpr.recipe_id),
+        date: mpr.date,
+        meal_type: mpr.meal_type,
+        planned_servings: Number(mpr.planned_servings),
+        recipe: mpr.recipe
+          ? {
+              id: Number(mpr.recipe.id),
+              user_id: mpr.recipe.user_id ? Number(mpr.recipe.user_id) : null,
+              name: mpr.recipe.name,
+              servings: Number(mpr.recipe.servings),
+              kcal_per_serving: Number(mpr.recipe.kcal_per_serving),
+              protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
+              carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
+              fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
+              created_at: mpr.recipe.created_at,
+            }
+          : undefined,
+      })),
+    })) as MealPlan[];
   }
 
-  async getMealPlanById(id: bigint): Promise<meal_plan | null> {
+  async getMealPlanById(id: number): Promise<MealPlan | null> {
     const plan = await this.dbclient.meal_plan.findUnique({
-      where: { id },
+      where: { id: BigInt(id) },
       include: {
         meal_plan_recipe: {
           include: {
@@ -70,15 +97,42 @@ export class MealPlanRepository {
         },
       },
     });
-    return serializeForIPC(plan) as meal_plan | null;
+    if (!plan) return null;
+    return {
+      id: Number(plan.id),
+      user_id: Number(plan.user_id),
+      week_start_date: plan.week_start_date,
+      created_at: plan.created_at,
+      meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
+        id: Number(mpr.id),
+        plan_id: Number(mpr.plan_id),
+        recipe_id: Number(mpr.recipe_id),
+        date: mpr.date,
+        meal_type: mpr.meal_type,
+        planned_servings: Number(mpr.planned_servings),
+        recipe: mpr.recipe
+          ? {
+              id: Number(mpr.recipe.id),
+              user_id: mpr.recipe.user_id ? Number(mpr.recipe.user_id) : null,
+              name: mpr.recipe.name,
+              servings: Number(mpr.recipe.servings),
+              kcal_per_serving: Number(mpr.recipe.kcal_per_serving),
+              protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
+              carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
+              fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
+              created_at: mpr.recipe.created_at,
+            }
+          : undefined,
+      })),
+    } as MealPlan;
   }
 
-  async getMealPlanForWeek(userId: bigint, weekStartDate: Date): Promise<meal_plan | null> {
+  async getMealPlanForWeek(userId: number, weekStartDate: Date): Promise<MealPlan | null> {
     const normalizedDate = normalizeToMonday(weekStartDate);
     const plan = await this.dbclient.meal_plan.findUnique({
       where: {
         user_id_week_start_date: {
-          user_id: userId,
+          user_id: BigInt(userId),
           week_start_date: normalizedDate,
         },
       },
@@ -96,20 +150,47 @@ export class MealPlanRepository {
         },
       },
     });
-    return serializeForIPC(plan) as meal_plan | null;
+    if (!plan) return null;
+    return {
+      id: Number(plan.id),
+      user_id: Number(plan.user_id),
+      week_start_date: plan.week_start_date,
+      created_at: plan.created_at,
+      meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
+        id: Number(mpr.id),
+        plan_id: Number(mpr.plan_id),
+        recipe_id: Number(mpr.recipe_id),
+        date: mpr.date,
+        meal_type: mpr.meal_type,
+        planned_servings: Number(mpr.planned_servings),
+        recipe: mpr.recipe
+          ? {
+              id: Number(mpr.recipe.id),
+              user_id: mpr.recipe.user_id ? Number(mpr.recipe.user_id) : null,
+              name: mpr.recipe.name,
+              servings: Number(mpr.recipe.servings),
+              kcal_per_serving: Number(mpr.recipe.kcal_per_serving),
+              protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
+              carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
+              fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
+              created_at: mpr.recipe.created_at,
+            }
+          : undefined,
+      })),
+    } as MealPlan;
   }
 
-  async createMealPlan(user_id: bigint, week_start_date: Date): Promise<meal_plan> {
+  async createMealPlan(user_id: number, week_start_date: Date): Promise<MealPlan> {
     const normalizedDate = normalizeToMonday(week_start_date);
     const plan = await this.dbclient.meal_plan.upsert({
       where: {
         user_id_week_start_date: {
-          user_id,
+          user_id: BigInt(user_id),
           week_start_date: normalizedDate,
         },
       },
       create: {
-        user_id,
+        user_id: BigInt(user_id),
         week_start_date: normalizedDate,
       },
       update: {},
@@ -127,27 +208,53 @@ export class MealPlanRepository {
         },
       },
     });
-    return serializeForIPC(plan) as meal_plan;
+    return {
+      id: Number(plan.id),
+      user_id: Number(plan.user_id),
+      week_start_date: plan.week_start_date,
+      created_at: plan.created_at,
+      meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
+        id: Number(mpr.id),
+        plan_id: Number(mpr.plan_id),
+        recipe_id: Number(mpr.recipe_id),
+        date: mpr.date,
+        meal_type: mpr.meal_type,
+        planned_servings: Number(mpr.planned_servings),
+        recipe: mpr.recipe
+          ? {
+              id: Number(mpr.recipe.id),
+              user_id: mpr.recipe.user_id ? Number(mpr.recipe.user_id) : null,
+              name: mpr.recipe.name,
+              servings: Number(mpr.recipe.servings),
+              kcal_per_serving: Number(mpr.recipe.kcal_per_serving),
+              protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
+              carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
+              fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
+              created_at: mpr.recipe.created_at,
+            }
+          : undefined,
+      })),
+    } as MealPlan;
   }
 
-  async deleteMealPlan(id: bigint): Promise<void> {
+  async deleteMealPlan(id: number): Promise<void> {
     await this.dbclient.meal_plan.delete({
-      where: { id },
+      where: { id: BigInt(id) },
     });
   }
 
   async addRecipeToMealPlan(
-    plan_id: bigint,
-    recipe_id: bigint,
+    plan_id: number,
+    recipe_id: number,
     date: Date,
     meal_type: meal_plan_recipe_meal_type,
     planned_servings: number
-  ): Promise<meal_plan_recipe> {
+  ): Promise<MealPlanRecipe> {
     const normalizedDate = normalizeDateOnly(date);
     const result = await this.dbclient.meal_plan_recipe.create({
       data: {
-        plan_id,
-        recipe_id,
+        plan_id: BigInt(plan_id),
+        recipe_id: BigInt(recipe_id),
         date: normalizedDate,
         meal_type,
         planned_servings,
@@ -162,15 +269,35 @@ export class MealPlanRepository {
         },
       },
     });
-    return serializeForIPC(result) as meal_plan_recipe;
+    return {
+      id: Number(result.id),
+      plan_id: Number(result.plan_id),
+      recipe_id: Number(result.recipe_id),
+      date: result.date,
+      meal_type: result.meal_type,
+      planned_servings: Number(result.planned_servings),
+      recipe: result.recipe
+        ? {
+            id: Number(result.recipe.id),
+            user_id: result.recipe.user_id ? Number(result.recipe.user_id) : null,
+            name: result.recipe.name,
+            servings: Number(result.recipe.servings),
+            kcal_per_serving: Number(result.recipe.kcal_per_serving),
+            protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
+            carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
+            fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
+            created_at: result.recipe.created_at,
+          }
+        : undefined,
+    } as MealPlanRecipe;
   }
 
   async updateMealPlanRecipe(
-    id: bigint,
+    id: number,
     planned_servings: number
-  ): Promise<meal_plan_recipe> {
+  ): Promise<MealPlanRecipe> {
     const result = await this.dbclient.meal_plan_recipe.update({
-      where: { id },
+      where: { id: BigInt(id) },
       data: { planned_servings },
       include: {
         recipe: {
@@ -182,12 +309,32 @@ export class MealPlanRepository {
         },
       },
     });
-    return serializeForIPC(result) as meal_plan_recipe;
+    return {
+      id: Number(result.id),
+      plan_id: Number(result.plan_id),
+      recipe_id: Number(result.recipe_id),
+      date: result.date,
+      meal_type: result.meal_type,
+      planned_servings: Number(result.planned_servings),
+      recipe: result.recipe
+        ? {
+            id: Number(result.recipe.id),
+            user_id: result.recipe.user_id ? Number(result.recipe.user_id) : null,
+            name: result.recipe.name,
+            servings: Number(result.recipe.servings),
+            kcal_per_serving: Number(result.recipe.kcal_per_serving),
+            protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
+            carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
+            fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
+            created_at: result.recipe.created_at,
+          }
+        : undefined,
+    } as MealPlanRecipe;
   }
 
-  async removeRecipeFromMealPlan(id: bigint): Promise<void> {
+  async removeRecipeFromMealPlan(id: number): Promise<void> {
     await this.dbclient.meal_plan_recipe.delete({
-      where: { id },
+      where: { id: BigInt(id) },
     });
   }
 }
