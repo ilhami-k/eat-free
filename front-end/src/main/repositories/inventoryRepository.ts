@@ -22,11 +22,18 @@ export class InventoryRepository {
       id: Number(inv.id),
       user_id: Number(inv.user_id),
       inventory_ingredient: inv.inventory_ingredient?.map((ii) => ({
-        id: Number(ii.id),
         inventory_id: Number(ii.inventory_id),
         ingredient_id: Number(ii.ingredient_id),
         qty_grams: Number(ii.qty_grams),
-        ingredients: ii.ingredients,
+        ingredients: ii.ingredients ? {
+          id: Number(ii.ingredients.id),
+          name: ii.ingredients.name,
+          kcal_per_100g: Number(ii.ingredients.kcal_per_100g),
+          protein_g_per_100g: Number(ii.ingredients.protein_g_per_100g),
+          carbs_g_per_100g: Number(ii.ingredients.carbs_g_per_100g),
+          fat_g_per_100g: Number(ii.ingredients.fat_g_per_100g),
+          created_at: ii.ingredients.created_at.toISOString(),
+        } : undefined,
       })),
       created_at: inv.created_at.toISOString(),
     })) as Inventory[];
@@ -46,11 +53,18 @@ export class InventoryRepository {
       id: Number(inventory.id),
       user_id: Number(inventory.user_id),
       inventory_ingredient: inventory.inventory_ingredient?.map((ii) => ({
-        id: Number(ii.id),
         inventory_id: Number(ii.inventory_id),
         ingredient_id: Number(ii.ingredient_id),
         qty_grams: Number(ii.qty_grams),
-        ingredients: ii.ingredients,
+        ingredients: ii.ingredients ? {
+          id: Number(ii.ingredients.id),
+          name: ii.ingredients.name,
+          kcal_per_100g: Number(ii.ingredients.kcal_per_100g),
+          protein_g_per_100g: Number(ii.ingredients.protein_g_per_100g),
+          carbs_g_per_100g: Number(ii.ingredients.carbs_g_per_100g),
+          fat_g_per_100g: Number(ii.ingredients.fat_g_per_100g),
+          created_at: ii.ingredients.created_at.toISOString(),
+        } : undefined,
       })),
       created_at: inventory.created_at.toISOString(),
     } as Inventory;
@@ -70,11 +84,18 @@ export class InventoryRepository {
       id: Number(inventory.id),
       user_id: Number(inventory.user_id),
       inventory_ingredient: inventory.inventory_ingredient?.map((ii) => ({
-        id: Number(ii.id),
         inventory_id: Number(ii.inventory_id),
         ingredient_id: Number(ii.ingredient_id),
         qty_grams: Number(ii.qty_grams),
-        ingredients: ii.ingredients,
+        ingredients: ii.ingredients ? {
+          id: Number(ii.ingredients.id),
+          name: ii.ingredients.name,
+          kcal_per_100g: Number(ii.ingredients.kcal_per_100g),
+          protein_g_per_100g: Number(ii.ingredients.protein_g_per_100g),
+          carbs_g_per_100g: Number(ii.ingredients.carbs_g_per_100g),
+          fat_g_per_100g: Number(ii.ingredients.fat_g_per_100g),
+          created_at: ii.ingredients.created_at.toISOString(),
+        } : undefined,
       })),
       created_at: inventory.created_at.toISOString(),
     } as Inventory;
@@ -93,11 +114,18 @@ export class InventoryRepository {
       id: Number(inventory.id),
       user_id: Number(inventory.user_id),
       inventory_ingredient: inventory.inventory_ingredient?.map((ii) => ({
-        id: Number(ii.id),
         inventory_id: Number(ii.inventory_id),
         ingredient_id: Number(ii.ingredient_id),
         qty_grams: Number(ii.qty_grams),
-        ingredients: ii.ingredients,
+        ingredients: ii.ingredients ? {
+          id: Number(ii.ingredients.id),
+          name: ii.ingredients.name,
+          kcal_per_100g: Number(ii.ingredients.kcal_per_100g),
+          protein_g_per_100g: Number(ii.ingredients.protein_g_per_100g),
+          carbs_g_per_100g: Number(ii.ingredients.carbs_g_per_100g),
+          fat_g_per_100g: Number(ii.ingredients.fat_g_per_100g),
+          created_at: ii.ingredients.created_at.toISOString(),
+        } : undefined,
       })),
       created_at: inventory.created_at.toISOString(),
     } as Inventory;

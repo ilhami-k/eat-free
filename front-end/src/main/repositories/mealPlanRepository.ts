@@ -54,13 +54,13 @@ export class MealPlanRepository {
     return plans.map((p) => ({
       id: Number(p.id),
       user_id: Number(p.user_id),
-      week_start_date: p.week_start_date,
-      created_at: p.created_at,
+      week_start_date: p.week_start_date.toISOString(),
+      created_at: p.created_at.toISOString(),
       meal_plan_recipe: p.meal_plan_recipe?.map((mpr) => ({
         id: Number(mpr.id),
         plan_id: Number(mpr.plan_id),
         recipe_id: Number(mpr.recipe_id),
-        date: mpr.date,
+        date: mpr.date.toISOString(),
         meal_type: mpr.meal_type,
         planned_servings: Number(mpr.planned_servings),
         recipe: mpr.recipe
@@ -73,7 +73,7 @@ export class MealPlanRepository {
               protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
               carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
               fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
-              created_at: mpr.recipe.created_at,
+              created_at: mpr.recipe.created_at.toISOString(),
             }
           : undefined,
       })),
@@ -101,13 +101,13 @@ export class MealPlanRepository {
     return {
       id: Number(plan.id),
       user_id: Number(plan.user_id),
-      week_start_date: plan.week_start_date,
-      created_at: plan.created_at,
+      week_start_date: plan.week_start_date.toISOString(),
+      created_at: plan.created_at.toISOString(),
       meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
         id: Number(mpr.id),
         plan_id: Number(mpr.plan_id),
         recipe_id: Number(mpr.recipe_id),
-        date: mpr.date,
+        date: mpr.date.toISOString(),
         meal_type: mpr.meal_type,
         planned_servings: Number(mpr.planned_servings),
         recipe: mpr.recipe
@@ -120,7 +120,7 @@ export class MealPlanRepository {
               protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
               carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
               fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
-              created_at: mpr.recipe.created_at,
+              created_at: mpr.recipe.created_at.toISOString(),
             }
           : undefined,
       })),
@@ -154,13 +154,13 @@ export class MealPlanRepository {
     return {
       id: Number(plan.id),
       user_id: Number(plan.user_id),
-      week_start_date: plan.week_start_date,
-      created_at: plan.created_at,
+      week_start_date: plan.week_start_date.toISOString(),
+      created_at: plan.created_at.toISOString(),
       meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
         id: Number(mpr.id),
         plan_id: Number(mpr.plan_id),
         recipe_id: Number(mpr.recipe_id),
-        date: mpr.date,
+        date: mpr.date.toISOString(),
         meal_type: mpr.meal_type,
         planned_servings: Number(mpr.planned_servings),
         recipe: mpr.recipe
@@ -173,7 +173,7 @@ export class MealPlanRepository {
               protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
               carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
               fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
-              created_at: mpr.recipe.created_at,
+              created_at: mpr.recipe.created_at.toISOString(),
             }
           : undefined,
       })),
@@ -211,13 +211,13 @@ export class MealPlanRepository {
     return {
       id: Number(plan.id),
       user_id: Number(plan.user_id),
-      week_start_date: plan.week_start_date,
-      created_at: plan.created_at,
+      week_start_date: plan.week_start_date.toISOString(),
+      created_at: plan.created_at.toISOString(),
       meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
         id: Number(mpr.id),
         plan_id: Number(mpr.plan_id),
         recipe_id: Number(mpr.recipe_id),
-        date: mpr.date,
+        date: mpr.date.toISOString(),
         meal_type: mpr.meal_type,
         planned_servings: Number(mpr.planned_servings),
         recipe: mpr.recipe
@@ -230,7 +230,7 @@ export class MealPlanRepository {
               protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
               carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
               fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
-              created_at: mpr.recipe.created_at,
+              created_at: mpr.recipe.created_at.toISOString(),
             }
           : undefined,
       })),
@@ -273,7 +273,7 @@ export class MealPlanRepository {
       id: Number(result.id),
       plan_id: Number(result.plan_id),
       recipe_id: Number(result.recipe_id),
-      date: result.date,
+      date: result.date.toISOString(),
       meal_type: result.meal_type,
       planned_servings: Number(result.planned_servings),
       recipe: result.recipe
@@ -286,7 +286,7 @@ export class MealPlanRepository {
             protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
             carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
             fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
-            created_at: result.recipe.created_at,
+            created_at: result.recipe.created_at.toISOString(),
           }
         : undefined,
     } as MealPlanRecipe;
@@ -313,7 +313,7 @@ export class MealPlanRepository {
       id: Number(result.id),
       plan_id: Number(result.plan_id),
       recipe_id: Number(result.recipe_id),
-      date: result.date,
+      date: result.date.toISOString(),
       meal_type: result.meal_type,
       planned_servings: Number(result.planned_servings),
       recipe: result.recipe
@@ -326,7 +326,7 @@ export class MealPlanRepository {
             protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
             carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
             fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
-            created_at: result.recipe.created_at,
+            created_at: result.recipe.created_at.toISOString(),
           }
         : undefined,
     } as MealPlanRecipe;
