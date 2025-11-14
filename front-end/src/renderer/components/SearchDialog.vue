@@ -1,90 +1,80 @@
 <template>
-  <div v-if="isOpen" class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 overflow-auto">
-    <div class="w-full max-w-md bg-white p-6 shadow-2xl my-4 md:my-0" style="border-radius: 2rem;">
-      <!-- Header -->
-      <div class="mb-4 flex items-center justify-between">
-        <h2 class="text-h2 font-display text-neutral-900">Search Ingredients</h2>
-        <button
-          @click="closeDialog"
-          class="text-neutral-500 hover:text-neutral-700"
-          aria-label="Close search"
-        >
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-
-      <!-- Search Input -->
-      <div class="mb-4">
-        <Input
-          v-model="searchQuery"
-          placeholder="Search ingredients..."
-          label="Ingredient Name"
-          @keyup.enter="handleSearch"
-          @focus="handleSearch"
-        />
-      </div>
-
-      <!-- Loading State -->
-      <div v-if="isLoading" class="flex justify-center py-8">
-        <div class="h-8 w-8 animate-spin rounded-full border-4 border-fresh-green/20 border-t-fresh-green"></div>
-      </div>
-
-      <!-- Error State -->
-      <div v-else-if="error" class="rounded-lg bg-strawberry-red/10 p-4">
-        <p class="text-sm text-strawberry-red">{{ error.message }}</p>
-      </div>
-
-      <!-- Results List -->
-      <div v-else class="max-h-80 overflow-y-auto space-y-2">
-        <div v-if="filteredIngredients.length === 0" class="py-8 text-center">
-          <p class="text-neutral-500">No ingredients found</p>
-        </div>
-
-        <button
-          v-for="ingredient in filteredIngredients"
-          :key="`ingredient-${ingredient.id}`"
-          @click="selectIngredient(ingredient)"
-          class="w-full rounded-xl px-4 py-3 text-left transition-colors hover:bg-fresh-green/10 focus:bg-fresh-green/20 focus:outline-none"
-        >
-          <p class="font-medium text-neutral-900">{{ ingredient.name }}</p>
-          <p class="text-xs text-neutral-500">
-            {{ ingredient.kcal_per_100g }} kcal per 100g
-          </p>
-        </button>
-      </div>
-
-      <!-- Divider -->
-      <div class="my-4 border-t border-neutral-200"></div>
-
-      <!-- Create New Ingredient -->
-      <div class="mb-4">
-        <p class="mb-2 text-sm font-medium text-neutral-700">Or create a new ingredient</p>
-        <Button variant="secondary" fullWidth @click="showCreateForm">
-          + Add Custom Ingredient
-        </Button>
-      </div>
-
-      <!-- Footer Actions -->
-      <div class="flex gap-2">
-        <Button variant="ghost" fullWidth @click="closeDialog"> Cancel </Button>
-      </div>
+  <Drawer :isOpen="isOpen" title="Add Ingredient" @close="closeDialog">
+    <!-- Search Input -->
+    <div class="mb-4">
+      <Input
+        v-model="searchQuery"
+        placeholder="Search ingredients..."
+        label="Ingredient Name"
+        @keyup.enter="handleSearch"
+        @focus="handleSearch"
+      />
     </div>
 
-    <!-- Create Ingredient Modal (nested) -->
-    <CreateIngredientModal
-      v-if="showCreate"
-      @close="showCreate = false"
-      @created="handleIngredientCreated"
-    />
-  </div>
+    <!-- Loading State -->
+    <div v-if="isLoading" class="flex justify-center py-8">
+      <div class="h-8 w-8 animate-spin rounded-full border-4 border-fresh-green/20 border-t-fresh-green"></div>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="rounded-lg bg-strawberry-red/10 p-4 mb-4">
+      <p class="text-sm text-strawberry-red">{{ error.message }}</p>
+    </div>
+
+    <!-- Results List -->
+    <div v-else class="space-y-2 mb-6">
+      <div v-if="filteredIngredients.length === 0" class="py-8 text-center">
+        <p class="text-neutral-500">No ingredients found</p>
+      </div>
+
+      <button
+        v-for="ingredient in filteredIngredients"
+        :key="`ingredient-${ingredient.id}`"
+        @click="selectIngredient(ingredient)"
+        class="w-full rounded-lg px-4 py-3 text-left transition-all 
+               border border-medium-gray bg-white
+               hover:bg-fresh-green/10 hover:border-fresh-green
+               focus:outline-none focus:ring-2 focus:ring-fresh-green/50"
+      >
+        <p class="font-medium text-neutral-900">{{ ingredient.name }}</p>
+        <p class="text-xs text-neutral-500">
+          {{ ingredient.kcal_per_100g }} kcal per 100g
+        </p>
+      </button>
+    </div>
+
+    <!-- Divider -->
+    <div class="my-4 border-t border-medium-gray"></div>
+
+    <!-- Create New Ingredient -->
+    <div>
+      <p class="mb-2 text-sm font-medium text-neutral-700">Or create a new ingredient</p>
+      <Button variant="secondary" fullWidth @click="showCreateForm">
+        + Add Custom Ingredient
+      </Button>
+    </div>
+
+    <!-- Footer slot with Cancel button -->
+    <template #footer>
+      <Button variant="secondary" fullWidth @click="closeDialog">
+        Cancel
+      </Button>
+    </template>
+  </Drawer>
+
+  <!-- Create Ingredient Modal (nested) -->
+  <CreateIngredientModal
+    v-if="showCreate"
+    @close="showCreate = false"
+    @created="handleIngredientCreated"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import type Ingredient from '@/shared/ingredient'
 import { useIngredientsService } from '@/renderer/composables/useIngredientsService'
+import Drawer from './ui/Drawer.vue'
 import Input from './ui/Input.vue'
 import Button from './ui/Button.vue'
 import CreateIngredientModal from '@/renderer/components/modals/CreateIngredientModal.vue'

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen overflow-hidden bg-neutral-50">
+  <div class="flex h-screen overflow-hidden bg-light-gray">
     <!-- Sidebar -->
     <Sidebar :title="sidebarTitle" :is-visible="isSidebarVisible">
       <slot name="sidebar" />
@@ -8,24 +8,27 @@
       </template>
     </Sidebar>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col overflow-hidden relative">
-      <!-- Top Bar -->
-      <TopBar v-if="$slots.topbar" :title="title" :subtitle="subtitle">
-        <slot name="topbar" />
-        <template v-if="$slots['topbar-extended']" #extended>
-          <slot name="topbar-extended" />
-        </template>
-      </TopBar>
+    <!-- Main Content Area with Drawer -->
+    <div class="flex flex-1 overflow-hidden relative">
+      <!-- Main scrollable area -->
+      <main class="flex-1 flex flex-col overflow-hidden relative">
+        <!-- Top Bar -->
+        <TopBar v-if="$slots.topbar" :title="title" :subtitle="subtitle">
+          <slot name="topbar" />
+          <template v-if="$slots['topbar-extended']" #extended>
+            <slot name="topbar-extended" />
+          </template>
+        </TopBar>
 
-      <!-- Scrollable Content -->
-      <div class="flex-1 overflow-y-auto">
-        <div class="p-6 md:p-8 lg:p-10 max-w-7xl mx-auto w-full">
-          <slot />
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto">
+          <div class="p-6 md:p-8 lg:p-10 max-w-7xl mx-auto w-full">
+            <slot />
+          </div>
         </div>
-      </div>
+      </main>
 
-      <!-- Right Drawer (positioned within main content area) -->
+      <!-- Right Drawer (positioned within flex container, slides in from right) -->
       <Drawer
         v-if="$slots['drawer-content']"
         :is-open="isDrawerOpen"
@@ -37,7 +40,7 @@
           <slot name="drawer-footer" />
         </template>
       </Drawer>
-    </main>
+    </div>
 
     <!-- Floating Action Button -->
     <FloatingActionButton
@@ -96,3 +99,4 @@ defineEmits<Emits>()
   scroll-behavior: smooth;
 }
 </style>
+

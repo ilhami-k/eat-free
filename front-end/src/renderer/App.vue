@@ -141,7 +141,7 @@ onMounted(async () => {
 
 .app__header {
   margin-bottom: var(--spacing-6);
-  border-bottom: 1px solid var(--color-neutral-200);
+  border-bottom: 1px solid var(--color-medium-gray);
   padding-bottom: var(--spacing-4);
   display: flex;
   align-items: center;
@@ -149,15 +149,16 @@ onMounted(async () => {
 }
 
 .app__header h1 {
-  font-size: var(--font-size-h1);
-  font-weight: var(--font-weight-display);
-  color: var(--color-neutral-900);
+  font-size: var(--text-h1);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-black);
   margin: 0;
 }
 
 .app__header p {
-  font-size: var(--font-size-sm);
-  color: var(--color-neutral-600);
+  font-size: var(--text-body-sm);
+  color: var(--color-dark-gray);
   margin: 0;
 }
 
@@ -165,24 +166,24 @@ onMounted(async () => {
   display: flex;
   gap: var(--spacing-2);
   margin-bottom: var(--spacing-4);
-  border-bottom: 1px solid var(--color-neutral-200);
+  border-bottom: 1px solid var(--color-medium-gray);
 }
 
 .app__tab {
   padding: var(--spacing-2) var(--spacing-4);
   background: none;
   border: none;
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-neutral-600);
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--color-dark-gray);
   cursor: pointer;
-  transition: all 200ms ease;
+  transition: all var(--duration-normal) var(--ease-out);
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
 }
 
 .app__tab:hover {
-  color: var(--color-neutral-900);
+  color: var(--color-black);
 }
 
 .app__tab--active {
