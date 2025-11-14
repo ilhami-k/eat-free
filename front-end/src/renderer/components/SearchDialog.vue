@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isOpen" class="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
-    <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+  <div v-if="isOpen" class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 overflow-auto">
+    <div class="w-full max-w-md bg-white p-6 shadow-2xl my-4 md:my-0" style="border-radius: 2rem;">
       <!-- Header -->
       <div class="mb-4 flex items-center justify-between">
         <h2 class="text-h2 font-display text-neutral-900">Search Ingredients</h2>
@@ -46,7 +46,7 @@
           v-for="ingredient in filteredIngredients"
           :key="`ingredient-${ingredient.id}`"
           @click="selectIngredient(ingredient)"
-          class="w-full rounded-lg px-4 py-3 text-left transition-colors hover:bg-fresh-green/10 focus:bg-fresh-green/20 focus:outline-none"
+          class="w-full rounded-xl px-4 py-3 text-left transition-colors hover:bg-fresh-green/10 focus:bg-fresh-green/20 focus:outline-none"
         >
           <p class="font-medium text-neutral-900">{{ ingredient.name }}</p>
           <p class="text-xs text-neutral-500">

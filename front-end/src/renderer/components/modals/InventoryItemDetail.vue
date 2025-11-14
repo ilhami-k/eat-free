@@ -1,6 +1,6 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 overflow-auto">
+    <div class="w-full max-w-md bg-white p-6 shadow-2xl my-4 md:my-0" style="border-radius: 2rem;">
       <!-- Header -->
       <div class="mb-6 flex items-start justify-between">
         <div>

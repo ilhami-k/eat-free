@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700;800&family=Nunito:wght@300;400;600;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* ============================================================================
    🎨 DESIGN TOKENS - BubbleBite Design System v1.0
    ============================================================================ */
@@ -360,3 +356,669 @@ a:focus-visible {
     padding: var(--spacing-4);
   }
 }
+
+/* ============================================================================
+   🎴 COMPONENT PATTERNS - Card
+   ============================================================================ */
+
+.card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-medium-gray);
+  background-color: var(--color-white);
+  padding: var(--spacing-4);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-normal) var(--ease-out);
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-fresh-green);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-2);
+}
+
+.card-header h3 {
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.card-content {
+  color: var(--color-dark-gray);
+  font-size: var(--text-body-sm);
+}
+
+.card-footer {
+  display: flex;
+  gap: var(--spacing-2);
+  padding-top: var(--spacing-3);
+  margin-top: var(--spacing-3);
+  border-top: 1px solid var(--color-medium-gray);
+}
+
+/* ============================================================================
+   🗂️ COMPONENT PATTERNS - Sidebar
+   ============================================================================ */
+
+.sidebar {
+  display: none;
+  width: 16rem;
+  flex-direction: column;
+  border-right: 1px solid var(--color-medium-gray);
+  background-color: var(--color-white);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    display: flex;
+  }
+}
+
+.sidebar-header {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+
+.sidebar-header h3 {
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: var(--spacing-4);
+  overflow-y: auto;
+}
+
+.sidebar-nav button {
+  width: 100%;
+  text-align: left;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  transition: all var(--duration-normal) var(--ease-out);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-dark-gray);
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+}
+
+.sidebar-nav button:hover {
+  background-color: var(--color-light-gray);
+}
+
+.sidebar-nav button.active {
+  background-color: rgba(120, 224, 143, 0.1);
+  color: var(--color-fresh-green);
+  font-weight: 600;
+}
+
+/* ============================================================================
+   🎙️ COMPONENT PATTERNS - Drawer (Side Panel)
+   ============================================================================ */
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: var(--z-modal-backdrop);
+  animation: fade-in var(--duration-normal) var(--ease-out);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--color-white);
+  box-shadow: 0 20px 25px -5px rgba(26, 26, 26, 0.1);
+  z-index: var(--z-modal);
+  display: flex;
+  flex-direction: column;
+  animation: slide-right-in var(--duration-normal) var(--ease-out);
+}
+
+@media (min-width: 640px) {
+  .drawer {
+    width: 24rem;
+  }
+}
+
+@keyframes slide-right-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-right-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+
+.drawer-header h2 {
+  font-size: var(--text-h3);
+  font-weight: 600;
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-dark-gray);
+  transition: color var(--duration-normal) var(--ease-out);
+}
+
+.drawer-close:hover {
+  color: var(--color-black);
+}
+
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-4);
+}
+
+.drawer-footer {
+  border-top: 1px solid var(--color-medium-gray);
+  padding: var(--spacing-4);
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+/* ============================================================================
+   📍 COMPONENT PATTERNS - Floating Action Button (FAB)
+   ============================================================================ */
+
+.fab {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-fresh-green);
+  color: var(--color-white);
+  border: none;
+  box-shadow: var(--shadow-lg);
+  font-weight: 600;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-fixed);
+}
+
+@media (min-width: 768px) {
+  .fab {
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
+
+.fab:hover {
+  background-color: #5BC85E;
+  box-shadow: var(--shadow-xl);
+  transform: scale(1.1);
+}
+
+.fab:active {
+  transform: scale(0.98);
+}
+
+/* ============================================================================
+   🎹 COMPONENT PATTERNS - Accordion
+   ============================================================================ */
+
+.accordion-item {
+  margin-bottom: var(--spacing-2);
+}
+
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-medium-gray);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+}
+
+.accordion-trigger:hover {
+  background-color: var(--color-light-gray);
+}
+
+.accordion-trigger-chevron {
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.accordion-trigger[aria-expanded="true"] .accordion-trigger-chevron {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  animation: slide-down-collapse var(--duration-normal) var(--ease-out) forwards;
+}
+
+.accordion-trigger[aria-expanded="true"] + .accordion-content {
+  animation: slide-down-expand var(--duration-normal) var(--ease-out) forwards;
+  max-height: 500px;
+}
+
+@keyframes slide-down-expand {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px;
+  }
+}
+
+@keyframes slide-down-collapse {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+}
+
+.accordion-body {
+  padding: var(--spacing-4);
+  border: 1px solid var(--color-medium-gray);
+  border-top: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ============================================================================
+   📋 COMPONENT PATTERNS - Layout Grids
+   ============================================================================ */
+
+.grid-responsive-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-4);
+}
+
+@media (min-width: 640px) {
+  .grid-responsive-1 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-responsive-1 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.grid-responsive-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-3);
+}
+
+@media (min-width: 768px) {
+  .grid-responsive-2 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-responsive-2 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.grid-dense {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-3);
+}
+
+@media (min-width: 768px) {
+  .grid-dense {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================================================
+   🎚️ COMPONENT PATTERNS - Layout Container
+   ============================================================================ */
+
+.layout-container {
+  display: flex;
+  height: 100vh;
+}
+
+.layout-main {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.layout-with-drawer {
+  display: flex;
+  height: 100vh;
+}
+
+.layout-with-drawer-main {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ============================================================================
+   🏷️ COMPONENT PATTERNS - Badge & Pill
+   ============================================================================ */
+
+.badge {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  background-color: rgba(120, 224, 143, 0.1);
+  color: var(--color-fresh-green);
+}
+
+.badge-success {
+  background-color: rgba(120, 224, 143, 0.1);
+  color: var(--color-success);
+}
+
+.badge-error {
+  background-color: rgba(255, 107, 129, 0.1);
+  color: var(--color-error);
+}
+
+.badge-warning {
+  background-color: rgba(255, 211, 42, 0.1);
+  color: var(--color-warning);
+}
+
+.badge-info {
+  background-color: rgba(52, 172, 224, 0.1);
+  color: var(--color-info);
+}
+
+/* ============================================================================
+   ⏳ COMPONENT PATTERNS - Loading & Empty States
+   ============================================================================ */
+
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 4px solid rgba(120, 224, 143, 0.2);
+  border-top-color: var(--color-fresh-green);
+  border-radius: var(--radius-full);
+  animation: spin var(--duration-slow) linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-state {
+  border-radius: var(--radius-lg);
+  background-color: var(--color-light-gray);
+  padding: 2rem;
+  text-align: center;
+}
+
+.empty-state p {
+  color: var(--color-dark-gray);
+  margin-bottom: var(--spacing-4);
+}
+
+/* ============================================================================
+   ➖ COMPONENT PATTERNS - Divider
+   ============================================================================ */
+
+.divider {
+  border-top: 1px solid var(--color-medium-gray);
+  margin: var(--spacing-4) 0;
+}
+
+.divider-sm {
+  border-top: 1px solid var(--color-medium-gray);
+  margin: var(--spacing-2) 0;
+}
+
+.divider-lg {
+  border-top: 1px solid var(--color-medium-gray);
+  margin: var(--spacing-6) 0;
+}
+
+/* ============================================================================
+   🎨 COMPONENT PATTERNS - Gradients
+   ============================================================================ */
+
+.gradient-green {
+  background: linear-gradient(135deg, #78E08F 0%, #A8EDB8 100%);
+}
+
+.gradient-blue {
+  background: linear-gradient(135deg, #34ACE0 0%, #6FD3E8 100%);
+}
+
+.gradient-neutral {
+  background: linear-gradient(135deg, #F8F9FA 0%, #F5F3F0 100%);
+}
+
+/* ============================================================================
+   🎯 COMPONENT PATTERNS - Button Base Styles
+   ============================================================================ */
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--color-fresh-green);
+  color: var(--color-white);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--text-body-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #5BC85E;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: var(--color-medium-gray);
+  color: var(--color-dark-gray);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--text-body-sm);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #DADCE0;
+}
+
+/* ============================================================================
+   🎯 UTILITY CLASSES - Spacing & Sizing
+   ============================================================================ */
+
+.p-1 { padding: var(--spacing-1); }
+.p-2 { padding: var(--spacing-2); }
+.p-3 { padding: var(--spacing-3); }
+.p-4 { padding: var(--spacing-4); }
+
+.m-1 { margin: var(--spacing-1); }
+.m-2 { margin: var(--spacing-2); }
+.m-3 { margin: var(--spacing-3); }
+.m-4 { margin: var(--spacing-4); }
+
+.gap-1 { gap: var(--spacing-1); }
+.gap-2 { gap: var(--spacing-2); }
+.gap-3 { gap: var(--spacing-3); }
+.gap-4 { gap: var(--spacing-4); }
+
+/* ============================================================================
+   🎯 UTILITY CLASSES - Display
+   ============================================================================ */
+
+.hidden {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+/* ============================================================================
+   🎯 UTILITY CLASSES - Positioning
+   ============================================================================ */
+
+.absolute { position: absolute; }
+.relative { position: relative; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+/* ============================================================================
+   🎯 UTILITY CLASSES - Text Alignment & Transform
+   ============================================================================ */
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-normal { font-weight: 400; }
+
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+   🎯 UTILITY CLASSES - Borders & Shadows
+   ============================================================================ */
+
+.rounded { border-radius: var(--radius-base); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-full { border-radius: var(--radius-full); }
+
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+/* ============================================================================
+   🎯 UTILITY CLASSES - Overflow & Size
+   ============================================================================ */
+
+.overflow-auto { overflow: auto; }
+.overflow-hidden { overflow: hidden; }
+.overflow-y-auto { overflow-y: auto; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.w-screen { width: 100vw; }
+.h-screen { height: 100vh; }
+
