@@ -1,11 +1,12 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 overflow-auto">
-    <div class="w-full max-w-md bg-white p-6 shadow-2xl my-4 md:my-0" style="border-radius: 2rem;">
-      <!-- Header -->
-      <div class="mb-6">
-        <h2 class="text-h2 font-display text-neutral-900">Create Ingredient</h2>
-        <p class="mt-1 text-sm text-neutral-600">Add a custom ingredient to the database</p>
-      </div>
+  <Modal
+    :isOpen="true"
+    title="Create Ingredient"
+    subtitle="Add a custom ingredient to the database"
+    size="md"
+    :showDefaultFooter="false"
+    @close="closeModal"
+  >
 
       <!-- Form -->
       <form @submit.prevent="handleSubmit" class="space-y-4">
@@ -101,8 +102,7 @@
           </Button>
         </div>
       </form>
-    </div>
-  </div>
+  </Modal>
 </template>
 
 <script setup lang="ts">
@@ -111,6 +111,7 @@ import type Ingredient from '@/shared/ingredient'
 import { useIngredientsService } from '../../composables/useIngredientsService'
 import Input from '../ui/Input.vue'
 import Button from '../ui/Button.vue'
+import Modal from '../ui/Modal.vue'
 
 interface Emits {
   (e: 'close'): void

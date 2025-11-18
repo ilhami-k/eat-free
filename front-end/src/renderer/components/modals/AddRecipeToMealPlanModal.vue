@@ -1,34 +1,30 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <!-- Header -->
-      <div class="mb-6 flex items-start justify-between">
-        <div>
-          <h2 class="text-h2 font-display text-neutral-900">Add Recipe to Meal Plan</h2>
-          <p class="mt-1 text-sm text-neutral-600">
-            {{ formatDayOfWeek(date) }}, {{ formatDate(date) }} - {{ capitalize(mealType) }}
-          </p>
-        </div>
-        <button
-          @click="closeModal"
-          class="text-neutral-500 hover:text-neutral-700"
-          aria-label="Close"
-        >
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+  <Modal
+    :isOpen="true"
+    title="Add Recipe to Meal Plan"
+    :subtitle="`${formatDayOfWeek(date)}, ${formatDate(date)} - ${capitalize(mealType)}`"
+    size="lg"
+    :showDefaultFooter="false"
+    @close="closeModal"
+  >
+
+      <!-- Error State -->
+      <div v-if="!recipeService || !mealPlanService" class="py-8 text-center">
+        <p class="text-red-500">Service not available. Please restart the app.</p>
       </div>
 
+      <template v-else>
+
       <!-- Search Recipes -->
-      <div class="mb-6">
+      <div v-if="!selectedRecipe" class="mb-6">
         <Input
           v-model="searchQuery"
           label="Search Recipes"
-          placeholder="Find a recipe..."
-          @keyup.enter="handleSearch"
-          @focus="handleSearch"
+          placeholder="Type to search recipes..."
         />
+        <p v-if="searchQuery && filteredRecipes.length > 0" class="mt-2 text-xs text-neutral-500">
+          Showing {{ Math.min(filteredRecipes.length, 3) }} of {{ filteredRecipes.length }} recipe{{ filteredRecipes.length !== 1 ? 's' : '' }}
+        </p>
       </div>
 
       <!-- Loading State -->
@@ -36,23 +32,37 @@
         <div class="h-8 w-8 animate-spin rounded-full border-4 border-fresh-green/20 border-t-fresh-green"></div>
       </div>
 
-      <!-- Recipes List -->
-      <div v-else class="max-h-96 overflow-y-auto space-y-2 mb-6">
+      <!-- Recipes List (only show when searching) -->
+      <div v-else-if="!selectedRecipe && searchQuery.length > 0" class="space-y-2 mb-6">
         <div v-if="filteredRecipes.length === 0" class="py-8 text-center text-neutral-500">
-          No recipes found. Try a different search.
+          No recipes found matching "{{ searchQuery }}"
         </div>
 
         <button
-          v-for="recipe in filteredRecipes"
+          v-for="recipe in filteredRecipes.slice(0, 3)"
           :key="`recipe-${recipe.id}`"
           @click="selectRecipe(recipe as any)"
-          class="w-full rounded-lg border border-neutral-200 p-4 text-left transition-all hover:border-fresh-green hover:bg-fresh-green/5"
+          class="w-full rounded-lg border border-neutral-200 p-4 text-left hover:border-fresh-green hover:bg-fresh-green/5"
         >
           <p class="font-medium text-neutral-900">{{ recipe.name }}</p>
           <p class="text-xs text-neutral-600">
             {{ recipe.kcal_per_serving }} kcal/serving
           </p>
         </button>
+        
+        <p v-if="filteredRecipes.length > 3" class="text-xs text-center text-neutral-500 pt-2">
+          + {{ filteredRecipes.length - 3 }} more recipe{{ filteredRecipes.length - 3 !== 1 ? 's' : '' }}. Keep typing to refine search.
+        </p>
+      </div>
+      
+      <!-- Prompt to search -->
+      <div v-else-if="!selectedRecipe" class="py-12 text-center">
+        <div class="w-16 h-16 mx-auto mb-3 text-neutral-300">
+          <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <p class="text-neutral-500 text-sm">Start typing to search for recipes</p>
       </div>
 
       <!-- Servings Selector (if recipe selected) -->
@@ -130,17 +140,19 @@
           Cancel
         </Button>
       </div>
-    </div>
-  </div>
+
+      </template>
+  </Modal>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import type { RecipeWithIngredients } from '@/renderer/composables/useRecipeService'
 import { useRecipeService } from '@/renderer/composables/useRecipeService'
 import { useMealPlanService } from '@/renderer/composables/useMealPlanService'
 import Input from '@/renderer/components/ui/Input.vue'
 import Button from '@/renderer/components/ui/Button.vue'
+import Modal from '@/renderer/components/ui/Modal.vue'
 import type { MealType } from '@/shared/mealPlan'
 
 interface Props {
@@ -164,6 +176,7 @@ const searchQuery = ref('')
 const selectedRecipe = ref<RecipeWithIngredients | null>(null)
 const selectedServings = ref(1)
 const isAdding = ref(false)
+let searchTimeout: NodeJS.Timeout | null = null
 
 const isSearching = computed(() => recipeService.isLoading.value)
 const filteredRecipes = computed(() => recipeService.recipes.value)
@@ -185,9 +198,18 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-async function handleSearch(): Promise<void> {
-  await recipeService.searchRecipes(searchQuery.value)
-}
+// Debounced search to prevent flickering
+watch(searchQuery, (newQuery) => {
+  if (searchTimeout) {
+    clearTimeout(searchTimeout)
+  }
+  
+  if (newQuery.trim().length > 0) {
+    searchTimeout = setTimeout(async () => {
+      await recipeService.searchRecipes(newQuery)
+    }, 300)
+  }
+})
 
 function selectRecipe(recipe: RecipeWithIngredients): void {
   selectedRecipe.value = recipe
@@ -220,6 +242,7 @@ function closeModal(): void {
 }
 
 onMounted(async () => {
+  // Load all recipes on mount for searching
   await recipeService.fetchRecipes()
 })
 </script>

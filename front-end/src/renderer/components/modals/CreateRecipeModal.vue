@@ -1,19 +1,11 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <!-- Header -->
-      <div class="mb-6 flex items-start justify-between">
-        <h2 class="text-h2 font-display text-neutral-900">Create New Recipe</h2>
-        <button
-          @click="closeModal"
-          class="text-neutral-500 hover:text-neutral-700"
-          aria-label="Close"
-        >
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
+  <Modal
+    :isOpen="true"
+    title="Create New Recipe"
+    size="lg"
+    :showDefaultFooter="false"
+    @close="closeModal"
+  >
 
       <!-- Form -->
       <form @submit.prevent="handleSubmit" class="space-y-6">
@@ -131,8 +123,7 @@
         @close="showIngredientSearch = false"
         @selected="addIngredient"
       />
-    </div>
-  </div>
+  </Modal>
 </template>
 
 <script setup lang="ts">
@@ -142,6 +133,7 @@ import type { RecipeWithIngredients } from '@/renderer/composables/useRecipeServ
 import { useRecipeService } from '@/renderer/composables/useRecipeService'
 import Input from '@/renderer/components/ui/Input.vue'
 import Button from '@/renderer/components/ui/Button.vue'
+import Modal from '@/renderer/components/ui/Modal.vue'
 import IngredientSearchForRecipe from '@/renderer/components/modals/IngredientSearchForRecipe.vue'
 
 interface Emits {

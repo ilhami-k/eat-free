@@ -53,7 +53,7 @@
         </div>
 
         <!-- Accordion Sections for Each Day -->
-        <div v-else class="space-y-2 pb-32">
+        <div v-else class="space-y-2 pb-16">
           <div v-for="(day, dayIdx) in daysOfWeek" :key="`day-${dayIdx}`" class="bg-white rounded-lg border border-neutral-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <!-- Day Header (Always visible) -->
             <button
@@ -132,16 +132,15 @@
     </main>
 
     <!-- Sticky Footer with Daily Totals Summary -->
-    <div class="sticky bottom-0 bg-white border-t border-neutral-200 shadow-2xl p-4 flex-shrink-0">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div class="sticky bottom-0 bg-white border-t border-neutral-200 shadow-lg py-2 px-4 flex-shrink-0">
+      <div class="grid grid-cols-7 gap-2">
         <div v-for="(day, dayIdx) in daysOfWeek" :key="`summary-${dayIdx}`" class="text-center">
-          <p class="text-xs font-semibold text-neutral-600 uppercase mb-1">
+          <p class="text-xs font-medium text-neutral-600 mb-0.5">
             {{ formatDayOfWeek(day).substring(0, 3) }}
           </p>
-          <p class="text-lg font-bold text-fresh-green">
+          <p class="text-sm font-bold text-fresh-green">
             {{ calculateDayCalories(day) }}
           </p>
-          <p class="text-xs text-neutral-500">kcal</p>
         </div>
       </div>
     </div>
@@ -187,7 +186,7 @@ const mealPlan = ref<MealPlanWithRecipes | null>(null)
 const showAddRecipeDialog = ref(false)
 const selectedDate = ref<Date>(new Date())
 const selectedMealType = ref<MealType>('breakfast')
-const expandedDays = ref<number[]>([0]) // Start with first day expanded
+const expandedDays = ref<number[]>([]) // Start with all days collapsed
 
 const isLoading = computed(() => mealPlanService.isLoading.value)
 const error = computed(() => mealPlanService.error.value)
@@ -293,17 +292,33 @@ async function createMealPlan(): Promise<void> {
   }
 }
 
-function openAddRecipeDialog(date: Date, mealType: MealType): void {
+async function openAddRecipeDialog(date: Date, mealType: MealType): Promise<void> {
+  console.log('openAddRecipeDialog called', { date, mealType, hasMealPlan: !!mealPlan.value })
+  // Ensure we have a meal plan first
+  if (!mealPlan.value) {
+    console.log('No meal plan, creating one...')
+    await createMealPlan()
+    console.log('Meal plan created:', mealPlan.value)
+  }
   selectedDate.value = date
   selectedMealType.value = mealType
   showAddRecipeDialog.value = true
+  console.log('showAddRecipeDialog set to true')
 }
 
-function openAddRecipeQuick(): void {
+async function openAddRecipeQuick(): Promise<void> {
+  console.log('openAddRecipeQuick called', { hasMealPlan: !!mealPlan.value })
+  // Ensure we have a meal plan first
+  if (!mealPlan.value) {
+    console.log('No meal plan, creating one...')
+    await createMealPlan()
+    console.log('Meal plan created:', mealPlan.value)
+  }
   // Open dialog for today's first meal
   selectedDate.value = new Date()
   selectedMealType.value = 'breakfast'
   showAddRecipeDialog.value = true
+  console.log('showAddRecipeDialog set to true')
 }
 
 async function handleRecipeAdded(): Promise<void> {
