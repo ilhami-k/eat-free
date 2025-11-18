@@ -142,7 +142,7 @@
 
     <!-- Drawer - Recipe Details -->
     <template #drawer-content>
-      <RecipeDetail
+      <RecipeDetailDrawer
         v-if="selectedItem"
         :recipe="selectedItem"
         @close="selectedItem = null"
@@ -167,7 +167,7 @@ import SidebarLayout from '@/renderer/components/layout/SidebarLayout.vue'
 import Input from '@/renderer/components/ui/Input.vue'
 import Button from '@/renderer/components/ui/Button.vue'
 import CreateRecipeModal from '@/renderer/components/modals/CreateRecipeModal.vue'
-import RecipeDetail from '@/renderer/components/modals/RecipeDetail.vue'
+import RecipeDetailDrawer from '@/renderer/components/modals/RecipeDetailDrawer.vue'
 
 interface Props {
   currentUserId: bigint

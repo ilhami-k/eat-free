@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen overflow-hidden bg-light-gray">
+  <div class="flex h-full overflow-hidden bg-light-gray">
     <!-- Sidebar -->
     <Sidebar :title="sidebarTitle" :is-visible="isSidebarVisible">
       <slot name="sidebar" />
