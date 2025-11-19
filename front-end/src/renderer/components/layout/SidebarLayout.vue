@@ -12,13 +12,24 @@
     <div class="flex flex-1 overflow-hidden relative">
       <!-- Main scrollable area -->
       <main class="flex-1 flex flex-col overflow-hidden relative">
-        <!-- Top Bar -->
-        <TopBar v-if="$slots.topbar" :title="title" :subtitle="subtitle">
-          <slot name="topbar" />
-          <template v-if="$slots['topbar-extended']" #extended>
-            <slot name="topbar-extended" />
-          </template>
-        </TopBar>
+        <!-- Page Header -->
+        <header 
+          v-if="$slots.topbar || title" 
+          class="px-6 py-4 md:px-8 lg:px-10 bg-white/50 backdrop-blur-sm border-b border-green-100/50 flex flex-col gap-4 shrink-0 z-10"
+        >
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+             <div v-if="title">
+                <h1 class="text-2xl font-display font-bold text-neutral-800">{{ title }}</h1>
+                <p v-if="subtitle" class="text-sm text-neutral-500">{{ subtitle }}</p>
+             </div>
+             <div class="flex-1 flex justify-end w-full md:w-auto">
+                <slot name="topbar" />
+             </div>
+          </div>
+          <div v-if="$slots['topbar-extended']" class="pb-2">
+             <slot name="topbar-extended" />
+          </div>
+        </header>
 
         <!-- Scrollable Content -->
         <div class="flex-1 overflow-y-auto">
@@ -55,7 +66,6 @@
 
 <script setup lang="ts">
 import Sidebar from '../ui/Sidebar.vue'
-import TopBar from './TopBar.vue'
 import Drawer from '../ui/Drawer.vue'
 import FloatingActionButton from '../ui/FloatingActionButton.vue'
 

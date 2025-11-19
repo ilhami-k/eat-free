@@ -9,62 +9,9 @@
     />
 
     <div v-else class="flex flex-col h-full">
-      <!-- Global Navbar -->
-      <nav class="bg-white border-b border-neutral-200 px-4 py-3 flex items-center justify-between shrink-0 z-50 shadow-sm">
-        <!-- Left: Navigation & Logo -->
-        <div class="flex items-center gap-4">
-          <!-- Nav Buttons -->
-          <div class="flex items-center gap-2">
-            <button
-              @click="goBack"
-              :disabled="currentHistoryIndex <= 0"
-              class="p-2 rounded-lg transition-all flex items-center justify-center"
-              :class="currentHistoryIndex <= 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-neutral-100'"
-              title="Go Back"
-            >
-            </button>
-            
-            <button
-              @click="goForward"
-              :disabled="currentHistoryIndex >= navigationHistory.length - 1"
-              class="p-2 rounded-lg transition-all flex items-center justify-center"
-              :class="currentHistoryIndex >= navigationHistory.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-neutral-100'"
-              title="Go Forward"
-            >
-            </button>
-          </div>
+      <BubbleNavBar @logout="logout" />
 
-          <!-- Divider -->
-          <div class="h-6 w-px bg-neutral-200"></div>
-
-          <!-- Logo/Title -->
-          <button 
-            @click="handleNavigate('dashboard')" 
-            class="flex items-center gap-2 group"
-          >
-            <span class="text-2xl">🍽️</span>
-            <span class="font-display font-bold text-xl text-neutral-900 group-hover:text-fresh-green transition-colors">Eat Free</span>
-          </button>
-        </div>
-
-        <!-- Right: User Info -->
-        <div class="flex items-center gap-6">
-          <div class="text-right hidden sm:block">
-            <p class="text-sm font-medium text-neutral-900">{{ currentUser.name }}</p>
-            <p class="text-xs text-neutral-500">{{ currentUser.email }}</p>
-          </div>
-          <button 
-            @click="logout"
-            class="text-sm font-medium text-neutral-600 hover:text-red-600 transition-colors"
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
-
-      <!-- Main Content Area -->
       <div class="flex-1 overflow-hidden relative bg-neutral-50">
-        <!-- Dashboard View -->
         <Dashboard
           v-if="activeView === 'dashboard'"
           :currentUser="currentUser"
@@ -72,26 +19,25 @@
           :recipesCount="recipesCount"
           :weekMealsCount="weekMealsCount"
           :todayCalories="todayCalories"
-          @navigate="handleNavigate"
+          @navigate="navigate"
           @logout="logout"
         />
 
-        <!-- Full Component Views -->
         <Inventory
           v-else-if="activeView === 'inventory'"
-          :currentUserId="currentUser.id"
+          :currentUserId="currentUserIdBigInt"
         />
         <Recipes
           v-else-if="activeView === 'recipes'"
-          :currentUserId="currentUser.id"
+          :currentUserId="currentUserIdBigInt"
         />
         <MealPlans
           v-else-if="activeView === 'mealplans'"
-          :currentUserId="currentUser.id"
+          :currentUserId="currentUserIdBigInt"
         />
         <Journal
           v-else-if="activeView === 'journal'"
-          :currentUserId="currentUser.id"
+          :currentUserId="currentUserIdBigInt"
         />
       </div>
     </div>
@@ -99,8 +45,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import Onboarding from '@/renderer/pages/Onboarding.vue'
+import BubbleNavBar from '@/renderer/components/layout/BubbleNavBar.vue'
 import Dashboard from '@/renderer/pages/Dashboard.vue'
 import Inventory from '@/renderer/components/Inventory.vue'
 import Recipes from '@/renderer/pages/Recipes.vue'
@@ -111,32 +58,25 @@ import { useInventoryService } from '@/renderer/composables/useInventoryService'
 import { useRecipeService } from '@/renderer/composables/useRecipeService'
 import { useMealPlanService } from '@/renderer/composables/useMealPlanService'
 import { useJournalService } from '@/renderer/composables/useJournalService'
+import { useNavigation } from '@/renderer/composables/useNavigation'
 
 const currentUser = ref<User | null>(null)
 const users = ref<User[]>([])
 const isLoadingUser = ref(false)
 const userError = ref<string>()
-const activeView = ref<'dashboard' | 'inventory' | 'recipes' | 'mealplans' | 'journal'>('dashboard')
 
 // Navigation State
-const navigationHistory = ref<string[]>(['dashboard'])
-const currentHistoryIndex = ref(0)
+const { 
+  activeView, 
+  navigate, 
+  goBack, 
+  goForward, 
+  canGoBack, 
+  canGoForward,
+  resetNavigation 
+} = useNavigation()
 
-const goBack = () => {
-  if (currentHistoryIndex.value > 0) {
-    currentHistoryIndex.value--
-    activeView.value = navigationHistory.value[currentHistoryIndex.value] as any
-    if (activeView.value === 'dashboard') updateDashboardStats()
-  }
-}
-
-const goForward = () => {
-  if (currentHistoryIndex.value < navigationHistory.value.length - 1) {
-    currentHistoryIndex.value++
-    activeView.value = navigationHistory.value[currentHistoryIndex.value] as any
-    if (activeView.value === 'dashboard') updateDashboardStats()
-  }
-}
+const currentUserIdBigInt = computed(() => currentUser.value ? BigInt(currentUser.value.id) : BigInt(0))
 
 // Services for dashboard stats
 const inventoryService = window.electronService?.inventory ? useInventoryService(window.electronService.inventory) : null
@@ -173,6 +113,13 @@ const updateDashboardStats = () => {
   }
 }
 
+// Watch for view changes to update stats
+watch(activeView, (newView) => {
+  if (newView === 'dashboard') {
+    updateDashboardStats()
+  }
+})
+
 // Get the real backend service from electron preload
 const userService = window.electronService?.users
 
@@ -185,7 +132,7 @@ const handleUserCreated = async (user: User): Promise<void> => {
   isLoadingUser.value = true
   userError.value = undefined
   try {
-    if (!user.id || user.id === 0n || user.id === BigInt(0)) {
+    if (!user.id || user.id === 0) {
       // Create new user in database
       const newUser = await userService.createUser(user.email, user.name)
       currentUser.value = newUser
@@ -207,20 +154,7 @@ const handleUserCreated = async (user: User): Promise<void> => {
 
 const logout = (): void => {
   currentUser.value = null
-  activeView.value = 'dashboard'
-  navigationHistory.value = ['dashboard']
-  currentHistoryIndex.value = 0
-}
-
-const handleNavigate = (page: 'inventory' | 'recipes' | 'mealplans' | 'journal'): void => {
-  // If we are not at the end of history, remove future entries
-  if (currentHistoryIndex.value < navigationHistory.value.length - 1) {
-    navigationHistory.value = navigationHistory.value.slice(0, currentHistoryIndex.value + 1)
-  }
-  
-  navigationHistory.value.push(page)
-  currentHistoryIndex.value++
-  activeView.value = page
+  resetNavigation()
 }
 
 const loadDashboardData = async (): Promise<void> => {
@@ -231,14 +165,14 @@ const loadDashboardData = async (): Promise<void> => {
     const promises: Promise<any>[] = []
     
     if (inventoryService) {
-      promises.push(inventoryService.getOrCreateInventory(currentUser.value.id))
+      promises.push(inventoryService.getOrCreateInventory(BigInt(currentUser.value.id)))
     }
     if (recipeService) {
       promises.push(recipeService.fetchRecipes())
     }
     if (journalService) {
       promises.push(journalService.fetchJournalEntries(
-        currentUser.value.id,
+        BigInt(currentUser.value.id),
         new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Last 7 days
         new Date()
       ))
