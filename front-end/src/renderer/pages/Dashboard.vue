@@ -1,10 +1,9 @@
 <template>
   <div class="dashboard">
-    <!-- Hero Section -->
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title animate-bounce-in">
-          Welcome back, {{ currentUser?.name || 'Chef' }}! 👋
+          Welcome back, {{ currentUser?.name || 'Chef' }}! 窓
         </h1>
         <p class="hero-subtitle">
           Let's create something delicious today
@@ -17,7 +16,6 @@
       </div>
     </section>
 
-    <!-- Quick Stats -->
     <section class="stats-grid">
       <div class="stat-card stat-card--green animate-pop" style="animation-delay: 0.1s;">
         <div class="stat-icon-wrapper stat-icon--green">
@@ -68,7 +66,6 @@
       </div>
     </section>
 
-    <!-- Main Navigation Cards -->
     <section class="nav-cards">
       <button
         @click="$emit('navigate', 'inventory')"
@@ -88,7 +85,7 @@
               </svg>
             </div>
           </div>
-          <h2 class="nav-card-title">🥕 Inventory</h2>
+          <h2 class="nav-card-title">･Inventory</h2>
           <p class="nav-card-desc">Manage your ingredients and track what's in stock</p>
           <div class="nav-card-meta">
             <span class="nav-card-badge">{{ inventoryCount }} items</span>
@@ -115,7 +112,7 @@
               </svg>
             </div>
           </div>
-          <h2 class="nav-card-title">🥗 Recipes</h2>
+          <h2 class="nav-card-title">･Recipes</h2>
           <p class="nav-card-desc">Browse and create your favorite recipes with nutrition info</p>
           <div class="nav-card-meta">
             <span class="nav-card-badge">{{ recipesCount }} recipes</span>
@@ -142,7 +139,7 @@
               </svg>
             </div>
           </div>
-          <h2 class="nav-card-title">📅 Meal Plans</h2>
+          <h2 class="nav-card-title">套 Meal Plans</h2>
           <p class="nav-card-desc">Plan your weekly meals and stay organized</p>
           <div class="nav-card-meta">
             <span class="nav-card-badge">{{ weekMealsCount }} this week</span>
@@ -169,7 +166,7 @@
               </svg>
             </div>
           </div>
-          <h2 class="nav-card-title">📓 Journal</h2>
+          <h2 class="nav-card-title">涛 Journal</h2>
           <p class="nav-card-desc">Track your daily nutrition and calorie intake</p>
           <div class="nav-card-meta">
             <span class="nav-card-badge">{{ todayCalories }} kcal today</span>
@@ -179,10 +176,9 @@
       </button>
     </section>
 
-    <!-- Quick Actions -->
     <section class="quick-actions">
       <div class="quick-actions-header">
-        <h3 class="quick-actions-title">⚡ Quick Actions</h3>
+        <h3 class="quick-actions-title">笞｡ Quick Actions</h3>
         <p class="quick-actions-subtitle">Jump right into what you need</p>
       </div>
       <div class="quick-actions-grid">
@@ -304,17 +300,17 @@ defineEmits<Emits>()
 <style scoped>
 
 .dashboard {
-  min-height: 100vh;
-  padding: calc(var(--spacing-8) + 5rem) var(--spacing-6) calc(var(--spacing-8) + 8rem);
-  background: linear-gradient(135deg, #F8F9FA 0%, #E8F5E9 100%);
-  max-width: 1400px;
-  margin: 0 auto;
+  /* Removed fixed height and massive padding since SidebarLayout handles it */
+  width: 100%;
+  /* Background can stay if you want the card-look, but padding is removed to fit layout */
+  background: transparent; 
 }
 
 /* -------- Hero Section -------- */
 .hero {
   position: relative;
-  padding: var(--spacing-6) 0 var(--spacing-4);
+  /* Reduced top padding, SidebarLayout provides the base spacing */
+  padding: var(--spacing-2) 0 var(--spacing-4);
   margin-bottom: var(--spacing-6);
   text-align: center;
   overflow: hidden;
@@ -394,7 +390,8 @@ defineEmits<Emits>()
 /* -------- Stats Grid -------- */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* Changed minmax to 140px to allow 2 columns on small mobile screens */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: var(--spacing-4);
   margin-bottom: var(--spacing-8);
 }
@@ -404,11 +401,20 @@ defineEmits<Emits>()
   border-radius: var(--radius-xl);
   padding: var(--spacing-4);
   display: flex;
-  align-items: center;
+  flex-direction: column; /* Changed to column for better flexibility on small screens */
+  align-items: flex-start;
   gap: var(--spacing-3);
   box-shadow: var(--shadow-sm);
   border: 2px solid transparent;
   transition: all var(--duration-normal) var(--ease-out);
+}
+
+/* Tablet and up: switch back to row layout for stats */
+@media (min-width: 640px) {
+  .stat-card {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .stat-card:hover {
@@ -495,7 +501,8 @@ defineEmits<Emits>()
 /* -------- Navigation Cards -------- */
 .nav-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Changed minmax to 280px to fit narrower screens without breaking */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--spacing-6);
   margin-bottom: calc(var(--spacing-8) + var(--spacing-4));
 }
@@ -727,8 +734,8 @@ defineEmits<Emits>()
   padding: var(--spacing-8);
   box-shadow: var(--shadow-lg);
   border: 2px solid rgba(120, 224, 143, 0.2);
-  margin-bottom: 4rem;
-  padding-bottom: calc(var(--spacing-8) + 4rem);
+  margin-bottom: 2rem; /* Reduced bottom margin */
+  padding-bottom: var(--spacing-8); /* Reduced internal bottom padding */
   backdrop-filter: blur(10px);
 }
 
@@ -754,7 +761,8 @@ defineEmits<Emits>()
 
 .quick-actions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* Adjusted minmax to 150px to allow 2 columns on mobile */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: var(--spacing-4);
 }
 
@@ -907,15 +915,7 @@ defineEmits<Emits>()
 
 /* Mobile devices (< 640px) */
 @media (max-width: 639px) {
-  .dashboard {
-    padding: var(--spacing-3);
-  }
-
-  /* Hero Section */
-  .hero {
-    padding: var(--spacing-4);
-    margin-bottom: var(--spacing-4);
-  }
+  /* Removed redundant .dashboard padding override */
 
   .hero-title {
     font-size: var(--text-xl);
@@ -926,21 +926,6 @@ defineEmits<Emits>()
     font-size: var(--text-sm);
   }
 
-  .hero-decoration {
-    display: none;
-  }
-
-  /* Stats Grid - Stack vertically on mobile */
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-3);
-    margin-bottom: var(--spacing-4);
-  }
-
-  .stat-card {
-    padding: var(--spacing-3);
-  }
-
   .stat-value {
     font-size: var(--text-xl);
   }
@@ -949,13 +934,7 @@ defineEmits<Emits>()
     font-size: 0.625rem;
   }
 
-  /* Navigation Cards - Stack on mobile */
-  .nav-cards {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-4);
-    margin-bottom: var(--spacing-4);
-  }
-
+  /* Cleaned up nav card stacking */
   .nav-card {
     padding: var(--spacing-4);
   }
@@ -968,22 +947,8 @@ defineEmits<Emits>()
     font-size: var(--text-sm);
   }
 
-  .nav-card-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-2);
-  }
-
-  .nav-card-bg {
-    width: 150px;
-    height: 150px;
-  }
-
-  /* Quick Actions */
   .quick-actions {
     padding: var(--spacing-4);
-    margin-bottom: 4rem;
-    padding-bottom: calc(var(--spacing-4) + 4rem);
   }
 
   .quick-actions-title {
@@ -994,19 +959,25 @@ defineEmits<Emits>()
     font-size: var(--text-sm);
   }
 
-  .quick-actions-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-3);
-  }
-
+  /* Allow 2 columns for actions on mobile by reducing padding/icon size */
   .quick-action-btn {
     padding: var(--spacing-3);
+    flex-direction: column; /* Stack icon and text on very small screens */
+    align-items: flex-start;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .quick-action-content {
+    align-items: center;
   }
 
   .quick-action-icon {
     width: 2.5rem;
     height: 2.5rem;
     padding: var(--spacing-2);
+    margin-bottom: var(--spacing-2);
   }
 
   .quick-action-icon svg {
@@ -1016,156 +987,11 @@ defineEmits<Emits>()
 
   .quick-action-label {
     font-size: var(--text-sm);
+    text-align: center;
   }
 
   .quick-action-desc {
-    font-size: 0.625rem;
-  }
-}
-
-/* Tablet devices (640px - 1023px) */
-@media (min-width: 640px) and (max-width: 1023px) {
-  .dashboard {
-    padding: var(--spacing-4);
-  }
-
-  /* Hero Section */
-  .hero {
-    padding: var(--spacing-6);
-    margin-bottom: var(--spacing-6);
-  }
-
-  .hero-title {
-    font-size: var(--text-2xl);
-  }
-
-  .bubble--lg {
-    width: 150px;
-    height: 150px;
-  }
-
-  .bubble--md {
-    width: 100px;
-    height: 100px;
-  }
-
-  .bubble--sm {
-    width: 60px;
-    height: 60px;
-  }
-
-  /* Stats Grid - 2 columns on tablet */
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-4);
-    margin-bottom: var(--spacing-6);
-  }
-
-  /* Navigation Cards - 2 columns on tablet */
-  .nav-cards {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-4);
-    margin-bottom: var(--spacing-6);
-  }
-
-  .nav-card {
-    padding: var(--spacing-5);
-  }
-
-  /* Quick Actions - 2 columns on tablet */
-  .quick-actions {
-    padding: var(--spacing-6);
-    margin-bottom: 4rem;
-    padding-bottom: calc(var(--spacing-6) + 4rem);
-  }
-
-  .quick-actions-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-3);
-  }
-}
-
-/* Large tablets and small desktops (1024px - 1279px) */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .nav-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .quick-actions-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Desktop and larger (>= 1280px) */
-@media (min-width: 1280px) {
-  .dashboard {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .nav-cards {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-8);
-  }
-
-  .quick-actions-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Ultra-wide screens (>= 1920px) */
-@media (min-width: 1920px) {
-  .dashboard {
-    max-width: 1600px;
-  }
-
-  .quick-actions-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
-/* Landscape mobile devices */
-@media (max-width: 896px) and (orientation: landscape) {
-  .hero {
-    padding: var(--spacing-3);
-    margin-bottom: var(--spacing-3);
-  }
-
-  .hero-title {
-    font-size: var(--text-lg);
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-2);
-    margin-bottom: var(--spacing-3);
-  }
-
-  .stat-card {
-    padding: var(--spacing-2);
-  }
-
-  .nav-cards {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-3);
-    margin-bottom: var(--spacing-3);
-  }
-
-  .quick-actions {
-    margin-bottom: 4rem;
-    padding-bottom: calc(var(--spacing-3) + 4rem);
-  }
-
-  .quick-actions-grid {
-    grid-template-columns: repeat(3, 1fr);
+    display: none; /* Hide description on mobile to save space */
   }
 }
 
@@ -1187,105 +1013,6 @@ defineEmits<Emits>()
   .stat-card:hover,
   .quick-action-btn:hover {
     transform: none;
-  }
-}
-
-.quick-action--blue:hover {
-  border-color: var(--color-sky-blue);
-  background-color: rgba(52, 172, 224, 0.05);
-}
-
-.quick-action--yellow:hover {
-  border-color: var(--color-banana-yellow);
-  background-color: rgba(255, 211, 42, 0.05);
-}
-
-.quick-action-icon {
-  padding: var(--spacing-2);
-  border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform var(--duration-normal) var(--ease-bounce);
-  width: 2.5rem;
-  height: 2.5rem;
-}
-
-.quick-action--green .quick-action-icon {
-  background-color: rgba(120, 224, 143, 0.15);
-  color: #2d5a3d;
-}
-
-.quick-action--blue .quick-action-icon {
-  background-color: rgba(52, 172, 224, 0.15);
-  color: #1e5f7a;
-}
-
-.quick-action--yellow .quick-action-icon {
-  background-color: rgba(255, 211, 42, 0.15);
-  color: #8B6914;
-}
-
-.quick-action-btn:hover .quick-action-icon {
-  transform: scale(1.1);
-}
-
-.quick-action-icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.quick-action-label {
-  font-family: var(--font-body);
-  font-size: var(--text-body);
-  font-weight: 600;
-  color: var(--color-black);
-}
-
-/* ============================================================================
-   📱 RESPONSIVE
-   ============================================================================ */
-
-@media (max-width: 768px) {
-  .dashboard {
-    padding: calc(var(--spacing-6) + 4rem) var(--spacing-3) calc(var(--spacing-8) * 3);
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-    margin-bottom: var(--spacing-6);
-  }
-
-  .nav-cards {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-4);
-    margin-bottom: var(--spacing-8);
-  }
-
-  .quick-actions-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .quick-actions {
-    margin-bottom: 15rem;
-  }
-
-  .hero {
-    padding: var(--spacing-4) 0 var(--spacing-3);
-  }
-
-  .hero-decoration {
-    opacity: 0.5;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .nav-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>
