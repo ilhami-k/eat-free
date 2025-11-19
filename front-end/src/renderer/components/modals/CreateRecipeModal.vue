@@ -44,7 +44,16 @@
             >
               <div class="flex-1 min-w-0">
                 <p class="font-medium text-neutral-900 truncate">{{ ing.ingredient_name }}</p>
-                <p class="text-xs text-neutral-600">{{ ing.qty_grams }}g</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <input
+                    v-model.number="ing.qty_grams"
+                    type="number"
+                    min="1"
+                    step="1"
+                    class="w-20 px-2 py-1 text-sm border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-fresh-green/50"
+                  />
+                  <span class="text-xs text-neutral-600">grams</span>
+                </div>
               </div>
               <button
                 type="button"
@@ -129,6 +138,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type Recipe from '@/shared/recipe'
+import type Ingredient from '@/shared/ingredient'
 import type { RecipeWithIngredients } from '@/renderer/composables/useRecipeService'
 import { useRecipeService } from '@/renderer/composables/useRecipeService'
 import Input from '@/renderer/components/ui/Input.vue'
@@ -136,11 +146,18 @@ import Button from '@/renderer/components/ui/Button.vue'
 import Modal from '@/renderer/components/ui/Modal.vue'
 import IngredientSearchForRecipe from '@/renderer/components/modals/IngredientSearchForRecipe.vue'
 
+interface Props {
+  userId?: bigint | null
+}
+
 interface Emits {
   (e: 'close'): void
   (e: 'created', recipe: RecipeWithIngredients): void
 }
 
+const props = withDefaults(defineProps<Props>(), {
+  userId: null,
+})
 const emit = defineEmits<Emits>()
 
 const recipeService = useRecipeService(window.electronService?.recipes)
@@ -155,6 +172,10 @@ const form = ref({
     ingredient_id: bigint
     ingredient_name: string
     qty_grams: number
+    kcal_per_100g: number
+    protein_g_per_100g: number
+    carbs_g_per_100g: number
+    fat_g_per_100g: number
   }>,
 })
 
@@ -171,12 +192,12 @@ const calculatedNutrition = computed(() => {
   let totalFat = 0
 
   form.value.ingredients.forEach(ing => {
-    // Note: In a real app, we'd fetch nutrition data for each ingredient
-    // For now, this assumes nutrition data is available in window.electronService
-    totalKcal += 0
-    totalProtein += 0
-    totalCarbs += 0
-    totalFat += 0
+    // Calculate nutrition based on quantity (grams) and per-100g values
+    const factor = ing.qty_grams / 100
+    totalKcal += ing.kcal_per_100g * factor
+    totalProtein += ing.protein_g_per_100g * factor
+    totalCarbs += ing.carbs_g_per_100g * factor
+    totalFat += ing.fat_g_per_100g * factor
   })
 
   return {
@@ -214,12 +235,16 @@ const removeIngredient = (index: number) => {
   form.value.ingredients.splice(index, 1)
 }
 
-const addIngredient = (ingredient: any) => {
-  // Add ingredient with default 100g
+const addIngredient = (ingredient: Ingredient) => {
+  // Add ingredient with default 100g and nutrition data
   form.value.ingredients.push({
-    ingredient_id: ingredient.id,
+    ingredient_id: BigInt(ingredient.id),
     ingredient_name: ingredient.name,
     qty_grams: 100,
+    kcal_per_100g: ingredient.kcal_per_100g,
+    protein_g_per_100g: ingredient.protein_g_per_100g,
+    carbs_g_per_100g: ingredient.carbs_g_per_100g,
+    fat_g_per_100g: ingredient.fat_g_per_100g,
   })
   showIngredientSearch.value = false
 }
@@ -232,7 +257,7 @@ const handleSubmit = async () => {
   isCreating.value = true
   try {
     const newRecipe: Omit<Recipe, 'id' | 'created_at'> = {
-      user_id: null, // Will be set by backend
+      user_id: props.userId ? Number(props.userId) : null,
       name: form.value.name,
       servings: form.value.servings,
       kcal_per_serving: calculatedNutrition.value.kcal,
@@ -241,7 +266,14 @@ const handleSubmit = async () => {
       fat_g_per_serving: parseFloat(calculatedNutrition.value.fat),
     }
 
-    const created = await recipeService.createRecipe(newRecipe)
+    // Prepare ingredients for creation
+    const ingredientsData = form.value.ingredients.map(ing => ({
+      ingredient_id: ing.ingredient_id,
+      qty_grams: ing.qty_grams,
+      notes: null,
+    }))
+
+    const created = await recipeService.createRecipe(newRecipe, ingredientsData)
     emit('created', created)
     closeModal()
   } catch (err) {

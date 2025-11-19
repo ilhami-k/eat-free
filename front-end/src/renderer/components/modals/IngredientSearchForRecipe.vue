@@ -63,7 +63,6 @@
               @update:modelValue="quantities[String(ingredient.id)] = $event"
               label="Grams"
               type="number"
-              size="sm"
               placeholder="100"
               min="0"
             />

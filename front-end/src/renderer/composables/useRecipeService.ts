@@ -75,11 +75,11 @@ export function useRecipeService(service: IRecipeService) {
     }
   }
 
-  const createRecipe = async (recipe: Omit<Recipe, 'id' | 'created_at'>) => {
+  const createRecipe = async (recipe: Omit<Recipe, 'id' | 'created_at'>, ingredients?: Array<{ ingredient_id: bigint, qty_grams: number, notes?: string | null }>) => {
     isLoading.value = true
     error.value = null
     try {
-      const newRecipe = (await service.createRecipe(recipe)) as RecipeWithIngredients
+      const newRecipe = (await service.createRecipe(recipe, ingredients)) as RecipeWithIngredients
       recipes.value.push(newRecipe)
       return newRecipe
     } catch (err) {

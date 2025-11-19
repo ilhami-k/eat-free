@@ -1,6 +1,6 @@
 <template>
   <SidebarLayout
-    title="My Recipes"
+    title="Recipes"
     sidebar-title="Filters"
     drawer-title="Recipe Details"
     :is-drawer-open="!!selectedItem"
@@ -21,26 +21,57 @@
     <template #sidebar>
       <nav class="space-y-1">
         <button
-          class="w-full text-left px-3 py-2 rounded-md font-medium text-neutral-900 
-                 bg-fresh-green/10 text-fresh-green transition-colors"
+          @click="activeFilter = 'all'"
+          :class="[
+            'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
+            activeFilter === 'all' 
+              ? 'bg-fresh-green/10 text-fresh-green' 
+              : 'text-neutral-600 hover:bg-neutral-100'
+          ]"
         >
           All Recipes
         </button>
         <button
-          class="w-full text-left px-3 py-2 rounded-md text-neutral-600 
-                 hover:bg-neutral-100 transition-colors"
+          @click="activeFilter = 'mine'"
+          :class="[
+            'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
+            activeFilter === 'mine' 
+              ? 'bg-fresh-green/10 text-fresh-green' 
+              : 'text-neutral-600 hover:bg-neutral-100'
+          ]"
+        >
+          My Recipes
+        </button>
+        <button
+          @click="activeFilter = 'recent'"
+          :class="[
+            'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
+            activeFilter === 'recent' 
+              ? 'bg-fresh-green/10 text-fresh-green' 
+              : 'text-neutral-600 hover:bg-neutral-100'
+          ]"
         >
           Recently Created
         </button>
         <button
-          class="w-full text-left px-3 py-2 rounded-md text-neutral-600 
-                 hover:bg-neutral-100 transition-colors"
+          @click="activeFilter = 'highProtein'"
+          :class="[
+            'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
+            activeFilter === 'highProtein' 
+              ? 'bg-fresh-green/10 text-fresh-green' 
+              : 'text-neutral-600 hover:bg-neutral-100'
+          ]"
         >
           High Protein
         </button>
         <button
-          class="w-full text-left px-3 py-2 rounded-md text-neutral-600 
-                 hover:bg-neutral-100 transition-colors"
+          @click="activeFilter = 'lowCalorie'"
+          :class="[
+            'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
+            activeFilter === 'lowCalorie' 
+              ? 'bg-fresh-green/10 text-fresh-green' 
+              : 'text-neutral-600 hover:bg-neutral-100'
+          ]"
         >
           Low Calorie
         </button>
@@ -155,6 +186,7 @@
   <!-- Create Recipe Modal -->
   <CreateRecipeModal
     v-if="showCreateDialog"
+    :userId="currentUserId"
     @close="showCreateDialog = false"
     @created="handleRecipeCreated"
   />
@@ -179,18 +211,40 @@ const recipeService = useRecipeService(window.electronService?.recipes)
 const searchQuery = ref('')
 const showCreateDialog = ref(false)
 const selectedItem = ref<RecipeWithIngredients | null>(null)
+const activeFilter = ref<'all' | 'mine' | 'recent' | 'highProtein' | 'lowCalorie'>('all')
 
 const isLoading = computed(() => recipeService.isLoading.value)
 const error = computed(() => recipeService.error.value)
 const recipes = computed(() => recipeService.recipes.value)
 
 const filteredRecipes = computed(() => {
-  if (!searchQuery.value.trim()) {
-    return recipes.value
+  let filtered = recipes.value
+
+  // Apply filter
+  if (activeFilter.value === 'mine') {
+    filtered = filtered.filter(recipe => recipe.user_id === Number(props.currentUserId))
+  } else if (activeFilter.value === 'recent') {
+    filtered = [...filtered].sort((a, b) => 
+      new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+    ).slice(0, 10)
+  } else if (activeFilter.value === 'highProtein') {
+    filtered = [...filtered]
+      .filter(recipe => recipe.protein_g_per_serving >= 20)
+      .sort((a, b) => b.protein_g_per_serving - a.protein_g_per_serving)
+  } else if (activeFilter.value === 'lowCalorie') {
+    filtered = [...filtered]
+      .filter(recipe => recipe.kcal_per_serving <= 300)
+      .sort((a, b) => a.kcal_per_serving - b.kcal_per_serving)
   }
-  return recipes.value.filter(recipe =>
-    recipe.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
+
+  // Apply search
+  if (searchQuery.value.trim()) {
+    filtered = filtered.filter(recipe =>
+      recipe.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+  }
+
+  return filtered
 })
 
 onMounted(async () => {

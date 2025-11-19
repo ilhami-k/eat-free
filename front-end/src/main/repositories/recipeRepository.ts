@@ -29,6 +29,20 @@ export class RecipeRepository {
       carbs_g_per_serving: Number(r.carbs_g_per_serving),
       fat_g_per_serving: Number(r.fat_g_per_serving),
       created_at: r.created_at.toISOString(),
+      recipe_ingredients: r.recipe_ingredients?.map(ri => ({
+        recipe_id: Number(ri.recipe_id),
+        ingredient_id: Number(ri.ingredient_id),
+        qty_grams: Number(ri.qty_grams),
+        notes: ri.notes,
+        ingredients: {
+          id: Number(ri.ingredients.id),
+          name: ri.ingredients.name,
+          kcal_per_100g: Number(ri.ingredients.kcal_per_100g),
+          protein_g_per_100g: Number(ri.ingredients.protein_g_per_100g),
+          carbs_g_per_100g: Number(ri.ingredients.carbs_g_per_100g),
+          fat_g_per_100g: Number(ri.ingredients.fat_g_per_100g),
+        },
+      })),
     })) as Recipe[];
   }
 
@@ -54,10 +68,24 @@ export class RecipeRepository {
       carbs_g_per_serving: Number(recipe.carbs_g_per_serving),
       fat_g_per_serving: Number(recipe.fat_g_per_serving),
       created_at: recipe.created_at.toISOString(),
+      recipe_ingredients: recipe.recipe_ingredients?.map(ri => ({
+        recipe_id: Number(ri.recipe_id),
+        ingredient_id: Number(ri.ingredient_id),
+        qty_grams: Number(ri.qty_grams),
+        notes: ri.notes,
+        ingredients: {
+          id: Number(ri.ingredients.id),
+          name: ri.ingredients.name,
+          kcal_per_100g: Number(ri.ingredients.kcal_per_100g),
+          protein_g_per_100g: Number(ri.ingredients.protein_g_per_100g),
+          carbs_g_per_100g: Number(ri.ingredients.carbs_g_per_100g),
+          fat_g_per_100g: Number(ri.ingredients.fat_g_per_100g),
+        },
+      })),
     } as Recipe;
   }
 
-  async createRecipe(recipe: Omit<Recipe, "id" | "created_at">): Promise<Recipe> {
+  async createRecipe(recipe: Omit<Recipe, "id" | "created_at">, ingredients?: Array<{ ingredient_id: bigint, qty_grams: number, notes?: string | null }>): Promise<Recipe> {
     const created = await this.dbclient.recipe.create({
       data: {
         user_id: recipe.user_id ? BigInt(recipe.user_id) : null,
@@ -67,6 +95,18 @@ export class RecipeRepository {
         protein_g_per_serving: recipe.protein_g_per_serving,
         carbs_g_per_serving: recipe.carbs_g_per_serving,
         fat_g_per_serving: recipe.fat_g_per_serving,
+        recipe_ingredients: ingredients && ingredients.length > 0 ? {
+          create: ingredients.map(ing => ({
+            ingredient_id: BigInt(ing.ingredient_id),
+            qty_grams: ing.qty_grams,
+            notes: ing.notes || null,
+          })),
+        } : undefined,
+      },
+      include: {
+        recipe_ingredients: {
+          include: { ingredients: true },
+        },
       },
     });
 
@@ -80,6 +120,20 @@ export class RecipeRepository {
       carbs_g_per_serving: Number(created.carbs_g_per_serving),
       fat_g_per_serving: Number(created.fat_g_per_serving),
       created_at: created.created_at.toISOString(),
+      recipe_ingredients: created.recipe_ingredients?.map(ri => ({
+        recipe_id: Number(ri.recipe_id),
+        ingredient_id: Number(ri.ingredient_id),
+        qty_grams: Number(ri.qty_grams),
+        notes: ri.notes,
+        ingredients: {
+          id: Number(ri.ingredients.id),
+          name: ri.ingredients.name,
+          kcal_per_100g: Number(ri.ingredients.kcal_per_100g),
+          protein_g_per_100g: Number(ri.ingredients.protein_g_per_100g),
+          carbs_g_per_100g: Number(ri.ingredients.carbs_g_per_100g),
+          fat_g_per_100g: Number(ri.ingredients.fat_g_per_100g),
+        },
+      })),
     } as Recipe;
   }
 
