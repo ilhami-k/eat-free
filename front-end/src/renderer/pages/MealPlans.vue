@@ -320,32 +320,24 @@ async function createMealPlan(): Promise<void> {
 }
 
 async function openAddRecipeDialog(date: Date, mealType: MealType): Promise<void> {
-  console.log('openAddRecipeDialog called', { date, mealType, hasMealPlan: !!mealPlan.value })
   // Ensure we have a meal plan first
   if (!mealPlan.value) {
-    console.log('No meal plan, creating one...')
     await createMealPlan()
-    console.log('Meal plan created:', mealPlan.value)
   }
   selectedDate.value = date
   selectedMealType.value = mealType
   showAddRecipeDialog.value = true
-  console.log('showAddRecipeDialog set to true')
 }
 
 async function openAddRecipeQuick(): Promise<void> {
-  console.log('openAddRecipeQuick called', { hasMealPlan: !!mealPlan.value })
   // Ensure we have a meal plan first
   if (!mealPlan.value) {
-    console.log('No meal plan, creating one...')
     await createMealPlan()
-    console.log('Meal plan created:', mealPlan.value)
   }
   // Open dialog for today's first meal
   selectedDate.value = new Date()
   selectedMealType.value = 'breakfast'
   showAddRecipeDialog.value = true
-  console.log('showAddRecipeDialog set to true')
 }
 
 async function handleRecipeAdded(): Promise<void> {

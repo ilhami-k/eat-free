@@ -7,12 +7,6 @@ export function recipeService(): IRecipeService {
     return { 
         getRecipes: async () => {
             const recipes = await ipcRenderer.invoke("recipeRepository:getRecipes")
-            console.log('Recipes received in preload:', recipes.map((r: Recipe) => ({
-                id: r.id,
-                name: r.name,
-                kcal_per_serving: r.kcal_per_serving,
-                protein_g_per_serving: r.protein_g_per_serving
-            })))
             return recipes
         },
         getRecipeById: (id: bigint) => ipcRenderer.invoke("recipeRepository:getRecipeById", id),

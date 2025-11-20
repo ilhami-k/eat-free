@@ -203,15 +203,6 @@ const calculatedNutrition = computed(() => {
     return { calories: 0, protein: 0, carbs: 0, fat: 0 }
   }
 
-  console.log('Selected recipe for nutrition calc:', {
-    name: selectedRecipe.value.name,
-    kcal_per_serving: selectedRecipe.value.kcal_per_serving,
-    protein_g_per_serving: selectedRecipe.value.protein_g_per_serving,
-    carbs_g_per_serving: selectedRecipe.value.carbs_g_per_serving,
-    fat_g_per_serving: selectedRecipe.value.fat_g_per_serving,
-    servings: servings.value
-  })
-
   const multiplier = servings.value
   const result = {
     calories: Math.round(selectedRecipe.value.kcal_per_serving * multiplier),
@@ -220,7 +211,6 @@ const calculatedNutrition = computed(() => {
     fat: Math.round(selectedRecipe.value.fat_g_per_serving * multiplier * 10) / 10,
   }
   
-  console.log('Calculated nutrition:', result)
   return result
 })
 
@@ -264,14 +254,6 @@ async function handleSubmit(): Promise<void> {
     const nutrition = calculatedNutrition.value
     const loggedAt = getLoggedAtTime()
     
-    console.log('Creating journal entry:', {
-      userId: props.userId,
-      recipeId: selectedRecipeId.value,
-      servings: servings.value,
-      nutrition,
-      loggedAt
-    })
-    
     const result = await journalService.createJournalEntryWithTime(
       props.userId,
       selectedRecipeId.value,
@@ -300,24 +282,6 @@ onMounted(async () => {
   await mealPlanService.getMealPlanForWeek(props.userId, startOfWeek)
 })
 
-// Watch for recipe selection changes
-watch(selectedRecipeId, (newId) => {
-  if (newId) {
-    const recipe = recipes.value.find(r => r.id === Number(newId))
-    console.log('Recipe selected:', {
-      id: newId,
-      recipe: recipe,
-      kcal_per_serving: recipe?.kcal_per_serving,
-      protein_g_per_serving: recipe?.protein_g_per_serving,
-      carbs_g_per_serving: recipe?.carbs_g_per_serving,
-      fat_g_per_serving: recipe?.fat_g_per_serving
-    })
-  }
-})
 
-// Watch calculated nutrition
-watch(calculatedNutrition, (nutrition) => {
-  console.log('Nutrition calculated:', nutrition)
-})
 
 </script>

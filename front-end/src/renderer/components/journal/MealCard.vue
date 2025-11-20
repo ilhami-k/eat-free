@@ -118,20 +118,6 @@ watch(() => props.entries.length, () => {
 })
 
 const mealCalories = computed(() => {
-  if (props.entries.length > 0) {
-    console.log('MealCard entries:', props.entries)
-    props.entries.forEach((entry, index) => {
-      console.log(`Entry ${index}:`, {
-        id: entry.id,
-        recipe_name: entry.recipe?.name,
-        servings: entry.servings_eaten,
-        kcal: entry.kcal,
-        protein_g: entry.protein_g,
-        carbs_g: entry.carbs_g,
-        fat_g: entry.fat_g
-      })
-    })
-  }
   return props.entries.reduce((sum, entry) => {
     const kcal = entry.kcal || 0
     return sum + kcal

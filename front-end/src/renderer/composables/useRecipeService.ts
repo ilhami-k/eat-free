@@ -30,12 +30,6 @@ export function useRecipeService(service: IRecipeService) {
     error.value = null
     try {
       const fetchedRecipes = (await service.getRecipes()) as RecipeWithIngredients[]
-      console.log('Recipes in composable after fetch:', fetchedRecipes.map(r => ({
-        id: r.id,
-        name: r.name,
-        kcal_per_serving: r.kcal_per_serving,
-        protein_g_per_serving: r.protein_g_per_serving
-      })))
       recipes.value = fetchedRecipes
       return recipes.value
     } catch (err) {
@@ -106,11 +100,11 @@ export function useRecipeService(service: IRecipeService) {
     error.value = null
     try {
       const updated = (await service.updateRecipe(id, data)) as RecipeWithIngredients
-      const index = recipes.value.findIndex(r => r.id === id)
+      const index = recipes.value.findIndex(r => r.id === Number(id))
       if (index !== -1) {
         recipes.value[index] = updated
       }
-      if (selectedRecipe.value?.id === id) {
+      if (selectedRecipe.value?.id === Number(id)) {
         selectedRecipe.value = updated
       }
       return updated
@@ -128,8 +122,8 @@ export function useRecipeService(service: IRecipeService) {
     error.value = null
     try {
       await service.deleteRecipe(id)
-      recipes.value = recipes.value.filter(r => r.id !== id)
-      if (selectedRecipe.value?.id === id) {
+      recipes.value = recipes.value.filter(r => r.id !== Number(id))
+      if (selectedRecipe.value?.id === Number(id)) {
         selectedRecipe.value = null
       }
     } catch (err) {

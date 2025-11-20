@@ -210,13 +210,10 @@ async function loadJournalEntries(): Promise<void> {
   const dayEnd = new Date(selectedDate.value)
   dayEnd.setHours(23, 59, 59, 999)
   
-  console.log('Loading journal entries:', { userId: props.currentUserId, dayStart, dayEnd })
   await journalService.fetchJournalEntries(props.currentUserId, dayStart, dayEnd)
-  console.log('Journal entries loaded:', journalEntries.value)
 }
 
 async function handleEntryAdded(): Promise<void> {
-  console.log('Entry added, reloading...')
   showAddEntryDialog.value = false
   await loadJournalEntries()
 }

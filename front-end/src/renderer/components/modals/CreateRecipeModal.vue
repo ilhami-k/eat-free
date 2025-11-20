@@ -35,46 +35,75 @@
         <div class="rounded-lg border border-neutral-200 p-4">
           <h3 class="mb-3 font-medium text-neutral-900">Ingredients</h3>
           
-          <!-- Ingredients List -->
-          <div v-if="form.ingredients.length > 0" class="mb-4 space-y-2">
-            <div
-              v-for="(ing, idx) in form.ingredients"
-              :key="`ingredient-${idx}`"
-              class="flex items-center gap-2 rounded-lg bg-neutral-50 p-3"
-            >
-              <div class="flex-1 min-w-0">
-                <p class="font-medium text-neutral-900 truncate">{{ ing.ingredient_name }}</p>
-                <div class="flex items-center gap-2 mt-1">
-                  <input
-                    v-model.number="ing.qty_grams"
-                    type="number"
-                    min="1"
-                    step="1"
-                    class="w-20 px-2 py-1 text-sm border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-fresh-green/50"
-                  />
-                  <span class="text-xs text-neutral-600">grams</span>
-                </div>
-              </div>
-              <button
-                type="button"
-                @click="removeIngredient(idx)"
-                class="text-strawberry-red hover:text-strawberry-red/80"
+          <!-- Fixed height container for consistent modal size -->
+          <div style="min-height: 340px;">
+            <!-- Ingredients List -->
+            <div v-if="form.ingredients.length > 0" class="mb-4 space-y-2">
+              <div
+                v-for="(ing, idx) in form.ingredients"
+                :key="`ingredient-${idx}`"
+                class="flex items-center gap-2 rounded-lg bg-neutral-50 p-3"
               >
-                ✕
-              </button>
+                <div class="flex-1 min-w-0">
+                  <p class="font-medium text-neutral-900 truncate">{{ ing.ingredient_name }}</p>
+                  <div class="flex items-center gap-2 mt-1">
+                    <input
+                      v-model.number="ing.qty_grams"
+                      type="number"
+                      min="1"
+                      step="1"
+                      class="w-20 px-2 py-1 text-sm border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-fresh-green/50"
+                    />
+                    <span class="text-xs text-neutral-600">grams</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  @click="removeIngredient(idx)"
+                  class="text-strawberry-red hover:text-strawberry-red/80"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <!-- Ingredient Search (always shown) -->
+            <div class="space-y-3">
+              <Input
+                v-model="ingredientSearchQuery"
+                placeholder="Type to search ingredients..."
+                label="Search Ingredients"
+              />
+
+              <!-- Loading State -->
+              <div v-if="isLoadingIngredients" class="flex justify-center py-8">
+                <div class="h-6 w-6 animate-spin rounded-full border-4 border-fresh-green/20 border-t-fresh-green"></div>
+              </div>
+
+              <!-- Results List - Fixed height container -->
+              <div v-else class="space-y-2" style="min-height: 220px;">
+                <div v-if="!ingredientSearchQuery.trim()" class="py-8 text-center">
+                  <p class="text-sm text-neutral-500">Start typing to search</p>
+                </div>
+
+                <div v-else-if="filteredAvailableIngredients.length === 0" class="py-8 text-center">
+                  <p class="text-sm text-neutral-500">No ingredients found</p>
+                </div>
+
+                <button
+                  v-else
+                  v-for="ingredient in filteredAvailableIngredients"
+                  :key="`available-${ingredient.id}`"
+                  type="button"
+                  @click="addIngredient(ingredient)"
+                  class="w-full rounded-lg border border-neutral-200 p-2 text-left transition-all hover:bg-fresh-green/5 hover:border-fresh-green"
+                >
+                  <p class="text-sm font-medium text-neutral-900">{{ ingredient.name }}</p>
+                  <p class="text-xs text-neutral-500">{{ ingredient.kcal_per_100g }} kcal per 100g</p>
+                </button>
+              </div>
             </div>
           </div>
-
-          <!-- Add Ingredient Button -->
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            fullWidth
-            @click="showIngredientSearch = true"
-          >
-            + Add Ingredient
-          </Button>
         </div>
 
         <!-- Nutrition Summary -->
@@ -125,26 +154,19 @@
           </Button>
         </div>
       </form>
-
-      <!-- Ingredient Search Dialog -->
-      <IngredientSearchForRecipe
-        v-if="showIngredientSearch"
-        @close="showIngredientSearch = false"
-        @selected="addIngredient"
-      />
   </Modal>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import type Recipe from '@/shared/recipe'
 import type Ingredient from '@/shared/ingredient'
 import type { RecipeWithIngredients } from '@/renderer/composables/useRecipeService'
 import { useRecipeService } from '@/renderer/composables/useRecipeService'
+import { useIngredientsService } from '@/renderer/composables/useIngredientsService'
 import Input from '@/renderer/components/ui/Input.vue'
 import Button from '@/renderer/components/ui/Button.vue'
 import Modal from '@/renderer/components/ui/Modal.vue'
-import IngredientSearchForRecipe from '@/renderer/components/modals/IngredientSearchForRecipe.vue'
 
 interface Props {
   userId?: bigint | null
@@ -161,9 +183,11 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<Emits>()
 
 const recipeService = useRecipeService(window.electronService?.recipes)
+const ingredientService = useIngredientsService(window.electronService?.ingredients)
 const isCreating = ref(false)
 const generalError = ref('')
-const showIngredientSearch = ref(false)
+const ingredientSearchQuery = ref('')
+const availableIngredients = ref<Ingredient[]>([])
 
 const form = ref({
   name: '',
@@ -182,6 +206,20 @@ const form = ref({
 const errors = ref({
   name: '',
   servings: '',
+})
+
+const isLoadingIngredients = computed(() => ingredientService.isLoading.value)
+
+const filteredAvailableIngredients = computed(() => {
+  const query = ingredientSearchQuery.value.toLowerCase().trim()
+  if (!query) return []
+  
+  // Filter out already added ingredients
+  const addedIds = form.value.ingredients.map(ing => Number(ing.ingredient_id))
+  return availableIngredients.value
+    .filter(ing => !addedIds.includes(ing.id))
+    .filter(ing => ing.name.toLowerCase().includes(query))
+    .slice(0, 3) // Limit to 3 most relevant results
 })
 
 const calculatedNutrition = computed(() => {
@@ -246,7 +284,8 @@ const addIngredient = (ingredient: Ingredient) => {
     carbs_g_per_100g: ingredient.carbs_g_per_100g,
     fat_g_per_100g: ingredient.fat_g_per_100g,
   })
-  showIngredientSearch.value = false
+  // Clear search
+  ingredientSearchQuery.value = ''
 }
 
 const handleSubmit = async () => {
@@ -270,7 +309,7 @@ const handleSubmit = async () => {
     const ingredientsData = form.value.ingredients.map(ing => ({
       ingredient_id: ing.ingredient_id,
       qty_grams: ing.qty_grams,
-      notes: null,
+      notes: null as string | null,
     }))
 
     const created = await recipeService.createRecipe(newRecipe, ingredientsData)
@@ -288,4 +327,12 @@ const handleSubmit = async () => {
 const closeModal = () => {
   emit('close')
 }
+
+// Fetch ingredients when modal opens
+onMounted(async () => {
+  const ingredients = await ingredientService.fetchIngredients()
+  if (ingredients) {
+    availableIngredients.value = ingredients
+  }
+})
 </script>
