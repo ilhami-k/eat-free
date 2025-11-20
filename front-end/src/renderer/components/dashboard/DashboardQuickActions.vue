@@ -74,7 +74,7 @@ const actions: QuickAction[] = [
   },
   {
     label: 'Add Ingredient',
-    description: 'Stock inventory',
+    description: 'Stock up items',
     variant: 'purple',
     icon: 'add',
     page: 'inventory'
@@ -160,23 +160,28 @@ const getIcon = (iconType: string) => {
 
 .quick-actions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
   gap: var(--spacing-4);
+  width: 100%;
 }
 
 .quick-action-btn {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: var(--spacing-3);
-  padding: var(--spacing-4);
+  padding: var(--spacing-6);
   border-radius: var(--radius-xl);
   border: 2px solid var(--color-medium-gray);
   background-color: var(--color-white);
   cursor: pointer;
   transition: all var(--duration-normal) var(--ease-bounce);
-  text-align: left;
   position: relative;
   overflow: hidden;
+  min-height: 180px;
+  height: 100%;
 }
 
 .quick-action-btn::before {
@@ -241,8 +246,8 @@ const getIcon = (iconType: string) => {
   align-items: center;
   justify-content: center;
   transition: transform var(--duration-normal) var(--ease-bounce);
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   flex-shrink: 0;
 }
 
@@ -290,32 +295,53 @@ const getIcon = (iconType: string) => {
   flex-direction: column;
   gap: var(--spacing-1);
   flex: 1;
+  align-items: center;
+  width: 100%;
 }
 
 .quick-action-label {
   font-family: var(--font-body);
-  font-size: var(--text-body);
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--color-black);
   line-height: 1.2;
+  text-align: center;
 }
 
 .quick-action-desc {
   font-family: var(--font-body);
-  font-size: var(--text-caption);
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--color-dark-gray);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* Responsive breakpoints */
+@media (min-width: 640px) {
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .quick-actions-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .quick-actions-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 @media (max-width: 639px) {
   .quick-actions {
-    padding: var(--spacing-4);
+    padding: var(--spacing-5);
   }
 
   .quick-actions-title {
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
   }
 
   .quick-actions-subtitle {
@@ -323,23 +349,14 @@ const getIcon = (iconType: string) => {
   }
 
   .quick-action-btn {
-    padding: var(--spacing-3);
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .quick-action-content {
-    align-items: center;
+    padding: var(--spacing-4);
+    min-height: 120px;
   }
 
   .quick-action-icon {
     width: 2.5rem;
     height: 2.5rem;
     padding: var(--spacing-2);
-    margin-bottom: var(--spacing-2);
   }
 
   .quick-action-icon svg {
@@ -349,11 +366,10 @@ const getIcon = (iconType: string) => {
 
   .quick-action-label {
     font-size: var(--text-sm);
-    text-align: center;
   }
 
   .quick-action-desc {
-    display: none;
+    font-size: 0.65rem;
   }
 }
 

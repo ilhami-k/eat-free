@@ -210,7 +210,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba(120, 224, 143, 0.1) 0%, rgba(52, 172, 224, 0.1) 100%);
-  padding: var(--spacing-2);
+  padding: var(--spacing-4);
 }
 
 .onboarding__screen {
@@ -422,6 +422,80 @@ onMounted(async () => {
   .fade-enter-active,
   .fade-leave-active {
     transition: none;
+  }
+}
+
+/* Responsive breakpoints */
+@media (max-width: 640px) {
+  .onboarding {
+    padding: var(--spacing-2);
+  }
+
+  .onboarding__logo {
+    font-size: 3rem;
+  }
+
+  .onboarding__title {
+    font-size: 2rem;
+  }
+
+  .onboarding__subtitle {
+    font-size: var(--text-body);
+  }
+
+  .onboarding__header h2 {
+    font-size: var(--text-xl);
+  }
+
+  .onboarding__header p {
+    font-size: var(--text-sm);
+  }
+
+  .onboarding__user-avatar {
+    font-size: 1.5rem;
+  }
+
+  .onboarding__user-name {
+    font-size: var(--text-body);
+  }
+
+  .onboarding__user-email {
+    font-size: var(--text-caption);
+  }
+
+  .onboarding__user-item {
+    padding: var(--spacing-3);
+  }
+}
+
+@media (max-width: 400px) {
+  .onboarding {
+    padding: var(--spacing-1);
+  }
+
+  .onboarding__logo {
+    font-size: 2.5rem;
+  }
+
+  .onboarding__title {
+    font-size: 1.75rem;
+  }
+
+  .onboarding__subtitle {
+    font-size: var(--text-sm);
+  }
+
+  .onboarding__header h2 {
+    font-size: var(--text-lg);
+  }
+
+  .onboarding__form {
+    gap: var(--spacing-3);
+  }
+
+  .onboarding__user-item {
+    padding: var(--spacing-2);
+    gap: var(--spacing-2);
   }
 }
 </style>
