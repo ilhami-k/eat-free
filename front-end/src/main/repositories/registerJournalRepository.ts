@@ -23,6 +23,13 @@ export function registerJournalRepository() {
   );
 
   ipcMain.handle(
+    "journalRepository:createJournalEntryWithTime",
+    (e, user_id: number, recipe_id: number, servings_eaten: number, kcal: number, protein_g: number, carbs_g: number, fat_g: number, logged_at: Date) => {
+      return journalRepository.createJournalEntryWithTime(user_id, recipe_id, servings_eaten, kcal, protein_g, carbs_g, fat_g, logged_at);
+    }
+  );
+
+  ipcMain.handle(
     "journalRepository:updateJournalEntry",
     (e, id: number, data: { servings_eaten?: number; kcal?: number; protein_g?: number; carbs_g?: number; fat_g?: number }) => {
       return journalRepository.updateJournalEntry(id, data);

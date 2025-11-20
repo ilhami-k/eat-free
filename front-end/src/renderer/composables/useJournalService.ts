@@ -101,6 +101,45 @@ export function useJournalService(service: IJournalService | undefined, options?
   }
 
   /**
+   * Create a new journal entry with specified time
+   */
+  const createJournalEntryWithTime = async (
+    user_id: bigint,
+    recipe_id: bigint,
+    servings_eaten: number,
+    kcal: number,
+    protein_g: number,
+    carbs_g: number,
+    fat_g: number,
+    logged_at: Date
+  ): Promise<Journal | null> => {
+    isLoading.value = true
+    error.value = null
+
+    try {
+      const newEntry = await service.createJournalEntryWithTime(
+        user_id,
+        recipe_id,
+        servings_eaten,
+        kcal,
+        protein_g,
+        carbs_g,
+        fat_g,
+        logged_at
+      )
+      options?.onSuccess?.(newEntry)
+      return newEntry
+    } catch (err) {
+      const error_obj = err instanceof Error ? err : new Error(String(err))
+      error.value = error_obj
+      options?.onError?.(error_obj)
+      return null
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  /**
    * Update an existing journal entry
    */
   const updateJournalEntry = async (
@@ -167,6 +206,7 @@ export function useJournalService(service: IJournalService | undefined, options?
     fetchJournalEntries,
     getJournalEntryById,
     createJournalEntry,
+    createJournalEntryWithTime,
     updateJournalEntry,
     deleteJournalEntry,
     clearError,

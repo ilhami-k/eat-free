@@ -4,7 +4,7 @@
       <!-- Header -->
       <div class="mb-6 flex items-start justify-between">
         <div>
-          <h2 class="text-h2 font-display text-neutral-900">Log Meal</h2>
+          <h2 class="text-h2 font-display text-neutral-900">Log {{ mealTypeLabel }}</h2>
           <p class="mt-1 text-sm text-neutral-600">
             {{ formatDate(date) }}
           </p>
@@ -22,6 +22,32 @@
 
       <!-- Form -->
       <div class="space-y-4">
+        <!-- Recipe Source Toggle -->
+        <div class="flex gap-2 mb-2">
+          <button
+            @click="recipeSource = 'all'"
+            :class="[
+              'flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all',
+              recipeSource === 'all'
+                ? 'bg-fresh-green text-white'
+                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+            ]"
+          >
+            All Recipes
+          </button>
+          <button
+            @click="recipeSource = 'mealplan'"
+            :class="[
+              'flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all',
+              recipeSource === 'mealplan'
+                ? 'bg-fresh-green text-white'
+                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+            ]"
+          >
+            Today's Meal Plan
+          </button>
+        </div>
+
         <!-- Recipe Selection -->
         <div>
           <label class="block text-sm font-medium text-neutral-900 mb-2">
@@ -34,13 +60,16 @@
           >
             <option :value="null">Select a recipe...</option>
             <option
-              v-for="recipe in recipes"
+              v-for="recipe in filteredRecipes"
               :key="`recipe-${recipe.id}`"
               :value="recipe.id"
             >
               {{ recipe.name }} ({{ recipe.kcal_per_serving }} kcal/serving)
             </option>
           </select>
+          <p v-if="recipeSource === 'mealplan' && filteredRecipes.length === 0" class="mt-2 text-xs text-neutral-500">
+            No recipes in today's meal plan
+          </p>
         </div>
 
         <!-- Servings Input -->
@@ -106,14 +135,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRecipeService, type RecipeWithIngredients } from '@/renderer/composables/useRecipeService'
 import { useJournalService } from '@/renderer/composables/useJournalService'
+import { useMealPlanService } from '@/renderer/composables/useMealPlanService'
 import Button from '@/renderer/components/ui/Button.vue'
 
 interface Props {
   userId: bigint
   date: Date
+  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'
 }
 
 interface Emits {
@@ -126,16 +157,45 @@ const emit = defineEmits<Emits>()
 
 const recipeService = useRecipeService(window.electronService?.recipes)
 const journalService = useJournalService(window.electronService?.journal)
+const mealPlanService = useMealPlanService(window.electronService?.mealPlans)
 
 const selectedRecipeId = ref<bigint | null>(null)
 const servings = ref<number>(1)
 const isSubmitting = ref(false)
+const recipeSource = ref<'all' | 'mealplan'>('all')
 
 const recipes = computed(() => recipeService.recipes.value)
 
+const mealTypeLabel = computed(() => {
+  return props.mealType.charAt(0).toUpperCase() + props.mealType.slice(1)
+})
+
+const todaysMealPlanRecipes = computed(() => {
+  const mealPlan = mealPlanService.currentMealPlan.value
+  if (!mealPlan?.meal_plan_recipe) return []
+  
+  // Get the date string for the selected date (YYYY-MM-DD format)
+  const selectedDateStr = props.date.toISOString().split('T')[0]
+  
+  // Filter recipes for the selected date
+  return mealPlan.meal_plan_recipe.filter(mpr => {
+    const mprDate = new Date(mpr.date).toISOString().split('T')[0]
+    return mprDate === selectedDateStr
+  })
+})
+
+const mealPlanRecipes = computed(() => {
+  const recipeIds = new Set(todaysMealPlanRecipes.value.map(mpr => BigInt(mpr.recipe_id)))
+  return recipes.value.filter(recipe => recipeIds.has(BigInt(recipe.id)))
+})
+
+const filteredRecipes = computed(() => {
+  return recipeSource.value === 'mealplan' ? mealPlanRecipes.value : recipes.value
+})
+
 const selectedRecipe = computed(() => {
   if (!selectedRecipeId.value) return null
-  return recipes.value.find(r => BigInt(r.id) === selectedRecipeId.value)
+  return recipes.value.find(r => r.id === Number(selectedRecipeId.value))
 })
 
 const calculatedNutrition = computed(() => {
@@ -143,13 +203,25 @@ const calculatedNutrition = computed(() => {
     return { calories: 0, protein: 0, carbs: 0, fat: 0 }
   }
 
+  console.log('Selected recipe for nutrition calc:', {
+    name: selectedRecipe.value.name,
+    kcal_per_serving: selectedRecipe.value.kcal_per_serving,
+    protein_g_per_serving: selectedRecipe.value.protein_g_per_serving,
+    carbs_g_per_serving: selectedRecipe.value.carbs_g_per_serving,
+    fat_g_per_serving: selectedRecipe.value.fat_g_per_serving,
+    servings: servings.value
+  })
+
   const multiplier = servings.value
-  return {
+  const result = {
     calories: Math.round(selectedRecipe.value.kcal_per_serving * multiplier),
     protein: Math.round(selectedRecipe.value.protein_g_per_serving * multiplier * 10) / 10,
     carbs: Math.round(selectedRecipe.value.carbs_g_per_serving * multiplier * 10) / 10,
     fat: Math.round(selectedRecipe.value.fat_g_per_serving * multiplier * 10) / 10,
   }
+  
+  console.log('Calculated nutrition:', result)
+  return result
 })
 
 function formatDate(date: Date): string {
@@ -160,6 +232,28 @@ function formatDate(date: Date): string {
   })
 }
 
+function getLoggedAtTime(): Date {
+  const loggedAt = new Date(props.date)
+  
+  // Set the time based on meal type
+  switch (props.mealType) {
+    case 'breakfast':
+      loggedAt.setHours(8, 0, 0, 0) // 8:00 AM
+      break
+    case 'lunch':
+      loggedAt.setHours(12, 30, 0, 0) // 12:30 PM
+      break
+    case 'dinner':
+      loggedAt.setHours(18, 0, 0, 0) // 6:00 PM
+      break
+    case 'snack':
+      loggedAt.setHours(15, 0, 0, 0) // 3:00 PM
+      break
+  }
+  
+  return loggedAt
+}
+
 async function handleSubmit(): Promise<void> {
   if (!selectedRecipeId.value || servings.value <= 0) {
     return
@@ -168,15 +262,28 @@ async function handleSubmit(): Promise<void> {
   isSubmitting.value = true
   try {
     const nutrition = calculatedNutrition.value
-    await journalService.createJournalEntry(
+    const loggedAt = getLoggedAtTime()
+    
+    console.log('Creating journal entry:', {
+      userId: props.userId,
+      recipeId: selectedRecipeId.value,
+      servings: servings.value,
+      nutrition,
+      loggedAt
+    })
+    
+    const result = await journalService.createJournalEntryWithTime(
       props.userId,
       selectedRecipeId.value,
       servings.value,
       nutrition.calories,
       nutrition.protein,
       nutrition.carbs,
-      nutrition.fat
+      nutrition.fat,
+      loggedAt
     )
+    
+    console.log('Journal entry created:', result)
     emit('added')
   } catch (err) {
     console.error('Error creating journal entry:', err)
@@ -188,5 +295,29 @@ async function handleSubmit(): Promise<void> {
 
 onMounted(async () => {
   await recipeService.fetchRecipes()
+  // Load meal plan for the current week
+  const startOfWeek = new Date(props.date)
+  await mealPlanService.getMealPlanForWeek(props.userId, startOfWeek)
 })
+
+// Watch for recipe selection changes
+watch(selectedRecipeId, (newId) => {
+  if (newId) {
+    const recipe = recipes.value.find(r => r.id === Number(newId))
+    console.log('Recipe selected:', {
+      id: newId,
+      recipe: recipe,
+      kcal_per_serving: recipe?.kcal_per_serving,
+      protein_g_per_serving: recipe?.protein_g_per_serving,
+      carbs_g_per_serving: recipe?.carbs_g_per_serving,
+      fat_g_per_serving: recipe?.fat_g_per_serving
+    })
+  }
+})
+
+// Watch calculated nutrition
+watch(calculatedNutrition, (nutrition) => {
+  console.log('Nutrition calculated:', nutrition)
+})
+
 </script>

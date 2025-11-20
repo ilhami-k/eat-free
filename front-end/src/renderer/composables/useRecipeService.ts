@@ -29,7 +29,14 @@ export function useRecipeService(service: IRecipeService) {
     isLoading.value = true
     error.value = null
     try {
-      recipes.value = (await service.getRecipes()) as RecipeWithIngredients[]
+      const fetchedRecipes = (await service.getRecipes()) as RecipeWithIngredients[]
+      console.log('Recipes in composable after fetch:', fetchedRecipes.map(r => ({
+        id: r.id,
+        name: r.name,
+        kcal_per_serving: r.kcal_per_serving,
+        protein_g_per_serving: r.protein_g_per_serving
+      })))
+      recipes.value = fetchedRecipes
       return recipes.value
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch recipes')

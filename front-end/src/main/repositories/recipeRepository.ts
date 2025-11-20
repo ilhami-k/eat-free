@@ -19,7 +19,14 @@ export class RecipeRepository {
       },
     });
 
-    return recipes.map((r) => ({
+    console.log('Raw recipes from database:', recipes.map(r => ({
+      id: r.id,
+      name: r.name,
+      kcal_per_serving: r.kcal_per_serving,
+      protein_g_per_serving: r.protein_g_per_serving
+    })))
+
+    const result = recipes.map((r) => ({
       id: Number(r.id),
       user_id: r.user_id ? Number(r.user_id) : null,
       name: r.name,
@@ -44,6 +51,15 @@ export class RecipeRepository {
         },
       })),
     })) as Recipe[];
+
+    console.log('Mapped recipes:', result.map(r => ({
+      id: r.id,
+      name: r.name,
+      kcal_per_serving: r.kcal_per_serving,
+      protein_g_per_serving: r.protein_g_per_serving
+    })))
+
+    return result
   }
 
   async getRecipeById(id: number): Promise<Recipe | null> {

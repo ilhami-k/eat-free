@@ -1,199 +1,99 @@
 <template>
-  <div class="flex flex-col h-screen overflow-hidden bg-neutral-50">
-    <!-- Header -->
-    <div class="bg-white border-b border-neutral-200 shadow-sm p-4 flex-shrink-0">
-      <div class="flex items-center justify-between">
-        <div>
-          <h1 class="text-2xl font-display font-bold text-neutral-900">
-            Food Journal
-          </h1>
-          <p class="text-sm text-neutral-600">
-            Track your daily nutrition
-          </p>
-        </div>
-        <div class="flex gap-2">
-          <Button variant="secondary" size="sm" @click="previousDay">
-            ← Previous
-          </Button>
-          <Button variant="secondary" size="sm" @click="goToToday">
-            Today
-          </Button>
-          <Button variant="secondary" size="sm" @click="nextDay">
-            Next →
-          </Button>
-        </div>
+  <div class="journal-page">
+    <!-- Header with Date Selector -->
+    <div class="page-header">
+      <div class="header-content">
+        <h1 class="page-title">Daily Food Diary</h1>
+        <DateNavigator 
+          :selectedDate="selectedDate"
+          @previous="previousDay"
+          @next="nextDay"
+          @today="goToToday"
+        />
       </div>
     </div>
 
     <!-- Main Content Area -->
-    <main class="flex-1 overflow-y-auto">
-      <div class="p-4 md:p-6 lg:p-8 max-w-4xl mx-auto">
-        <!-- Date Display -->
-        <div class="mb-6 text-center">
-          <h2 class="text-xl font-semibold text-neutral-900">
-            {{ formatDate(selectedDate) }}
-          </h2>
-          <p class="text-sm text-neutral-600">
-            {{ formatDayOfWeek(selectedDate) }}
-          </p>
-        </div>
+    <main class="main-content">
+      <!-- Loading State -->
+      <div v-if="isLoading" class="state-container">
+        <div class="spinner-large"></div>
+      </div>
 
-        <!-- Loading State -->
-        <div v-if="isLoading" class="flex justify-center py-16">
-          <div class="h-10 w-10 animate-spin rounded-full border-4 border-fresh-green/20 border-t-fresh-green"></div>
-        </div>
-
-        <!-- Error State -->
-        <div v-else-if="error" class="rounded-lg bg-red-50 p-6 border border-red-200 mb-6">
-          <h3 class="font-semibold text-red-900 mb-2">Error Loading Journal</h3>
-          <p class="text-sm text-red-700 mb-4">{{ error.message }}</p>
+      <!-- Error State -->
+      <div v-else-if="error" class="state-container">
+        <Card elevation="md" class="error-card">
+          <h3 class="error-title">Error Loading Journal</h3>
+          <p class="error-message">{{ error.message }}</p>
           <Button variant="secondary" size="sm" @click="retryLoad">
             Try Again
           </Button>
-        </div>
+        </Card>
+      </div>
 
+      <div v-else class="journal-content">
         <!-- Daily Summary Card -->
-        <div class="mb-6 bg-gradient-to-br from-fresh-green to-fresh-green/80 rounded-xl p-6 text-white shadow-lg">
-          <p class="text-sm font-medium mb-2 opacity-90">Total Calories</p>
-          <p class="text-5xl font-bold mb-4">{{ dailyTotals.calories }}</p>
-          <div class="grid grid-cols-3 gap-4">
-            <div>
-              <p class="text-xs opacity-80 mb-1">Protein</p>
-              <p class="text-2xl font-semibold">{{ dailyTotals.protein }}g</p>
-            </div>
-            <div>
-              <p class="text-xs opacity-80 mb-1">Carbs</p>
-              <p class="text-2xl font-semibold">{{ dailyTotals.carbs }}g</p>
-            </div>
-            <div>
-              <p class="text-xs opacity-80 mb-1">Fat</p>
-              <p class="text-2xl font-semibold">{{ dailyTotals.fat }}g</p>
-            </div>
-          </div>
-        </div>
+        <DailySummaryCard
+          :totalCalories="dailyTotals.calories"
+          :totalProtein="dailyTotals.protein"
+          :totalCarbs="dailyTotals.carbs"
+          :totalFat="dailyTotals.fat"
+          :calorieGoal="calorieGoal"
+          :proteinGoal="proteinGoal"
+          :carbsGoal="carbsGoal"
+          :fatGoal="fatGoal"
+        />
 
-        <!-- Journal Entries -->
-        <div class="mb-6">
-          <h3 class="text-lg font-semibold text-neutral-900 mb-4">Meals Logged</h3>
-          
-          <!-- Empty State -->
-          <div v-if="!isLoading && todayEntries.length === 0" class="text-center py-12 bg-white rounded-lg border border-neutral-200">
-            <svg class="w-16 h-16 text-neutral-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-            <p class="text-neutral-600 mb-4">No meals logged yet</p>
-            <Button size="sm" @click="showAddEntryDialog = true">
-              Log Your First Meal
-            </Button>
-          </div>
+        <!-- Meal Sections -->
+        <div class="meals-grid">
+          <MealCard
+            mealTitle="Breakfast"
+            emoji="☀️"
+            :entries="getMealEntries('breakfast')"
+            @add-food="openAddMeal('breakfast')"
+            @delete="deleteEntry"
+          />
 
-          <!-- Entries List -->
-          <div v-else class="space-y-3">
-            <div
-              v-for="entry in todayEntries"
-              :key="`entry-${entry.id}`"
-              class="bg-white rounded-lg border border-neutral-200 p-4 hover:shadow-md transition-shadow group"
-            >
-              <div class="flex items-start justify-between">
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-2">
-                    <h4 class="font-semibold text-neutral-900">
-                      {{ entry.recipe?.name || 'Unknown Recipe' }}
-                    </h4>
-                    <span class="text-xs px-2 py-1 rounded-full bg-neutral-100 text-neutral-600">
-                      {{ entry.servings_eaten }} serving<span v-if="entry.servings_eaten !== 1">s</span>
-                    </span>
-                  </div>
-                  
-                  <div class="grid grid-cols-4 gap-3 text-sm">
-                    <div>
-                      <p class="text-xs text-neutral-600">Calories</p>
-                      <p class="font-semibold text-fresh-green">{{ entry.kcal }}</p>
-                    </div>
-                    <div>
-                      <p class="text-xs text-neutral-600">Protein</p>
-                      <p class="font-medium text-neutral-900">{{ entry.protein_g }}g</p>
-                    </div>
-                    <div>
-                      <p class="text-xs text-neutral-600">Carbs</p>
-                      <p class="font-medium text-neutral-900">{{ entry.carbs_g }}g</p>
-                    </div>
-                    <div>
-                      <p class="text-xs text-neutral-600">Fat</p>
-                      <p class="font-medium text-neutral-900">{{ entry.fat_g }}g</p>
-                    </div>
-                  </div>
-                  
-                  <p class="text-xs text-neutral-500 mt-2">
-                    Logged at {{ formatTime(entry.logged_at) }}
-                  </p>
-                </div>
+          <MealCard
+            mealTitle="Lunch"
+            emoji="🌤️"
+            :entries="getMealEntries('lunch')"
+            @add-food="openAddMeal('lunch')"
+            @delete="deleteEntry"
+          />
 
-                <button
-                  @click="deleteEntry(BigInt(entry.id))"
-                  class="ml-4 text-neutral-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                  title="Delete entry"
-                >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+          <MealCard
+            mealTitle="Dinner"
+            emoji="🌙"
+            :entries="getMealEntries('dinner')"
+            @add-food="openAddMeal('dinner')"
+            @delete="deleteEntry"
+          />
 
-        <!-- Weekly Summary (Optional) -->
-        <div class="bg-white rounded-lg border border-neutral-200 p-6">
-          <h3 class="text-lg font-semibold text-neutral-900 mb-4">Week at a Glance</h3>
-          <div class="grid grid-cols-7 gap-2">
-            <div
-              v-for="(day, idx) in weekDays"
-              :key="`week-${idx}`"
-              class="text-center"
-            >
-              <p class="text-xs font-medium text-neutral-600 mb-1">
-                {{ formatDayShort(day) }}
-              </p>
-              <div
-                :class="[
-                  'rounded-lg py-2 px-1',
-                  isSameDay(day, selectedDate) ? 'bg-fresh-green text-white' : 'bg-neutral-50',
-                ]"
-              >
-                <button
-                  @click="selectDate(day)"
-                  class="w-full"
-                >
-                  <p class="text-xs font-semibold">
-                    {{ getDateNumber(day) }}
-                  </p>
-                  <p :class="['text-xs', isSameDay(day, selectedDate) ? 'text-white' : 'text-neutral-600']">
-                    {{ getCaloriesForDay(day) }}
-                  </p>
-                </button>
-              </div>
-            </div>
-          </div>
+          <MealCard
+            mealTitle="Snacks"
+            emoji="🍎"
+            :entries="getMealEntries('snack')"
+            @add-food="openAddMeal('snack')"
+            @delete="deleteEntry"
+          />
         </div>
       </div>
     </main>
 
-    <!-- FAB for Adding Entry -->
-    <div class="fixed bottom-6 right-6 z-40">
-      <Button
-        @click="showAddEntryDialog = true"
-        class="rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center font-bold text-lg md:text-xl shadow-lg hover:shadow-xl transition-all"
-      >
-        +
-      </Button>
-    </div>
+    <!-- Floating Action Button -->
+    <FloatingActionButton @click="showAddEntryDialog = true" label="Quick Add Food">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" />
+      </svg>
+    </FloatingActionButton>
 
     <!-- Add Entry Modal -->
     <AddJournalEntryModal
       v-if="showAddEntryDialog"
       :userId="currentUserId"
       :date="selectedDate"
+      :mealType="selectedMealType"
       @close="showAddEntryDialog = false"
       @added="handleEntryAdded"
     />
@@ -203,8 +103,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useJournalService } from '@/renderer/composables/useJournalService'
-import { Button } from '@/renderer/components/ui'
+import { Button, Card, FloatingActionButton } from '@/renderer/components/ui'
 import AddJournalEntryModal from '@/renderer/components/modals/AddJournalEntryModal.vue'
+import DailySummaryCard from '@/renderer/components/journal/DailySummaryCard.vue'
+import MealCard from '@/renderer/components/journal/MealCard.vue'
+import DateNavigator from '@/renderer/components/journal/DateNavigator.vue'
 import type Journal from '@/shared/journal'
 
 interface Props {
@@ -213,9 +116,16 @@ interface Props {
 
 const props = defineProps<Props>()
 
+// Daily nutrition goals (these could come from user settings in the future)
+const calorieGoal = ref(2000)
+const proteinGoal = ref(150)
+const carbsGoal = ref(200)
+const fatGoal = ref(65)
+
 const journalService = useJournalService(window.electronService?.journal)
 const selectedDate = ref(new Date())
 const showAddEntryDialog = ref(false)
+const selectedMealType = ref<'breakfast' | 'lunch' | 'dinner' | 'snack'>('breakfast')
 
 const isLoading = computed(() => journalService.isLoading.value)
 const error = computed(() => journalService.error.value)
@@ -245,78 +155,32 @@ const dailyTotals = computed(() => {
   )
 })
 
-const weekDays = computed(() => {
-  const days: Date[] = []
-  const start = getWeekStart(selectedDate.value)
-  for (let i = 0; i < 7; i++) {
-    const day = new Date(start)
-    day.setDate(day.getDate() + i)
-    days.push(day)
-  }
-  return days
+const caloriesRemaining = computed(() => {
+  return calorieGoal.value - dailyTotals.value.calories
 })
 
-function getWeekStart(date: Date): Date {
-  const d = new Date(date)
-  const dayOfWeek = d.getDay()
-  const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1
-  d.setDate(d.getDate() - daysToMonday)
-  d.setHours(0, 0, 0, 0)
-  return d
-}
+const caloriesRemainingClass = computed(() => {
+  if (caloriesRemaining.value < 0) return 'calories-over'
+  if (caloriesRemaining.value < 200) return 'calories-low'
+  return 'calories-good'
+})
 
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
+// Categorize entries by meal time
+function getMealEntries(mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'): Journal[] {
+  return todayEntries.value.filter(entry => {
+    const hour = new Date(entry.logged_at).getHours()
+    
+    if (mealType === 'breakfast') return hour >= 5 && hour < 11
+    if (mealType === 'lunch') return hour >= 11 && hour < 15
+    if (mealType === 'dinner') return hour >= 18 && hour < 22
+    if (mealType === 'snack') return hour < 5 || (hour >= 15 && hour < 18) || hour >= 22
+    
+    return false
   })
 }
 
-function formatDayOfWeek(date: Date): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    weekday: 'long',
-  })
-}
-
-function formatDayShort(date: Date): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    weekday: 'short',
-  })
-}
-
-function formatTime(dateString: string): string {
-  return new Date(dateString).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-  })
-}
-
-function getDateNumber(date: Date): number {
-  return new Date(date).getDate()
-}
-
-function isSameDay(date1: Date, date2: Date): boolean {
-  return (
-    date1.getDate() === date2.getDate() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getFullYear() === date2.getFullYear()
-  )
-}
-
-function getCaloriesForDay(day: Date): string {
-  const dayStart = new Date(day)
-  dayStart.setHours(0, 0, 0, 0)
-  const dayEnd = new Date(day)
-  dayEnd.setHours(23, 59, 59, 999)
-
-  const dayEntries = journalEntries.value.filter(entry => {
-    const entryDate = new Date(entry.logged_at)
-    return entryDate >= dayStart && entryDate <= dayEnd
-  })
-
-  const total = dayEntries.reduce((sum, entry) => sum + entry.kcal, 0)
-  return total > 0 ? `${total}` : '-'
+function getMealCalories(mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'): number {
+  return getMealEntries(mealType).reduce((sum, entry) => sum + entry.kcal, 0)
 }
 
 function previousDay(): void {
@@ -335,25 +199,30 @@ function goToToday(): void {
   selectedDate.value = new Date()
 }
 
-function selectDate(date: Date): void {
-  selectedDate.value = new Date(date)
+function openAddMeal(mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'): void {
+  selectedMealType.value = mealType
+  showAddEntryDialog.value = true
 }
 
 async function loadJournalEntries(): Promise<void> {
-  const weekStart = getWeekStart(selectedDate.value)
-  const weekEnd = new Date(weekStart)
-  weekEnd.setDate(weekEnd.getDate() + 7)
+  const dayStart = new Date(selectedDate.value)
+  dayStart.setHours(0, 0, 0, 0)
+  const dayEnd = new Date(selectedDate.value)
+  dayEnd.setHours(23, 59, 59, 999)
   
-  await journalService.fetchJournalEntries(props.currentUserId, weekStart, weekEnd)
+  console.log('Loading journal entries:', { userId: props.currentUserId, dayStart, dayEnd })
+  await journalService.fetchJournalEntries(props.currentUserId, dayStart, dayEnd)
+  console.log('Journal entries loaded:', journalEntries.value)
 }
 
 async function handleEntryAdded(): Promise<void> {
+  console.log('Entry added, reloading...')
   showAddEntryDialog.value = false
   await loadJournalEntries()
 }
 
 async function deleteEntry(id: bigint): Promise<void> {
-  if (!confirm('Delete this journal entry?')) {
+  if (!confirm('Delete this food entry?')) {
     return
   }
 
@@ -376,3 +245,141 @@ onMounted(async () => {
   await loadJournalEntries()
 })
 </script>
+
+<style scoped>
+/* ========== PAGE LAYOUT ========== */
+
+.journal-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--color-light-gray);
+  overflow: hidden;
+}
+
+/* ========== HEADER ========== */
+
+.page-header {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-medium-gray);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-4);
+  flex-shrink: 0;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-black);
+  margin: 0;
+}
+
+/* ========== MAIN CONTENT ========== */
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-4);
+}
+
+.journal-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+/* ========== STATE CONTAINERS ========== */
+
+.state-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: var(--spacing-6);
+}
+
+.spinner-large {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(120, 224, 143, 0.2);
+  border-top-color: var(--color-fresh-green);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-card {
+  max-width: 500px;
+  text-align: center;
+}
+
+.error-title {
+  font-weight: 600;
+  color: #dc2626;
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.error-message {
+  font-size: var(--text-sm);
+  color: #b91c1c;
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+/* ========== MEALS GRID ========== */
+
+.meals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-4);
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 1024px) {
+  .meals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: var(--spacing-3);
+  }
+  
+  .main-content {
+    padding: var(--spacing-3);
+  }
+  
+  .meals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner-large {
+    animation: none;
+  }
+}
+</style>

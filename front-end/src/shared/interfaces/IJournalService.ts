@@ -16,6 +16,16 @@ export default interface IJournalService {
     carbs_g: number,
     fat_g: number
   ) => Promise<Journal>;
+  createJournalEntryWithTime: (
+    user_id: bigint,
+    recipe_id: bigint,
+    servings_eaten: number,
+    kcal: number,
+    protein_g: number,
+    carbs_g: number,
+    fat_g: number,
+    logged_at: Date
+  ) => Promise<Journal>;
   updateJournalEntry: (
     id: bigint,
     data: {
