@@ -86,18 +86,33 @@ export class JournalRepository {
     carbs_g: number,
     fat_g: number
   ): Promise<Journal> {
-    const result = await this.dbclient.journal.create({
-      data: {
-        user_id: BigInt(user_id),
-        recipe_id: BigInt(recipe_id),
-        servings_eaten,
-        kcal,
-        protein_g,
-        carbs_g,
-        fat_g,
-      },
-      include: { recipe: true },
+    // Use a transaction to ensure both journal entry and inventory deduction happen atomically
+    const result = await this.dbclient.$transaction(async (tx) => {
+      // 1. Create the journal entry
+      const journalEntry = await tx.journal.create({
+        data: {
+          user_id: BigInt(user_id),
+          recipe_id: BigInt(recipe_id),
+          servings_eaten,
+          kcal,
+          protein_g,
+          carbs_g,
+          fat_g,
+        },
+        include: { recipe: true },
+      });
+
+      // 2. Deduct ingredients from inventory
+      try {
+        await this.deductIngredientsFromInventory(tx, user_id, recipe_id, servings_eaten);
+      } catch (error) {
+        console.error('Error deducting ingredients from inventory:', error);
+        // Continue anyway - don't fail the journal entry creation
+      }
+
+      return journalEntry;
     });
+
     return {
       id: Number(result.id),
       user_id: Number(result.user_id),
@@ -132,18 +147,32 @@ export class JournalRepository {
     fat_g: number,
     logged_at: Date
   ): Promise<Journal> {
-    const result = await this.dbclient.journal.create({
-      data: {
-        user_id: BigInt(user_id),
-        recipe_id: BigInt(recipe_id),
-        servings_eaten,
-        kcal,
-        protein_g,
-        carbs_g,
-        fat_g,
-        logged_at,
-      },
-      include: { recipe: true },
+    // Use a transaction to ensure both journal entry and inventory deduction happen atomically
+    const result = await this.dbclient.$transaction(async (tx) => {
+      // 1. Create the journal entry
+      const journalEntry = await tx.journal.create({
+        data: {
+          user_id: BigInt(user_id),
+          recipe_id: BigInt(recipe_id),
+          servings_eaten,
+          kcal,
+          protein_g,
+          carbs_g,
+          fat_g,
+          logged_at,
+        },
+        include: { recipe: true },
+      });
+
+      // 2. Deduct ingredients from inventory
+      try {
+        await this.deductIngredientsFromInventory(tx, user_id, recipe_id, servings_eaten);
+      } catch (error) {
+        console.error('Error deducting ingredients from inventory:', error);
+        // Continue anyway - don't fail the journal entry creation
+      }
+
+      return journalEntry;
     });
     return {
       id: Number(result.id),
@@ -212,5 +241,84 @@ export class JournalRepository {
     await this.dbclient.journal.delete({
       where: { id: BigInt(id) },
     });
+  }
+
+  /**
+   * Helper method to deduct recipe ingredients from user's inventory
+   * Mirrors the logic from the log_meal stored procedure
+   */
+  private async deductIngredientsFromInventory(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    tx: any,
+    user_id: number,
+    recipe_id: number,
+    servings_eaten: number
+  ): Promise<void> {
+    // Get the recipe to know how many servings it makes
+    const recipe = await tx.recipe.findUnique({
+      where: { id: BigInt(recipe_id) },
+      select: { servings: true },
+    });
+
+    if (!recipe) {
+      throw new Error(`Recipe with id ${recipe_id} not found`);
+    }
+
+    const recipe_servings = Number(recipe.servings) || 1;
+
+    // Get user's inventory
+    const inventory = await tx.inventory.findFirst({
+      where: { user_id: BigInt(user_id) },
+    });
+
+    if (!inventory) {
+      throw new Error(`Inventory for user ${user_id} not found`);
+    }
+
+    // Get all ingredients needed for this recipe
+    const recipeIngredients = await tx.recipe_ingredients.findMany({
+      where: { recipe_id: BigInt(recipe_id) },
+    });
+
+    // Calculate the scaling factor: servings_eaten / recipe_servings
+    const scalingFactor = servings_eaten / recipe_servings;
+
+    // For each ingredient, deduct from inventory
+    for (const recipeIngredient of recipeIngredients) {
+      const qtyNeeded = Number(recipeIngredient.qty_grams) * scalingFactor;
+
+      // Try to find existing inventory item
+      const existingInventoryItem = await tx.inventory_ingredient.findFirst({
+        where: {
+          inventory_id: inventory.id,
+          ingredient_id: recipeIngredient.ingredient_id,
+        },
+      });
+
+      if (existingInventoryItem) {
+        // Update existing item - deduct the quantity
+        // Use composite key since inventory_ingredient doesn't have an 'id' field
+        await tx.inventory_ingredient.update({
+          where: {
+            inventory_id_ingredient_id: {
+              inventory_id: inventory.id,
+              ingredient_id: recipeIngredient.ingredient_id,
+            },
+          },
+          data: {
+            qty_grams: Number(existingInventoryItem.qty_grams) - qtyNeeded,
+          },
+        });
+      } else {
+        // Create new item with negative quantity (indicating deficit)
+        await tx.inventory_ingredient.create({
+          data: {
+            inventory_id: inventory.id,
+            ingredient_id: recipeIngredient.ingredient_id,
+            qty_grams: -qtyNeeded,
+          },
+        });
+      }
+    }
   }
 }
