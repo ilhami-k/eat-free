@@ -77,10 +77,12 @@ DATABASE_URL="mysql://root:root@localhost:3306/eat_free"
 #### b) Générer le client Prisma
 
 ```bash
+cd src/main/repositories/prisma
 npx prisma generate
+cd ../../../..
 ```
 
-Cette commande génère le client Prisma TypeScript basé sur votre schéma de base de données.
+Cette commande génère le client Prisma TypeScript basé sur votre schéma de base de données. Le schéma se trouve dans `src/main/repositories/prisma/schema.prisma`.
 
 ### 5. Lancer l'Application
 
@@ -142,10 +144,14 @@ cd front-end
 npm start
 
 # Régénérer le client Prisma après modification du schéma
+cd src/main/repositories/prisma
 npx prisma generate
+cd ../../../..
 
 # Voir la base de données dans Prisma Studio
+cd src/main/repositories/prisma
 npx prisma studio
+cd ../../../..
 ```
 
 ### Base de Données

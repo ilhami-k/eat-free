@@ -5,9 +5,13 @@ import type Ingredient from "../../shared/ingredient";
 export class IngredientsRepository {
   private dbclient: PrismaClient;
 
-  constructor() {
-    const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
-    this.dbclient = new PrismaClient({ adapter });
+  constructor(dbclient?: PrismaClient) {
+    if (dbclient) {
+      this.dbclient = dbclient;
+    } else {
+      const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
+      this.dbclient = new PrismaClient({ adapter });
+    }
   }
 
   async getIngredients(): Promise<Ingredient[]> {

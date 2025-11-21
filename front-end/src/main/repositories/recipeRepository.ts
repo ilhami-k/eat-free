@@ -5,9 +5,13 @@ import { PrismaClient } from "./prisma/generated/client";
 export class RecipeRepository {
   private dbclient: PrismaClient;
   
-  constructor() {
-    const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
-    this.dbclient = new PrismaClient({ adapter });
+  constructor(dbclient?: PrismaClient) {
+    if (dbclient) {
+      this.dbclient = dbclient;
+    } else {
+      const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
+      this.dbclient = new PrismaClient({ adapter });
+    }
   }
 
   async getRecipes(): Promise<Recipe[]> {
