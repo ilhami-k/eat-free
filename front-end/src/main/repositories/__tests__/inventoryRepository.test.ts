@@ -295,4 +295,194 @@ describe('InventoryRepository', () => {
       })
     })
   })
+
+  describe('Error Handling - Database Failures (Sad Path)', () => {
+    it('should throw error when database connection fails on getInventories', async () => {
+      const dbError = new Error('Connection to database failed')
+      mockInventoryMethods.findMany.mockRejectedValue(dbError)
+
+      await expect(repository.getInventories()).rejects.toThrow('Connection to database failed')
+    })
+
+    it('should throw error when query timeout on getInventoryById', async () => {
+      const timeoutError = new Error('Query execution timeout')
+      mockInventoryMethods.findUnique.mockRejectedValue(timeoutError)
+
+      await expect(repository.getInventoryById(1)).rejects.toThrow('Query execution timeout')
+    })
+
+    it('should throw error when network issue on getInventoryByUserId', async () => {
+      const networkError = new Error('Network error: ETIMEDOUT')
+      mockInventoryMethods.findUnique.mockRejectedValue(networkError)
+
+      await expect(repository.getInventoryByUserId(1)).rejects.toThrow('Network error: ETIMEDOUT')
+    })
+
+    it('should throw error when database unavailable on createInventory', async () => {
+      const unavailableError = new Error('Database server not responding')
+      mockInventoryMethods.create.mockRejectedValue(unavailableError)
+
+      await expect(repository.createInventory(1)).rejects.toThrow(
+        'Database server not responding'
+      )
+    })
+
+    it('should throw error when database fails on deleteInventory', async () => {
+      const deleteError = new Error('Failed to delete inventory')
+      mockInventoryMethods.delete.mockRejectedValue(deleteError)
+
+      await expect(repository.deleteInventory(1)).rejects.toThrow('Failed to delete inventory')
+    })
+
+    it('should throw error when database fails on addIngredientToInventory', async () => {
+      const addError = new Error('Failed to add ingredient')
+      mockInventoryIngredientMethods.upsert.mockRejectedValue(addError)
+
+      await expect(repository.addIngredientToInventory(1, 5, 100)).rejects.toThrow(
+        'Failed to add ingredient'
+      )
+    })
+
+    it('should throw error when database fails on updateIngredientInInventory', async () => {
+      const updateError = new Error('Failed to update ingredient quantity')
+      mockInventoryIngredientMethods.update.mockRejectedValue(updateError)
+
+      await expect(repository.updateIngredientInInventory(1, 5, 200)).rejects.toThrow(
+        'Failed to update ingredient quantity'
+      )
+    })
+
+    it('should throw error when database fails on removeIngredientFromInventory', async () => {
+      const removeError = new Error('Failed to remove ingredient')
+      mockInventoryIngredientMethods.delete.mockRejectedValue(removeError)
+
+      await expect(repository.removeIngredientFromInventory(1, 5)).rejects.toThrow(
+        'Failed to remove ingredient'
+      )
+    })
+  })
+
+  describe('Error Handling - Constraint Violations (Sad Path)', () => {
+    it('should throw error when creating duplicate inventory for same user (unique constraint)', async () => {
+      const uniqueConstraintError = {
+        code: 'P2002',
+        meta: { target: ['user_id'] },
+        message: 'Unique constraint failed on the constraint: `inventory_user_id_key`',
+      }
+      mockInventoryMethods.create.mockRejectedValue(uniqueConstraintError)
+
+      await expect(repository.createInventory(1)).rejects.toMatchObject({
+        code: 'P2002',
+        message: expect.stringContaining('Unique constraint failed'),
+      })
+    })
+
+    it('should throw error when inventory not found for deletion', async () => {
+      const notFoundError = {
+        code: 'P2025',
+        message: 'Record to delete does not exist.',
+      }
+      mockInventoryMethods.delete.mockRejectedValue(notFoundError)
+
+      await expect(repository.deleteInventory(999)).rejects.toMatchObject({
+        code: 'P2025',
+        message: expect.stringContaining('does not exist'),
+      })
+    })
+
+    it('should throw error when foreign key constraint fails (invalid user_id)', async () => {
+      const foreignKeyError = {
+        code: 'P2003',
+        message: 'Foreign key constraint failed on the field: `inventory_user_id_fkey`',
+      }
+      mockInventoryMethods.create.mockRejectedValue(foreignKeyError)
+
+      await expect(repository.createInventory(9999)).rejects.toMatchObject({
+        code: 'P2003',
+        message: expect.stringContaining('Foreign key constraint'),
+      })
+    })
+
+    it('should throw error when adding ingredient with invalid ingredient_id', async () => {
+      const foreignKeyError = {
+        code: 'P2003',
+        message:
+          'Foreign key constraint failed on the field: `inventory_ingredient_ingredient_id_fkey`',
+      }
+      mockInventoryIngredientMethods.upsert.mockRejectedValue(foreignKeyError)
+
+      await expect(repository.addIngredientToInventory(1, 9999, 100)).rejects.toMatchObject({
+        code: 'P2003',
+        message: expect.stringContaining('Foreign key constraint'),
+      })
+    })
+
+    it('should throw error when updating non-existent ingredient in inventory', async () => {
+      const notFoundError = {
+        code: 'P2025',
+        message: 'Record to update not found.',
+      }
+      mockInventoryIngredientMethods.update.mockRejectedValue(notFoundError)
+
+      await expect(repository.updateIngredientInInventory(1, 999, 100)).rejects.toMatchObject({
+        code: 'P2025',
+        message: expect.stringContaining('not found'),
+      })
+    })
+
+    it('should throw error when removing non-existent ingredient from inventory', async () => {
+      const notFoundError = {
+        code: 'P2025',
+        message: 'Record to delete does not exist.',
+      }
+      mockInventoryIngredientMethods.delete.mockRejectedValue(notFoundError)
+
+      await expect(repository.removeIngredientFromInventory(1, 999)).rejects.toMatchObject({
+        code: 'P2025',
+        message: expect.stringContaining('does not exist'),
+      })
+    })
+
+    it('should throw error when deleting inventory with existing ingredients (cascade issue)', async () => {
+      const cascadeError = {
+        code: 'P2014',
+        message: 'The change you are trying to make would violate the required relation',
+      }
+      mockInventoryMethods.delete.mockRejectedValue(cascadeError)
+
+      await expect(repository.deleteInventory(1)).rejects.toMatchObject({
+        code: 'P2014',
+        message: expect.stringContaining('violate the required relation'),
+      })
+    })
+  })
+
+  describe('Error Handling - Invalid Data (Sad Path)', () => {
+    it('should throw error when creating inventory with invalid user_id type', async () => {
+      const typeError = new Error('Invalid user_id type')
+      mockInventoryMethods.create.mockRejectedValue(typeError)
+
+      await expect(repository.createInventory(NaN as number)).rejects.toThrow(
+        'Invalid user_id type'
+      )
+    })
+
+    it('should throw error when adding ingredient with negative quantity', async () => {
+      const validationError = new Error('Quantity must be positive')
+      mockInventoryIngredientMethods.upsert.mockRejectedValue(validationError)
+
+      await expect(repository.addIngredientToInventory(1, 5, -100)).rejects.toThrow(
+        'Quantity must be positive'
+      )
+    })
+
+    it('should handle error when deleting ingredient with zero quantity', async () => {
+      const deleteError = new Error('Cannot delete with zero quantity')
+      mockInventoryIngredientMethods.delete.mockRejectedValue(deleteError)
+
+      await expect(repository.updateIngredientInInventory(1, 5, 0)).rejects.toThrow(
+        'Cannot delete with zero quantity'
+      )
+    })
+  })
 })

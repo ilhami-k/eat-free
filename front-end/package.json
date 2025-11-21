@@ -43,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-vue": "^6.0.1",
+    "@vitest/coverage-v8": "^4.0.12",
     "@vitest/ui": "^4.0.12",
     "@vue/test-utils": "^2.4.6",
     "electron": "38.2.2",

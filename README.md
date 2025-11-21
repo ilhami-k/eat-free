@@ -154,6 +154,24 @@ npx prisma studio
 cd ../../../..
 ```
 
+### Tests Unitaires
+
+```bash
+cd front-end
+
+# Lancer les tests en mode watch (relance automatiquement)
+npm test
+
+# Lancer les tests une seule fois
+npm run test:run
+
+# Lancer les tests avec interface UI
+npm run test:ui
+
+# Générer un rapport de couverture de code
+npm run test:coverage
+```
+
 ### Base de Données
 
 ```bash

@@ -222,4 +222,155 @@ describe('IngredientsRepository', () => {
       })
     })
   })
+
+  describe('Error Handling - Database Failures (Sad Path)', () => {
+    it('should throw error when database connection fails on getIngredients', async () => {
+      const dbError = new Error('Database connection lost')
+      mockIngredientsMethods.findMany.mockRejectedValue(dbError)
+
+      await expect(repository.getIngredients()).rejects.toThrow('Database connection lost')
+    })
+
+    it('should throw error when database times out on getIngredientById', async () => {
+      const timeoutError = new Error('Query timeout exceeded')
+      mockIngredientsMethods.findUnique.mockRejectedValue(timeoutError)
+
+      await expect(repository.getIngredientById(1)).rejects.toThrow('Query timeout exceeded')
+    })
+
+    it('should throw error when network fails on getIngredientByName', async () => {
+      const networkError = new Error('ECONNREFUSED: Connection refused')
+      mockIngredientsMethods.findUnique.mockRejectedValue(networkError)
+
+      await expect(repository.getIngredientByName('Chicken')).rejects.toThrow(
+        'ECONNREFUSED: Connection refused'
+      )
+    })
+
+    it('should throw error when database is unavailable on createIngredient', async () => {
+      const unavailableError = new Error('Cannot reach database server')
+      mockIngredientsMethods.create.mockRejectedValue(unavailableError)
+
+      await expect(
+        repository.createIngredient('Salmon', 208, 20, 0, 13)
+      ).rejects.toThrow('Cannot reach database server')
+    })
+
+    it('should throw error when database fails on updateIngredient', async () => {
+      const updateError = new Error('Update operation failed')
+      mockIngredientsMethods.update.mockRejectedValue(updateError)
+
+      await expect(
+        repository.updateIngredient(1, { kcal_per_100g: 170 })
+      ).rejects.toThrow('Update operation failed')
+    })
+
+    it('should throw error when database fails on deleteIngredient', async () => {
+      const deleteError = new Error('Delete operation failed')
+      mockIngredientsMethods.delete.mockRejectedValue(deleteError)
+
+      await expect(repository.deleteIngredient(1)).rejects.toThrow('Delete operation failed')
+    })
+  })
+
+  describe('Error Handling - Constraint Violations (Sad Path)', () => {
+    it('should throw error when creating duplicate ingredient (unique constraint)', async () => {
+      const uniqueConstraintError = {
+        code: 'P2002',
+        meta: { target: ['name'] },
+        message:
+          'Unique constraint failed on the constraint: `ingredients_name_key`',
+      }
+      mockIngredientsMethods.create.mockRejectedValue(uniqueConstraintError)
+
+      await expect(
+        repository.createIngredient('Chicken Breast', 165, 31, 0, 3.6)
+      ).rejects.toMatchObject({
+        code: 'P2002',
+        message: expect.stringContaining('Unique constraint failed'),
+      })
+    })
+
+    it('should throw error when updating to duplicate name (unique constraint)', async () => {
+      const uniqueConstraintError = {
+        code: 'P2002',
+        meta: { target: ['name'] },
+        message:
+          'Unique constraint failed on the constraint: `ingredients_name_key`',
+      }
+      mockIngredientsMethods.update.mockRejectedValue(uniqueConstraintError)
+
+      await expect(
+        repository.updateIngredient(1, { name: 'Existing Ingredient' })
+      ).rejects.toMatchObject({
+        code: 'P2002',
+      })
+    })
+
+    it('should throw error when ingredient not found for update', async () => {
+      const notFoundError = {
+        code: 'P2025',
+        message: 'Record to update not found.',
+      }
+      mockIngredientsMethods.update.mockRejectedValue(notFoundError)
+
+      await expect(
+        repository.updateIngredient(999, { kcal_per_100g: 200 })
+      ).rejects.toMatchObject({
+        code: 'P2025',
+        message: expect.stringContaining('not found'),
+      })
+    })
+
+    it('should throw error when ingredient not found for delete', async () => {
+      const notFoundError = {
+        code: 'P2025',
+        message: 'Record to delete does not exist.',
+      }
+      mockIngredientsMethods.delete.mockRejectedValue(notFoundError)
+
+      await expect(repository.deleteIngredient(999)).rejects.toMatchObject({
+        code: 'P2025',
+        message: expect.stringContaining('does not exist'),
+      })
+    })
+
+    it('should throw error when foreign key constraint prevents deletion', async () => {
+      const foreignKeyError = {
+        code: 'P2003',
+        message: 'Foreign key constraint failed on the field: `recipe_ingredients_ingredient_id_fkey`',
+      }
+      mockIngredientsMethods.delete.mockRejectedValue(foreignKeyError)
+
+      await expect(repository.deleteIngredient(1)).rejects.toMatchObject({
+        code: 'P2003',
+        message: expect.stringContaining('Foreign key constraint'),
+      })
+    })
+  })
+
+  describe('Error Handling - Invalid Data (Sad Path)', () => {
+    it('should throw error when creating ingredient with invalid data types', async () => {
+      const validationError = new Error('Invalid input data')
+      mockIngredientsMethods.create.mockRejectedValue(validationError)
+
+      await expect(
+        repository.createIngredient('Invalid', NaN, -1, 0, 0)
+      ).rejects.toThrow('Invalid input data')
+    })
+
+    it('should throw error when required field is missing', async () => {
+      const missingFieldError = {
+        code: 'P2000',
+        message: 'The provided value for the column is too long for the column\'s type',
+      }
+      mockIngredientsMethods.create.mockRejectedValue(missingFieldError)
+
+      await expect(
+        repository.createIngredient('', 165, 31, 0, 3.6)
+      ).rejects.toMatchObject({
+        code: 'P2000',
+      })
+    })
+  })
 })
