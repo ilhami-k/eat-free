@@ -1,6 +1,6 @@
-import { ref, readonly } from 'vue'
 import type IInventoryService from '../../shared/interfaces/IInventoryService'
-import type Inventory from '../../shared/inventory'
+import type { InventoryIngredient } from '../../shared/inventory'
+import { useInventoryStore } from './useInventoryStore'
 
 export interface InventoryIngredientWithDetails {
   inventory_id: number
@@ -14,36 +14,32 @@ export interface InventoryIngredientWithDetails {
 }
 
 export function useInventoryService(service: IInventoryService) {
-  const isLoading = ref(false)
-  const error = ref<Error | null>(null)
-  const inventory = ref<Inventory | null>(null)
-  const inventoryIngredients = ref<InventoryIngredientWithDetails[]>([])
+  const store = useInventoryStore()
 
-  const mapInventoryEntries = (items: Record<string, unknown>[] | undefined) => {
-    if (!items) return [] as InventoryIngredientWithDetails[]
+  const mapInventoryEntries = (items: InventoryIngredient[] | undefined): InventoryIngredientWithDetails[] => {
+    if (!items) return []
 
     return items
-      .map((it: Record<string, unknown>) => {
-        // Extract ingredient data if it's nested in the ingredients property
-        const ingredientsData = (it.ingredients as Record<string, unknown> | undefined) || {}
+      .map((item) => {
+        const ingredientData = item.ingredients
 
         return {
-          inventory_id: it.inventory_id as number,
-          ingredient_id: it.ingredient_id as number,
-          ingredient_name: (ingredientsData.name as string) || (it.ingredient_name as string) || `Ingredient ${String(it.ingredient_id)}`,
-          qty_grams: (it.qty_grams as number) || 0,
-          kcal_per_100g: (ingredientsData.kcal_per_100g as number) || (it.kcal_per_100g as number) || 0,
-          protein_g_per_100g: (ingredientsData.protein_g_per_100g as number) || (it.protein_g_per_100g as number) || 0,
-          carbs_g_per_100g: (ingredientsData.carbs_g_per_100g as number) || (it.carbs_g_per_100g as number) || 0,
-          fat_g_per_100g: (ingredientsData.fat_g_per_100g as number) || (it.fat_g_per_100g as number) || 0,
-        } as InventoryIngredientWithDetails
+          inventory_id: item.inventory_id,
+          ingredient_id: item.ingredient_id,
+          ingredient_name: ingredientData?.name || `Ingredient ${item.ingredient_id}`,
+          qty_grams: item.qty_grams,
+          kcal_per_100g: ingredientData?.kcal_per_100g || 0,
+          protein_g_per_100g: ingredientData?.protein_g_per_100g || 0,
+          carbs_g_per_100g: ingredientData?.carbs_g_per_100g || 0,
+          fat_g_per_100g: ingredientData?.fat_g_per_100g || 0,
+        }
       })
       .filter(item => item.qty_grams > 0) // Only show items with positive quantities
   }
 
   const getOrCreateInventory = async (userId: number) => {
-    isLoading.value = true
-    error.value = null
+    store.setLoading(true)
+    store.clearError()
     try {
       // First try to get existing inventory
       let userInventory = await service.getInventoryByUserId(userId)
@@ -53,39 +49,40 @@ export function useInventoryService(service: IInventoryService) {
         userInventory = await service.createInventory(userId)
       }
 
-  inventory.value = userInventory
-  // Map inventory_ingredient entries to a consistent shape (pulling ingredients.name if joined)
-  inventoryIngredients.value = mapInventoryEntries(userInventory.inventory_ingredient as unknown as Record<string, unknown>[])
+      store.setInventory(userInventory)
+      store.setInventoryIngredients(mapInventoryEntries(userInventory.inventory_ingredient))
       return userInventory
     } catch (err) {
-      error.value = err instanceof Error ? err : new Error('Failed to get/create inventory')
+      const error = err instanceof Error ? err : new Error('Failed to get/create inventory')
+      store.setError(error)
       console.error('Error getting/creating inventory:', err)
-      throw error.value
+      throw error
     } finally {
-      isLoading.value = false
+      store.setLoading(false)
     }
   }
 
   const addIngredient = async (inventoryId: number, ingredientId: number, qtyGrams: number) => {
-    isLoading.value = true
-    error.value = null
+    store.setLoading(true)
+    store.clearError()
     try {
       await service.addIngredientToInventory(inventoryId, ingredientId, qtyGrams)
 
       // Refresh inventory
-      if (inventory.value) {
-        const updated = await service.getInventoryById(inventoryId)
-        inventory.value = updated
-        inventoryIngredients.value = mapInventoryEntries(updated?.inventory_ingredient as unknown as Record<string, unknown>[])
+      const updated = await service.getInventoryById(inventoryId)
+      if (updated) {
+        store.setInventory(updated)
+        store.setInventoryIngredients(mapInventoryEntries(updated.inventory_ingredient))
       }
 
       return true
     } catch (err) {
-      error.value = err instanceof Error ? err : new Error('Failed to add ingredient')
+      const error = err instanceof Error ? err : new Error('Failed to add ingredient')
+      store.setError(error)
       console.error('Error adding ingredient:', err)
-      throw error.value
+      throw error
     } finally {
-      isLoading.value = false
+      store.setLoading(false)
     }
   }
 
@@ -94,75 +91,74 @@ export function useInventoryService(service: IInventoryService) {
     ingredientId: number,
     qtyGrams: number
   ) => {
-    isLoading.value = true
-    error.value = null
+    store.setLoading(true)
+    store.clearError()
     try {
       await service.updateIngredientInInventory(inventoryId, ingredientId, qtyGrams)
 
       // Refresh inventory
-      if (inventory.value) {
-        const updated = await service.getInventoryById(inventoryId)
-        inventory.value = updated
-        inventoryIngredients.value = mapInventoryEntries(updated?.inventory_ingredient as unknown as Record<string, unknown>[])
+      const updated = await service.getInventoryById(inventoryId)
+      if (updated) {
+        store.setInventory(updated)
+        store.setInventoryIngredients(mapInventoryEntries(updated.inventory_ingredient))
       }
 
       return true
     } catch (err) {
-      error.value = err instanceof Error ? err : new Error('Failed to update ingredient')
+      const error = err instanceof Error ? err : new Error('Failed to update ingredient')
+      store.setError(error)
       console.error('Error updating ingredient:', err)
-      throw error.value
+      throw error
     } finally {
-      isLoading.value = false
+      store.setLoading(false)
     }
   }
 
   const removeIngredient = async (inventoryId: number, ingredientId: number) => {
-    isLoading.value = true
-    error.value = null
+    store.setLoading(true)
+    store.clearError()
     try {
       await service.removeIngredientFromInventory(inventoryId, ingredientId)
 
       // Refresh inventory
-      if (inventory.value) {
-        const updated = await service.getInventoryById(inventoryId)
-        inventory.value = updated
-        inventoryIngredients.value = mapInventoryEntries(updated?.inventory_ingredient as unknown as Record<string, unknown>[])
+      const updated = await service.getInventoryById(inventoryId)
+      if (updated) {
+        store.setInventory(updated)
+        store.setInventoryIngredients(mapInventoryEntries(updated.inventory_ingredient))
       }
 
       return true
     } catch (err) {
-      error.value = err instanceof Error ? err : new Error('Failed to remove ingredient')
+      const error = err instanceof Error ? err : new Error('Failed to remove ingredient')
+      store.setError(error)
       console.error('Error removing ingredient:', err)
-      throw error.value
+      throw error
     } finally {
-      isLoading.value = false
+      store.setLoading(false)
     }
   }
 
   const searchIngredients = (query: string) => {
+    const ingredients = store.inventoryIngredients.value
     if (!query.trim()) {
-      return inventoryIngredients.value || []
+      return ingredients
     }
 
-    return (inventoryIngredients.value || []).filter(item =>
+    return ingredients.filter(item =>
       item.ingredient_name.toLowerCase().includes(query.toLowerCase())
     )
   }
 
-  const clearError = () => {
-    error.value = null
-  }
-
   return {
-    isLoading: readonly(isLoading),
-    error: readonly(error),
-    inventory: readonly(inventory),
-    inventoryIngredients: readonly(inventoryIngredients),
+    isLoading: store.isLoading,
+    error: store.error,
+    inventory: store.inventory,
+    inventoryIngredients: store.inventoryIngredients,
     getOrCreateInventory,
     addIngredient,
     updateIngredient,
     removeIngredient,
     searchIngredients,
-    clearError,
+    clearError: store.clearError,
   }
 }

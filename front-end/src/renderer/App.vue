@@ -39,6 +39,11 @@
           v-else-if="activeView === 'journal'"
           :currentUserId="currentUserIdBigInt"
         />
+        <Settings
+          v-else-if="activeView === 'settings'"
+          :currentUserId="currentUserIdBigInt"
+          @logout="logout"
+        />
       </div>
     </div>
   </div>
@@ -53,6 +58,7 @@ import Inventory from '@/renderer/pages/Inventory.vue'
 import Recipes from '@/renderer/pages/Recipes.vue'
 import MealPlans from '@/renderer/pages/MealPlans.vue'
 import Journal from '@/renderer/pages/Journal.vue'
+import Settings from '@/renderer/pages/Settings.vue'
 import type User from '@/shared/user'
 import { useInventoryService } from '@/renderer/composables/useInventoryService'
 import { useRecipeService } from '@/renderer/composables/useRecipeService'

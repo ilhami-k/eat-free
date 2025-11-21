@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 
-export type View = 'dashboard' | 'inventory' | 'recipes' | 'mealplans' | 'journal'
+export type View = 'dashboard' | 'inventory' | 'recipes' | 'mealplans' | 'journal' | 'settings'
 
 // Global state
 const activeView = ref<View>('dashboard')

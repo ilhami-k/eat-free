@@ -85,6 +85,15 @@
       @updated="handleItemUpdated"
       @removed="handleItemRemoved"
     />
+
+    <!-- Add Ingredient Quantity Dialog -->
+    <AddIngredientQuantityDialog
+      v-if="showQuantityDialog && pendingIngredient"
+      :is-open="showQuantityDialog"
+      :ingredient-name="pendingIngredient.name"
+      @close="showQuantityDialog = false; pendingIngredient = null"
+      @confirm="handleQuantityConfirmed"
+    />
   </div>
 </template>
 
@@ -106,6 +115,7 @@ import InventoryCard from '../components/inventory/InventoryCard.vue'
 import InventoryGrid from '../components/inventory/InventoryGrid.vue'
 import InventoryEmptyState from '../components/inventory/InventoryEmptyState.vue'
 import InventoryMissingView from '../components/inventory/InventoryMissingView.vue'
+import AddIngredientQuantityDialog from '../components/modals/AddIngredientQuantityDialog.vue'
 
 const props = defineProps<{
   currentUserId: number
@@ -121,6 +131,8 @@ const searchQuery = ref('')
 const selectedCategory = ref<'all' | 'low-stock' | 'missing'>('all')
 const showSearchDialog = ref(false)
 const selectedItem = ref<InventoryIngredientWithDetails | null>(null)
+const showQuantityDialog = ref(false)
+const pendingIngredient = ref<Ingredient | null>(null)
 
 // Computed state from services
 const isLoading = computed(() => inventoryService.isLoading.value)
@@ -228,14 +240,27 @@ const handleIngredientSelected = async (ingredient: Ingredient) => {
     return
   }
 
-  // Add new ingredient with default 100g
-  await inventoryService.addIngredient(inventory.value.id, ingredientIdBig, 100)
+  // Show quantity dialog for new ingredient
+  pendingIngredient.value = ingredient
+  showQuantityDialog.value = true
+}
+
+const handleQuantityConfirmed = async (quantity: number) => {
+  if (!inventory.value || !pendingIngredient.value) return
+
+  const ingredientIdBig = pendingIngredient.value.id
+
+  // Add new ingredient with user-specified quantity
+  await inventoryService.addIngredient(inventory.value.id, ingredientIdBig, quantity)
   
   // Find and select the newly added ingredient
   const newIngredient = ingredients.value.find(i => i.ingredient_id === ingredientIdBig)
   if (newIngredient) {
     selectedItem.value = newIngredient
   }
+
+  // Reset pending state
+  pendingIngredient.value = null
 }
 
 const selectIngredient = (ingredient: InventoryIngredientWithDetails) => {
