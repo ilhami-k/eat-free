@@ -126,7 +126,7 @@ eat-free/
 ## 📝 Données de Test
 
 Le script `seeding.sql` crée automatiquement :
-- Un utilisateur de test : **Gordon R.**
+- 3 Utilisateurs prédefinie
 - 15 recettes variées avec informations nutritionnelles complètes
 - Plus de 200 ingrédients avec valeurs nutritionnelles
 - Un inventaire pré-rempli avec 55+ ingrédients
