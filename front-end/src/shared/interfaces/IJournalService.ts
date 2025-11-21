@@ -2,14 +2,14 @@ import Journal from "../journal";
 
 export default interface IJournalService {
   getJournalEntries: (
-    userId: bigint,
+    userId: number,
     startDate?: Date,
     endDate?: Date
   ) => Promise<Journal[]>;
-  getJournalEntryById: (id: bigint) => Promise<Journal | null>;
+  getJournalEntryById: (id: number) => Promise<Journal | null>;
   createJournalEntry: (
-    user_id: bigint,
-    recipe_id: bigint,
+    user_id: number,
+    recipe_id: number,
     servings_eaten: number,
     kcal: number,
     protein_g: number,
@@ -17,8 +17,8 @@ export default interface IJournalService {
     fat_g: number
   ) => Promise<Journal>;
   createJournalEntryWithTime: (
-    user_id: bigint,
-    recipe_id: bigint,
+    user_id: number,
+    recipe_id: number,
     servings_eaten: number,
     kcal: number,
     protein_g: number,
@@ -27,7 +27,7 @@ export default interface IJournalService {
     logged_at: Date
   ) => Promise<Journal>;
   updateJournalEntry: (
-    id: bigint,
+    id: number,
     data: {
       servings_eaten?: number;
       kcal?: number;
@@ -36,5 +36,5 @@ export default interface IJournalService {
       fat_g?: number;
     }
   ) => Promise<Journal>;
-  deleteJournalEntry: (id: bigint) => Promise<void>;
+  deleteJournalEntry: (id: number) => Promise<void>;
 }

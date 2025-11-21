@@ -32,20 +32,20 @@ export type Meal_planAvgAggregateOutputType = {
 }
 
 export type Meal_planSumAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
 }
 
 export type Meal_planMinAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
   week_start_date: Date | null
   created_at: Date | null
 }
 
 export type Meal_planMaxAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
   week_start_date: Date | null
   created_at: Date | null
 }
@@ -178,8 +178,8 @@ export type meal_planGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 export type Meal_planGroupByOutputType = {
-  id: bigint
-  user_id: bigint
+  id: number
+  user_id: number
   week_start_date: Date
   created_at: Date
   _count: Meal_planCountAggregateOutputType | null
@@ -208,8 +208,8 @@ export type meal_planWhereInput = {
   AND?: Prisma.meal_planWhereInput | Prisma.meal_planWhereInput[]
   OR?: Prisma.meal_planWhereInput[]
   NOT?: Prisma.meal_planWhereInput | Prisma.meal_planWhereInput[]
-  id?: Prisma.BigIntFilter<"meal_plan"> | bigint | number
-  user_id?: Prisma.BigIntFilter<"meal_plan"> | bigint | number
+  id?: Prisma.IntFilter<"meal_plan"> | number
+  user_id?: Prisma.IntFilter<"meal_plan"> | number
   week_start_date?: Prisma.DateTimeFilter<"meal_plan"> | Date | string
   created_at?: Prisma.DateTimeFilter<"meal_plan"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
@@ -226,12 +226,12 @@ export type meal_planOrderByWithRelationInput = {
 }
 
 export type meal_planWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: number
   user_id_week_start_date?: Prisma.meal_planUser_idWeek_start_dateCompoundUniqueInput
   AND?: Prisma.meal_planWhereInput | Prisma.meal_planWhereInput[]
   OR?: Prisma.meal_planWhereInput[]
   NOT?: Prisma.meal_planWhereInput | Prisma.meal_planWhereInput[]
-  user_id?: Prisma.BigIntFilter<"meal_plan"> | bigint | number
+  user_id?: Prisma.IntFilter<"meal_plan"> | number
   week_start_date?: Prisma.DateTimeFilter<"meal_plan"> | Date | string
   created_at?: Prisma.DateTimeFilter<"meal_plan"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
@@ -254,14 +254,13 @@ export type meal_planScalarWhereWithAggregatesInput = {
   AND?: Prisma.meal_planScalarWhereWithAggregatesInput | Prisma.meal_planScalarWhereWithAggregatesInput[]
   OR?: Prisma.meal_planScalarWhereWithAggregatesInput[]
   NOT?: Prisma.meal_planScalarWhereWithAggregatesInput | Prisma.meal_planScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"meal_plan"> | bigint | number
-  user_id?: Prisma.BigIntWithAggregatesFilter<"meal_plan"> | bigint | number
+  id?: Prisma.IntWithAggregatesFilter<"meal_plan"> | number
+  user_id?: Prisma.IntWithAggregatesFilter<"meal_plan"> | number
   week_start_date?: Prisma.DateTimeWithAggregatesFilter<"meal_plan"> | Date | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"meal_plan"> | Date | string
 }
 
 export type meal_planCreateInput = {
-  id?: bigint | number
   week_start_date: Date | string
   created_at?: Date | string
   user: Prisma.userCreateNestedOneWithoutMeal_planInput
@@ -269,15 +268,14 @@ export type meal_planCreateInput = {
 }
 
 export type meal_planUncheckedCreateInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   week_start_date: Date | string
   created_at?: Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedCreateNestedManyWithoutMeal_planInput
 }
 
 export type meal_planUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.userUpdateOneRequiredWithoutMeal_planNestedInput
@@ -285,35 +283,34 @@ export type meal_planUpdateInput = {
 }
 
 export type meal_planUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedUpdateManyWithoutMeal_planNestedInput
 }
 
 export type meal_planCreateManyInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   week_start_date: Date | string
   created_at?: Date | string
 }
 
 export type meal_planUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type meal_planUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type meal_planUser_idWeek_start_dateCompoundUniqueInput = {
-  user_id: bigint | number
+  user_id: number
   week_start_date: Date | string
 }
 
@@ -420,15 +417,14 @@ export type meal_planUncheckedUpdateManyWithoutUserNestedInput = {
 }
 
 export type meal_planCreateWithoutMeal_plan_recipeInput = {
-  id?: bigint | number
   week_start_date: Date | string
   created_at?: Date | string
   user: Prisma.userCreateNestedOneWithoutMeal_planInput
 }
 
 export type meal_planUncheckedCreateWithoutMeal_plan_recipeInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   week_start_date: Date | string
   created_at?: Date | string
 }
@@ -450,28 +446,26 @@ export type meal_planUpdateToOneWithWhereWithoutMeal_plan_recipeInput = {
 }
 
 export type meal_planUpdateWithoutMeal_plan_recipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.userUpdateOneRequiredWithoutMeal_planNestedInput
 }
 
 export type meal_planUncheckedUpdateWithoutMeal_plan_recipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type meal_planCreateWithoutUserInput = {
-  id?: bigint | number
   week_start_date: Date | string
   created_at?: Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeCreateNestedManyWithoutMeal_planInput
 }
 
 export type meal_planUncheckedCreateWithoutUserInput = {
-  id?: bigint | number
+  id?: number
   week_start_date: Date | string
   created_at?: Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedCreateNestedManyWithoutMeal_planInput
@@ -507,34 +501,33 @@ export type meal_planScalarWhereInput = {
   AND?: Prisma.meal_planScalarWhereInput | Prisma.meal_planScalarWhereInput[]
   OR?: Prisma.meal_planScalarWhereInput[]
   NOT?: Prisma.meal_planScalarWhereInput | Prisma.meal_planScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"meal_plan"> | bigint | number
-  user_id?: Prisma.BigIntFilter<"meal_plan"> | bigint | number
+  id?: Prisma.IntFilter<"meal_plan"> | number
+  user_id?: Prisma.IntFilter<"meal_plan"> | number
   week_start_date?: Prisma.DateTimeFilter<"meal_plan"> | Date | string
   created_at?: Prisma.DateTimeFilter<"meal_plan"> | Date | string
 }
 
 export type meal_planCreateManyUserInput = {
-  id?: bigint | number
+  id?: number
   week_start_date: Date | string
   created_at?: Date | string
 }
 
 export type meal_planUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeUpdateManyWithoutMeal_planNestedInput
 }
 
 export type meal_planUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedUpdateManyWithoutMeal_planNestedInput
 }
 
 export type meal_planUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   week_start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -603,8 +596,8 @@ export type $meal_planPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     meal_plan_recipe: Prisma.$meal_plan_recipePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
-    user_id: bigint
+    id: number
+    user_id: number
     week_start_date: Date
     created_at: Date
   }, ExtArgs["result"]["meal_plan"]>
@@ -978,8 +971,8 @@ export interface Prisma__meal_planClient<T, Null = never, ExtArgs extends runtim
  * Fields of the meal_plan model
  */
 export interface meal_planFieldRefs {
-  readonly id: Prisma.FieldRef<"meal_plan", 'BigInt'>
-  readonly user_id: Prisma.FieldRef<"meal_plan", 'BigInt'>
+  readonly id: Prisma.FieldRef<"meal_plan", 'Int'>
+  readonly user_id: Prisma.FieldRef<"meal_plan", 'Int'>
   readonly week_start_date: Prisma.FieldRef<"meal_plan", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"meal_plan", 'DateTime'>
 }

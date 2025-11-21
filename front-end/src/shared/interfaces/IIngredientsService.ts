@@ -2,7 +2,7 @@ import Ingredient from "../ingredient";
 
 export default interface IIngredientsService {
   getIngredients: () => Promise<Ingredient[]>;
-  getIngredientById: (id: bigint) => Promise<Ingredient | null>;
+  getIngredientById: (id: number) => Promise<Ingredient | null>;
   getIngredientByName: (name: string) => Promise<Ingredient | null>;
   createIngredient: (
     name: string,
@@ -12,7 +12,7 @@ export default interface IIngredientsService {
     fat_g_per_100g: number
   ) => Promise<Ingredient>;
   updateIngredient: (
-    id: bigint,
+    id: number,
     data: {
       name?: string;
       kcal_per_100g?: number;
@@ -21,5 +21,5 @@ export default interface IIngredientsService {
       fat_g_per_100g?: number;
     }
   ) => Promise<Ingredient>;
-  deleteIngredient: (id: bigint) => Promise<void>;
+  deleteIngredient: (id: number) => Promise<void>;
 }

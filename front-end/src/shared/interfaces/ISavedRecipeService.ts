@@ -1,20 +1,20 @@
 import SavedRecipe from "../savedRecipe";
 
 export default interface ISavedRecipeService {
-  getSavedRecipes: (userId: bigint) => Promise<SavedRecipe[]>;
-  getSavedRecipeById: (id: bigint) => Promise<SavedRecipe | null>;
+  getSavedRecipes: (userId: number) => Promise<SavedRecipe[]>;
+  getSavedRecipeById: (id: number) => Promise<SavedRecipe | null>;
   createSavedRecipe: (
-    user_id: bigint,
+    user_id: number,
     name: string,
-    recipe_id: bigint,
+    recipe_id: number,
     default_servings: number
   ) => Promise<SavedRecipe>;
   updateSavedRecipe: (
-    id: bigint,
+    id: number,
     data: {
       name?: string;
       default_servings?: number;
     }
   ) => Promise<SavedRecipe>;
-  deleteSavedRecipe: (id: bigint) => Promise<void>;
+  deleteSavedRecipe: (id: number) => Promise<void>;
 }

@@ -97,7 +97,7 @@ export function useDashboard() {
     try {
       // Get all meal plans for current user (assuming user id 1 for now)
       // TODO: Get actual current user ID
-      const mealPlans = await electronService?.mealPlans?.getMealPlans(BigInt(currentUser.value?.id || 1))
+      const mealPlans = await electronService?.mealPlans?.getMealPlans(currentUser.value?.id || 1)
       if (!mealPlans) {
         weekMealsCount.value = 0
         return
@@ -138,7 +138,7 @@ export function useDashboard() {
 
       // Get all journal entries for current user (assuming user id 1 for now)
       // TODO: Get actual current user ID
-      const journalEntries = await electronService?.journal?.getJournalEntries(BigInt(currentUser.value?.id || 1))
+      const journalEntries = await electronService?.journal?.getJournalEntries(currentUser.value?.id || 1)
       if (!journalEntries) {
         todayCalories.value = 0
         return

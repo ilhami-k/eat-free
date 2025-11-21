@@ -1,15 +1,15 @@
-import Recipe from "../recipe";
+import Recipe from "../recipe"
 
 export interface RecipeIngredientInput {
-    ingredient_id: bigint
+    ingredient_id: number
     qty_grams: number
-    notes?: string | null
+    notes?: string
 }
 
 export default interface IRecipeService {
     getRecipes: () => Promise<Recipe[]>
-    getRecipeById: (id: bigint) => Promise<Recipe | null>
-    createRecipe: (recipe: Omit<Recipe, "id" | "created_at">, ingredients?: RecipeIngredientInput[]) => Promise<Recipe>
-    updateRecipe: (id: bigint, recipe: Partial<Omit<Recipe, "id" | "created_at">>) => Promise<Recipe>
-    deleteRecipe: (id: bigint) => Promise<void>
+    getRecipeById: (id: number) => Promise<Recipe | null>
+    createRecipe: (recipe: Omit<Recipe, "id" | "created_at">, ingredients: RecipeIngredientInput[]) => Promise<Recipe>
+    updateRecipe: (id: number, recipe: Partial<Omit<Recipe, "id" | "created_at">>) => Promise<Recipe>
+    deleteRecipe: (id: number) => Promise<void>
 }

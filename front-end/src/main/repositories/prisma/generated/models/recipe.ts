@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model recipe
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type recipeModel = runtime.Types.Result.DefaultSelection<Prisma.$recipePayload>
 
@@ -29,44 +29,44 @@ export type AggregateRecipe = {
 export type RecipeAvgAggregateOutputType = {
   id: number | null
   user_id: number | null
-  servings: runtime.Decimal | null
-  kcal_per_serving: runtime.Decimal | null
-  protein_g_per_serving: runtime.Decimal | null
-  carbs_g_per_serving: runtime.Decimal | null
-  fat_g_per_serving: runtime.Decimal | null
+  servings: number | null
+  kcal_per_serving: number | null
+  protein_g_per_serving: number | null
+  carbs_g_per_serving: number | null
+  fat_g_per_serving: number | null
 }
 
 export type RecipeSumAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
-  servings: runtime.Decimal | null
-  kcal_per_serving: runtime.Decimal | null
-  protein_g_per_serving: runtime.Decimal | null
-  carbs_g_per_serving: runtime.Decimal | null
-  fat_g_per_serving: runtime.Decimal | null
+  id: number | null
+  user_id: number | null
+  servings: number | null
+  kcal_per_serving: number | null
+  protein_g_per_serving: number | null
+  carbs_g_per_serving: number | null
+  fat_g_per_serving: number | null
 }
 
 export type RecipeMinAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
   name: string | null
-  servings: runtime.Decimal | null
-  kcal_per_serving: runtime.Decimal | null
-  protein_g_per_serving: runtime.Decimal | null
-  carbs_g_per_serving: runtime.Decimal | null
-  fat_g_per_serving: runtime.Decimal | null
+  servings: number | null
+  kcal_per_serving: number | null
+  protein_g_per_serving: number | null
+  carbs_g_per_serving: number | null
+  fat_g_per_serving: number | null
   created_at: Date | null
 }
 
 export type RecipeMaxAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
   name: string | null
-  servings: runtime.Decimal | null
-  kcal_per_serving: runtime.Decimal | null
-  protein_g_per_serving: runtime.Decimal | null
-  carbs_g_per_serving: runtime.Decimal | null
-  fat_g_per_serving: runtime.Decimal | null
+  servings: number | null
+  kcal_per_serving: number | null
+  protein_g_per_serving: number | null
+  carbs_g_per_serving: number | null
+  fat_g_per_serving: number | null
   created_at: Date | null
 }
 
@@ -228,14 +228,14 @@ export type recipeGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 export type RecipeGroupByOutputType = {
-  id: bigint
-  user_id: bigint | null
+  id: number
+  user_id: number | null
   name: string
-  servings: runtime.Decimal
-  kcal_per_serving: runtime.Decimal
-  protein_g_per_serving: runtime.Decimal
-  carbs_g_per_serving: runtime.Decimal
-  fat_g_per_serving: runtime.Decimal
+  servings: number
+  kcal_per_serving: number
+  protein_g_per_serving: number
+  carbs_g_per_serving: number
+  fat_g_per_serving: number
   created_at: Date
   _count: RecipeCountAggregateOutputType | null
   _avg: RecipeAvgAggregateOutputType | null
@@ -263,14 +263,14 @@ export type recipeWhereInput = {
   AND?: Prisma.recipeWhereInput | Prisma.recipeWhereInput[]
   OR?: Prisma.recipeWhereInput[]
   NOT?: Prisma.recipeWhereInput | Prisma.recipeWhereInput[]
-  id?: Prisma.BigIntFilter<"recipe"> | bigint | number
-  user_id?: Prisma.BigIntNullableFilter<"recipe"> | bigint | number | null
+  id?: Prisma.IntFilter<"recipe"> | number
+  user_id?: Prisma.IntNullableFilter<"recipe"> | number | null
   name?: Prisma.StringFilter<"recipe"> | string
-  servings?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFilter<"recipe"> | number
+  kcal_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  protein_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  carbs_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  fat_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
   created_at?: Prisma.DateTimeFilter<"recipe"> | Date | string
   journal?: Prisma.JournalListRelationFilter
   meal_plan_recipe?: Prisma.Meal_plan_recipeListRelationFilter
@@ -298,17 +298,17 @@ export type recipeOrderByWithRelationInput = {
 }
 
 export type recipeWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: number
   AND?: Prisma.recipeWhereInput | Prisma.recipeWhereInput[]
   OR?: Prisma.recipeWhereInput[]
   NOT?: Prisma.recipeWhereInput | Prisma.recipeWhereInput[]
-  user_id?: Prisma.BigIntNullableFilter<"recipe"> | bigint | number | null
+  user_id?: Prisma.IntNullableFilter<"recipe"> | number | null
   name?: Prisma.StringFilter<"recipe"> | string
-  servings?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFilter<"recipe"> | number
+  kcal_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  protein_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  carbs_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  fat_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
   created_at?: Prisma.DateTimeFilter<"recipe"> | Date | string
   journal?: Prisma.JournalListRelationFilter
   meal_plan_recipe?: Prisma.Meal_plan_recipeListRelationFilter
@@ -338,25 +338,24 @@ export type recipeScalarWhereWithAggregatesInput = {
   AND?: Prisma.recipeScalarWhereWithAggregatesInput | Prisma.recipeScalarWhereWithAggregatesInput[]
   OR?: Prisma.recipeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.recipeScalarWhereWithAggregatesInput | Prisma.recipeScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"recipe"> | bigint | number
-  user_id?: Prisma.BigIntNullableWithAggregatesFilter<"recipe"> | bigint | number | null
+  id?: Prisma.IntWithAggregatesFilter<"recipe"> | number
+  user_id?: Prisma.IntNullableWithAggregatesFilter<"recipe"> | number | null
   name?: Prisma.StringWithAggregatesFilter<"recipe"> | string
-  servings?: Prisma.DecimalWithAggregatesFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalWithAggregatesFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalWithAggregatesFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalWithAggregatesFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalWithAggregatesFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatWithAggregatesFilter<"recipe"> | number
+  kcal_per_serving?: Prisma.FloatWithAggregatesFilter<"recipe"> | number
+  protein_g_per_serving?: Prisma.FloatWithAggregatesFilter<"recipe"> | number
+  carbs_g_per_serving?: Prisma.FloatWithAggregatesFilter<"recipe"> | number
+  fat_g_per_serving?: Prisma.FloatWithAggregatesFilter<"recipe"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"recipe"> | Date | string
 }
 
 export type recipeCreateInput = {
-  id?: bigint | number
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalCreateNestedManyWithoutRecipeInput
   meal_plan_recipe?: Prisma.meal_plan_recipeCreateNestedManyWithoutRecipeInput
@@ -366,14 +365,14 @@ export type recipeCreateInput = {
 }
 
 export type recipeUncheckedCreateInput = {
-  id?: bigint | number
-  user_id?: bigint | number | null
+  id?: number
+  user_id?: number | null
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalUncheckedCreateNestedManyWithoutRecipeInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedCreateNestedManyWithoutRecipeInput
@@ -382,13 +381,12 @@ export type recipeUncheckedCreateInput = {
 }
 
 export type recipeUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUpdateManyWithoutRecipeNestedInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUpdateManyWithoutRecipeNestedInput
@@ -398,14 +396,14 @@ export type recipeUpdateInput = {
 }
 
 export type recipeUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUncheckedUpdateManyWithoutRecipeNestedInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedUpdateManyWithoutRecipeNestedInput
@@ -414,37 +412,36 @@ export type recipeUncheckedUpdateInput = {
 }
 
 export type recipeCreateManyInput = {
-  id?: bigint | number
-  user_id?: bigint | number | null
+  id?: number
+  user_id?: number | null
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
 }
 
 export type recipeUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type recipeUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -553,12 +550,12 @@ export type recipeUpdateOneRequiredWithoutMeal_plan_recipeNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.recipeUpdateToOneWithWhereWithoutMeal_plan_recipeInput, Prisma.recipeUpdateWithoutMeal_plan_recipeInput>, Prisma.recipeUncheckedUpdateWithoutMeal_plan_recipeInput>
 }
 
-export type NullableBigIntFieldUpdateOperationsInput = {
-  set?: bigint | number | null
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type recipeCreateNestedOneWithoutRecipe_ingredientsInput = {
@@ -632,13 +629,12 @@ export type recipeUncheckedUpdateManyWithoutUserNestedInput = {
 }
 
 export type recipeCreateWithoutJournalInput = {
-  id?: bigint | number
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeCreateNestedManyWithoutRecipeInput
   user?: Prisma.userCreateNestedOneWithoutRecipeInput
@@ -647,14 +643,14 @@ export type recipeCreateWithoutJournalInput = {
 }
 
 export type recipeUncheckedCreateWithoutJournalInput = {
-  id?: bigint | number
-  user_id?: bigint | number | null
+  id?: number
+  user_id?: number | null
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedCreateNestedManyWithoutRecipeInput
   recipe_ingredients?: Prisma.recipe_ingredientsUncheckedCreateNestedManyWithoutRecipeInput
@@ -678,13 +674,12 @@ export type recipeUpdateToOneWithWhereWithoutJournalInput = {
 }
 
 export type recipeUpdateWithoutJournalInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeUpdateManyWithoutRecipeNestedInput
   user?: Prisma.userUpdateOneWithoutRecipeNestedInput
@@ -693,14 +688,14 @@ export type recipeUpdateWithoutJournalInput = {
 }
 
 export type recipeUncheckedUpdateWithoutJournalInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedUpdateManyWithoutRecipeNestedInput
   recipe_ingredients?: Prisma.recipe_ingredientsUncheckedUpdateManyWithoutRecipeNestedInput
@@ -708,13 +703,12 @@ export type recipeUncheckedUpdateWithoutJournalInput = {
 }
 
 export type recipeCreateWithoutMeal_plan_recipeInput = {
-  id?: bigint | number
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalCreateNestedManyWithoutRecipeInput
   user?: Prisma.userCreateNestedOneWithoutRecipeInput
@@ -723,14 +717,14 @@ export type recipeCreateWithoutMeal_plan_recipeInput = {
 }
 
 export type recipeUncheckedCreateWithoutMeal_plan_recipeInput = {
-  id?: bigint | number
-  user_id?: bigint | number | null
+  id?: number
+  user_id?: number | null
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalUncheckedCreateNestedManyWithoutRecipeInput
   recipe_ingredients?: Prisma.recipe_ingredientsUncheckedCreateNestedManyWithoutRecipeInput
@@ -754,13 +748,12 @@ export type recipeUpdateToOneWithWhereWithoutMeal_plan_recipeInput = {
 }
 
 export type recipeUpdateWithoutMeal_plan_recipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUpdateManyWithoutRecipeNestedInput
   user?: Prisma.userUpdateOneWithoutRecipeNestedInput
@@ -769,14 +762,14 @@ export type recipeUpdateWithoutMeal_plan_recipeInput = {
 }
 
 export type recipeUncheckedUpdateWithoutMeal_plan_recipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUncheckedUpdateManyWithoutRecipeNestedInput
   recipe_ingredients?: Prisma.recipe_ingredientsUncheckedUpdateManyWithoutRecipeNestedInput
@@ -784,13 +777,12 @@ export type recipeUncheckedUpdateWithoutMeal_plan_recipeInput = {
 }
 
 export type recipeCreateWithoutRecipe_ingredientsInput = {
-  id?: bigint | number
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalCreateNestedManyWithoutRecipeInput
   meal_plan_recipe?: Prisma.meal_plan_recipeCreateNestedManyWithoutRecipeInput
@@ -799,14 +791,14 @@ export type recipeCreateWithoutRecipe_ingredientsInput = {
 }
 
 export type recipeUncheckedCreateWithoutRecipe_ingredientsInput = {
-  id?: bigint | number
-  user_id?: bigint | number | null
+  id?: number
+  user_id?: number | null
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalUncheckedCreateNestedManyWithoutRecipeInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedCreateNestedManyWithoutRecipeInput
@@ -830,13 +822,12 @@ export type recipeUpdateToOneWithWhereWithoutRecipe_ingredientsInput = {
 }
 
 export type recipeUpdateWithoutRecipe_ingredientsInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUpdateManyWithoutRecipeNestedInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUpdateManyWithoutRecipeNestedInput
@@ -845,14 +836,14 @@ export type recipeUpdateWithoutRecipe_ingredientsInput = {
 }
 
 export type recipeUncheckedUpdateWithoutRecipe_ingredientsInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUncheckedUpdateManyWithoutRecipeNestedInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedUpdateManyWithoutRecipeNestedInput
@@ -860,13 +851,12 @@ export type recipeUncheckedUpdateWithoutRecipe_ingredientsInput = {
 }
 
 export type recipeCreateWithoutSaved_recipeInput = {
-  id?: bigint | number
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalCreateNestedManyWithoutRecipeInput
   meal_plan_recipe?: Prisma.meal_plan_recipeCreateNestedManyWithoutRecipeInput
@@ -875,14 +865,14 @@ export type recipeCreateWithoutSaved_recipeInput = {
 }
 
 export type recipeUncheckedCreateWithoutSaved_recipeInput = {
-  id?: bigint | number
-  user_id?: bigint | number | null
+  id?: number
+  user_id?: number | null
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalUncheckedCreateNestedManyWithoutRecipeInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedCreateNestedManyWithoutRecipeInput
@@ -906,13 +896,12 @@ export type recipeUpdateToOneWithWhereWithoutSaved_recipeInput = {
 }
 
 export type recipeUpdateWithoutSaved_recipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUpdateManyWithoutRecipeNestedInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUpdateManyWithoutRecipeNestedInput
@@ -921,14 +910,14 @@ export type recipeUpdateWithoutSaved_recipeInput = {
 }
 
 export type recipeUncheckedUpdateWithoutSaved_recipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUncheckedUpdateManyWithoutRecipeNestedInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedUpdateManyWithoutRecipeNestedInput
@@ -936,13 +925,12 @@ export type recipeUncheckedUpdateWithoutSaved_recipeInput = {
 }
 
 export type recipeCreateWithoutUserInput = {
-  id?: bigint | number
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalCreateNestedManyWithoutRecipeInput
   meal_plan_recipe?: Prisma.meal_plan_recipeCreateNestedManyWithoutRecipeInput
@@ -951,13 +939,13 @@ export type recipeCreateWithoutUserInput = {
 }
 
 export type recipeUncheckedCreateWithoutUserInput = {
-  id?: bigint | number
+  id?: number
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
   journal?: Prisma.journalUncheckedCreateNestedManyWithoutRecipeInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedCreateNestedManyWithoutRecipeInput
@@ -995,36 +983,35 @@ export type recipeScalarWhereInput = {
   AND?: Prisma.recipeScalarWhereInput | Prisma.recipeScalarWhereInput[]
   OR?: Prisma.recipeScalarWhereInput[]
   NOT?: Prisma.recipeScalarWhereInput | Prisma.recipeScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"recipe"> | bigint | number
-  user_id?: Prisma.BigIntNullableFilter<"recipe"> | bigint | number | null
+  id?: Prisma.IntFilter<"recipe"> | number
+  user_id?: Prisma.IntNullableFilter<"recipe"> | number | null
   name?: Prisma.StringFilter<"recipe"> | string
-  servings?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFilter<"recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFilter<"recipe"> | number
+  kcal_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  protein_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  carbs_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
+  fat_g_per_serving?: Prisma.FloatFilter<"recipe"> | number
   created_at?: Prisma.DateTimeFilter<"recipe"> | Date | string
 }
 
 export type recipeCreateManyUserInput = {
-  id?: bigint | number
+  id?: number
   name: string
-  servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: number
+  kcal_per_serving?: number
+  protein_g_per_serving?: number
+  carbs_g_per_serving?: number
+  fat_g_per_serving?: number
   created_at?: Date | string
 }
 
 export type recipeUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUpdateManyWithoutRecipeNestedInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUpdateManyWithoutRecipeNestedInput
@@ -1033,13 +1020,13 @@ export type recipeUpdateWithoutUserInput = {
 }
 
 export type recipeUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   journal?: Prisma.journalUncheckedUpdateManyWithoutRecipeNestedInput
   meal_plan_recipe?: Prisma.meal_plan_recipeUncheckedUpdateManyWithoutRecipeNestedInput
@@ -1048,13 +1035,13 @@ export type recipeUncheckedUpdateWithoutUserInput = {
 }
 
 export type recipeUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  kcal_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_serving?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings?: Prisma.FloatFieldUpdateOperationsInput | number
+  kcal_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_serving?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1168,14 +1155,14 @@ export type $recipePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     saved_recipe: Prisma.$saved_recipePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
-    user_id: bigint | null
+    id: number
+    user_id: number | null
     name: string
-    servings: runtime.Decimal
-    kcal_per_serving: runtime.Decimal
-    protein_g_per_serving: runtime.Decimal
-    carbs_g_per_serving: runtime.Decimal
-    fat_g_per_serving: runtime.Decimal
+    servings: number
+    kcal_per_serving: number
+    protein_g_per_serving: number
+    carbs_g_per_serving: number
+    fat_g_per_serving: number
     created_at: Date
   }, ExtArgs["result"]["recipe"]>
   composites: {}
@@ -1551,14 +1538,14 @@ export interface Prisma__recipeClient<T, Null = never, ExtArgs extends runtime.T
  * Fields of the recipe model
  */
 export interface recipeFieldRefs {
-  readonly id: Prisma.FieldRef<"recipe", 'BigInt'>
-  readonly user_id: Prisma.FieldRef<"recipe", 'BigInt'>
+  readonly id: Prisma.FieldRef<"recipe", 'Int'>
+  readonly user_id: Prisma.FieldRef<"recipe", 'Int'>
   readonly name: Prisma.FieldRef<"recipe", 'String'>
-  readonly servings: Prisma.FieldRef<"recipe", 'Decimal'>
-  readonly kcal_per_serving: Prisma.FieldRef<"recipe", 'Decimal'>
-  readonly protein_g_per_serving: Prisma.FieldRef<"recipe", 'Decimal'>
-  readonly carbs_g_per_serving: Prisma.FieldRef<"recipe", 'Decimal'>
-  readonly fat_g_per_serving: Prisma.FieldRef<"recipe", 'Decimal'>
+  readonly servings: Prisma.FieldRef<"recipe", 'Float'>
+  readonly kcal_per_serving: Prisma.FieldRef<"recipe", 'Float'>
+  readonly protein_g_per_serving: Prisma.FieldRef<"recipe", 'Float'>
+  readonly carbs_g_per_serving: Prisma.FieldRef<"recipe", 'Float'>
+  readonly fat_g_per_serving: Prisma.FieldRef<"recipe", 'Float'>
   readonly created_at: Prisma.FieldRef<"recipe", 'DateTime'>
 }
     

@@ -97,7 +97,13 @@ const showCreate = ref(false)
 
 const isLoading = computed(() => ingredientService.isLoading.value)
 const error = computed(() => ingredientService.error.value)
-const filteredIngredients = computed(() => ingredientService.ingredients.value)
+const filteredIngredients = computed(() => {
+  const results = ingredientService.ingredients.value
+  console.log('SearchDialog - Total ingredients available:', results.length)
+  console.log('SearchDialog - Search query:', searchQuery.value)
+  console.log('SearchDialog - Filtered results:', results.slice(0, 5).map(i => i.name))
+  return results
+})
 
 onMounted(async () => {
   await ingredientService.fetchIngredients()

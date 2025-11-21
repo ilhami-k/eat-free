@@ -30,46 +30,46 @@ export type JournalAvgAggregateOutputType = {
   id: number | null
   user_id: number | null
   recipe_id: number | null
-  servings_eaten: runtime.Decimal | null
-  kcal: runtime.Decimal | null
-  protein_g: runtime.Decimal | null
-  carbs_g: runtime.Decimal | null
-  fat_g: runtime.Decimal | null
+  servings_eaten: number | null
+  kcal: number | null
+  protein_g: number | null
+  carbs_g: number | null
+  fat_g: number | null
 }
 
 export type JournalSumAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
-  recipe_id: bigint | null
-  servings_eaten: runtime.Decimal | null
-  kcal: runtime.Decimal | null
-  protein_g: runtime.Decimal | null
-  carbs_g: runtime.Decimal | null
-  fat_g: runtime.Decimal | null
+  id: number | null
+  user_id: number | null
+  recipe_id: number | null
+  servings_eaten: number | null
+  kcal: number | null
+  protein_g: number | null
+  carbs_g: number | null
+  fat_g: number | null
 }
 
 export type JournalMinAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
-  recipe_id: bigint | null
-  servings_eaten: runtime.Decimal | null
+  id: number | null
+  user_id: number | null
+  recipe_id: number | null
+  servings_eaten: number | null
   logged_at: Date | null
-  kcal: runtime.Decimal | null
-  protein_g: runtime.Decimal | null
-  carbs_g: runtime.Decimal | null
-  fat_g: runtime.Decimal | null
+  kcal: number | null
+  protein_g: number | null
+  carbs_g: number | null
+  fat_g: number | null
 }
 
 export type JournalMaxAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
-  recipe_id: bigint | null
-  servings_eaten: runtime.Decimal | null
+  id: number | null
+  user_id: number | null
+  recipe_id: number | null
+  servings_eaten: number | null
   logged_at: Date | null
-  kcal: runtime.Decimal | null
-  protein_g: runtime.Decimal | null
-  carbs_g: runtime.Decimal | null
-  fat_g: runtime.Decimal | null
+  kcal: number | null
+  protein_g: number | null
+  carbs_g: number | null
+  fat_g: number | null
 }
 
 export type JournalCountAggregateOutputType = {
@@ -232,15 +232,15 @@ export type journalGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type JournalGroupByOutputType = {
-  id: bigint
-  user_id: bigint
-  recipe_id: bigint
-  servings_eaten: runtime.Decimal
+  id: number
+  user_id: number
+  recipe_id: number
+  servings_eaten: number
   logged_at: Date
-  kcal: runtime.Decimal
-  protein_g: runtime.Decimal
-  carbs_g: runtime.Decimal
-  fat_g: runtime.Decimal
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
   _count: JournalCountAggregateOutputType | null
   _avg: JournalAvgAggregateOutputType | null
   _sum: JournalSumAggregateOutputType | null
@@ -267,15 +267,15 @@ export type journalWhereInput = {
   AND?: Prisma.journalWhereInput | Prisma.journalWhereInput[]
   OR?: Prisma.journalWhereInput[]
   NOT?: Prisma.journalWhereInput | Prisma.journalWhereInput[]
-  id?: Prisma.BigIntFilter<"journal"> | bigint | number
-  user_id?: Prisma.BigIntFilter<"journal"> | bigint | number
-  recipe_id?: Prisma.BigIntFilter<"journal"> | bigint | number
-  servings_eaten?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntFilter<"journal"> | number
+  user_id?: Prisma.IntFilter<"journal"> | number
+  recipe_id?: Prisma.IntFilter<"journal"> | number
+  servings_eaten?: Prisma.FloatFilter<"journal"> | number
   logged_at?: Prisma.DateTimeFilter<"journal"> | Date | string
-  kcal?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFilter<"journal"> | number
+  protein_g?: Prisma.FloatFilter<"journal"> | number
+  carbs_g?: Prisma.FloatFilter<"journal"> | number
+  fat_g?: Prisma.FloatFilter<"journal"> | number
   recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
 }
@@ -295,18 +295,18 @@ export type journalOrderByWithRelationInput = {
 }
 
 export type journalWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: number
   AND?: Prisma.journalWhereInput | Prisma.journalWhereInput[]
   OR?: Prisma.journalWhereInput[]
   NOT?: Prisma.journalWhereInput | Prisma.journalWhereInput[]
-  user_id?: Prisma.BigIntFilter<"journal"> | bigint | number
-  recipe_id?: Prisma.BigIntFilter<"journal"> | bigint | number
-  servings_eaten?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  user_id?: Prisma.IntFilter<"journal"> | number
+  recipe_id?: Prisma.IntFilter<"journal"> | number
+  servings_eaten?: Prisma.FloatFilter<"journal"> | number
   logged_at?: Prisma.DateTimeFilter<"journal"> | Date | string
-  kcal?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFilter<"journal"> | number
+  protein_g?: Prisma.FloatFilter<"journal"> | number
+  carbs_g?: Prisma.FloatFilter<"journal"> | number
+  fat_g?: Prisma.FloatFilter<"journal"> | number
   recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
 }, "id">
@@ -332,97 +332,94 @@ export type journalScalarWhereWithAggregatesInput = {
   AND?: Prisma.journalScalarWhereWithAggregatesInput | Prisma.journalScalarWhereWithAggregatesInput[]
   OR?: Prisma.journalScalarWhereWithAggregatesInput[]
   NOT?: Prisma.journalScalarWhereWithAggregatesInput | Prisma.journalScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"journal"> | bigint | number
-  user_id?: Prisma.BigIntWithAggregatesFilter<"journal"> | bigint | number
-  recipe_id?: Prisma.BigIntWithAggregatesFilter<"journal"> | bigint | number
-  servings_eaten?: Prisma.DecimalWithAggregatesFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntWithAggregatesFilter<"journal"> | number
+  user_id?: Prisma.IntWithAggregatesFilter<"journal"> | number
+  recipe_id?: Prisma.IntWithAggregatesFilter<"journal"> | number
+  servings_eaten?: Prisma.FloatWithAggregatesFilter<"journal"> | number
   logged_at?: Prisma.DateTimeWithAggregatesFilter<"journal"> | Date | string
-  kcal?: Prisma.DecimalWithAggregatesFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalWithAggregatesFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalWithAggregatesFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalWithAggregatesFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatWithAggregatesFilter<"journal"> | number
+  protein_g?: Prisma.FloatWithAggregatesFilter<"journal"> | number
+  carbs_g?: Prisma.FloatWithAggregatesFilter<"journal"> | number
+  fat_g?: Prisma.FloatWithAggregatesFilter<"journal"> | number
 }
 
 export type journalCreateInput = {
-  id?: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
   recipe: Prisma.recipeCreateNestedOneWithoutJournalInput
   user: Prisma.userCreateNestedOneWithoutJournalInput
 }
 
 export type journalUncheckedCreateInput = {
-  id?: bigint | number
-  user_id: bigint | number
-  recipe_id: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: number
+  user_id: number
+  recipe_id: number
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
 }
 
 export type journalUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
   recipe?: Prisma.recipeUpdateOneRequiredWithoutJournalNestedInput
   user?: Prisma.userUpdateOneRequiredWithoutJournalNestedInput
 }
 
 export type journalUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type journalCreateManyInput = {
-  id?: bigint | number
-  user_id: bigint | number
-  recipe_id: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: number
+  user_id: number
+  recipe_id: number
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
 }
 
 export type journalUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type journalUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type journalCountOrderByAggregateInput = {
@@ -578,25 +575,24 @@ export type journalUncheckedUpdateManyWithoutUserNestedInput = {
 }
 
 export type journalCreateWithoutRecipeInput = {
-  id?: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
   user: Prisma.userCreateNestedOneWithoutJournalInput
 }
 
 export type journalUncheckedCreateWithoutRecipeInput = {
-  id?: bigint | number
-  user_id: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: number
+  user_id: number
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
 }
 
 export type journalCreateOrConnectWithoutRecipeInput = {
@@ -629,37 +625,36 @@ export type journalScalarWhereInput = {
   AND?: Prisma.journalScalarWhereInput | Prisma.journalScalarWhereInput[]
   OR?: Prisma.journalScalarWhereInput[]
   NOT?: Prisma.journalScalarWhereInput | Prisma.journalScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"journal"> | bigint | number
-  user_id?: Prisma.BigIntFilter<"journal"> | bigint | number
-  recipe_id?: Prisma.BigIntFilter<"journal"> | bigint | number
-  servings_eaten?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntFilter<"journal"> | number
+  user_id?: Prisma.IntFilter<"journal"> | number
+  recipe_id?: Prisma.IntFilter<"journal"> | number
+  servings_eaten?: Prisma.FloatFilter<"journal"> | number
   logged_at?: Prisma.DateTimeFilter<"journal"> | Date | string
-  kcal?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFilter<"journal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFilter<"journal"> | number
+  protein_g?: Prisma.FloatFilter<"journal"> | number
+  carbs_g?: Prisma.FloatFilter<"journal"> | number
+  fat_g?: Prisma.FloatFilter<"journal"> | number
 }
 
 export type journalCreateWithoutUserInput = {
-  id?: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
   recipe: Prisma.recipeCreateNestedOneWithoutJournalInput
 }
 
 export type journalUncheckedCreateWithoutUserInput = {
-  id?: bigint | number
-  recipe_id: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: number
+  recipe_id: number
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
 }
 
 export type journalCreateOrConnectWithoutUserInput = {
@@ -689,91 +684,89 @@ export type journalUpdateManyWithWhereWithoutUserInput = {
 }
 
 export type journalCreateManyRecipeInput = {
-  id?: bigint | number
-  user_id: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: number
+  user_id: number
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
 }
 
 export type journalUpdateWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
   user?: Prisma.userUpdateOneRequiredWithoutJournalNestedInput
 }
 
 export type journalUncheckedUpdateWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type journalUncheckedUpdateManyWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type journalCreateManyUserInput = {
-  id?: bigint | number
-  recipe_id: bigint | number
-  servings_eaten?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: number
+  recipe_id: number
+  servings_eaten?: number
   logged_at?: Date | string
-  kcal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
 }
 
 export type journalUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
   recipe?: Prisma.recipeUpdateOneRequiredWithoutJournalNestedInput
 }
 
 export type journalUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type journalUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  servings_eaten?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  servings_eaten?: Prisma.FloatFieldUpdateOperationsInput | number
   logged_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  kcal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 
@@ -819,15 +812,15 @@ export type $journalPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     user: Prisma.$userPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
-    user_id: bigint
-    recipe_id: bigint
-    servings_eaten: runtime.Decimal
+    id: number
+    user_id: number
+    recipe_id: number
+    servings_eaten: number
     logged_at: Date
-    kcal: runtime.Decimal
-    protein_g: runtime.Decimal
-    carbs_g: runtime.Decimal
-    fat_g: runtime.Decimal
+    kcal: number
+    protein_g: number
+    carbs_g: number
+    fat_g: number
   }, ExtArgs["result"]["journal"]>
   composites: {}
 }
@@ -1199,15 +1192,15 @@ export interface Prisma__journalClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the journal model
  */
 export interface journalFieldRefs {
-  readonly id: Prisma.FieldRef<"journal", 'BigInt'>
-  readonly user_id: Prisma.FieldRef<"journal", 'BigInt'>
-  readonly recipe_id: Prisma.FieldRef<"journal", 'BigInt'>
-  readonly servings_eaten: Prisma.FieldRef<"journal", 'Decimal'>
+  readonly id: Prisma.FieldRef<"journal", 'Int'>
+  readonly user_id: Prisma.FieldRef<"journal", 'Int'>
+  readonly recipe_id: Prisma.FieldRef<"journal", 'Int'>
+  readonly servings_eaten: Prisma.FieldRef<"journal", 'Float'>
   readonly logged_at: Prisma.FieldRef<"journal", 'DateTime'>
-  readonly kcal: Prisma.FieldRef<"journal", 'Decimal'>
-  readonly protein_g: Prisma.FieldRef<"journal", 'Decimal'>
-  readonly carbs_g: Prisma.FieldRef<"journal", 'Decimal'>
-  readonly fat_g: Prisma.FieldRef<"journal", 'Decimal'>
+  readonly kcal: Prisma.FieldRef<"journal", 'Float'>
+  readonly protein_g: Prisma.FieldRef<"journal", 'Float'>
+  readonly carbs_g: Prisma.FieldRef<"journal", 'Float'>
+  readonly fat_g: Prisma.FieldRef<"journal", 'Float'>
 }
     
 

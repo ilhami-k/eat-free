@@ -111,7 +111,7 @@ import DateNavigator from '@/renderer/components/journal/DateNavigator.vue'
 import type Journal from '@/shared/journal'
 
 interface Props {
-  currentUserId: bigint
+  currentUserId: number
 }
 
 const props = defineProps<Props>()
@@ -218,7 +218,7 @@ async function handleEntryAdded(): Promise<void> {
   await loadJournalEntries()
 }
 
-async function deleteEntry(id: bigint): Promise<void> {
+async function deleteEntry(id: number): Promise<void> {
   if (!confirm('Delete this food entry?')) {
     return
   }

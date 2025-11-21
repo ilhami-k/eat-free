@@ -13,7 +13,7 @@ export function registerRecipeRepository() {
     return recipeRepository.getRecipeById(id);
   });
 
-  ipcMain.handle("recipeRepository:createRecipe", (e, recipe: Omit<Recipe, "id" | "created_at">, ingredients?: Array<{ ingredient_id: bigint, qty_grams: number, notes?: string | null }>) => {
+  ipcMain.handle("recipeRepository:createRecipe", (e, recipe: Omit<Recipe, "id" | "created_at">, ingredients?: Array<{ ingredient_id: number, qty_grams: number, notes?: string | null }>) => {
     return recipeRepository.createRecipe(recipe, ingredients);
   });
 

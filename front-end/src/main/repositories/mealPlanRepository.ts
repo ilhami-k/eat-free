@@ -36,7 +36,7 @@ export class MealPlanRepository {
 
   async getMealPlans(userId: number): Promise<MealPlan[]> {
     const plans = await this.dbclient.meal_plan.findMany({
-      where: { user_id: BigInt(userId) },
+      where: { user_id: (userId) },
       include: {
         meal_plan_recipe: {
           include: {
@@ -52,27 +52,27 @@ export class MealPlanRepository {
       },
     });
     return plans.map((p) => ({
-      id: Number(p.id),
-      user_id: Number(p.user_id),
+      id: (p.id),
+      user_id: (p.user_id),
       week_start_date: p.week_start_date.toISOString(),
       created_at: p.created_at.toISOString(),
       meal_plan_recipe: p.meal_plan_recipe?.map((mpr) => ({
-        id: Number(mpr.id),
-        plan_id: Number(mpr.plan_id),
-        recipe_id: Number(mpr.recipe_id),
+        id: (mpr.id),
+        plan_id: (mpr.plan_id),
+        recipe_id: (mpr.recipe_id),
         date: mpr.date.toISOString(),
         meal_type: mpr.meal_type,
-        planned_servings: Number(mpr.planned_servings),
+        planned_servings: (mpr.planned_servings),
         recipe: mpr.recipe
           ? {
-              id: Number(mpr.recipe.id),
-              user_id: mpr.recipe.user_id ? Number(mpr.recipe.user_id) : null,
+              id: (mpr.recipe.id),
+              user_id: mpr.recipe.user_id ? (mpr.recipe.user_id) : null,
               name: mpr.recipe.name,
-              servings: Number(mpr.recipe.servings),
-              kcal_per_serving: Number(mpr.recipe.kcal_per_serving),
-              protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
-              carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
-              fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
+              servings: (mpr.recipe.servings),
+              kcal_per_serving: (mpr.recipe.kcal_per_serving),
+              protein_g_per_serving: (mpr.recipe.protein_g_per_serving),
+              carbs_g_per_serving: (mpr.recipe.carbs_g_per_serving),
+              fat_g_per_serving: (mpr.recipe.fat_g_per_serving),
               created_at: mpr.recipe.created_at.toISOString(),
             }
           : undefined,
@@ -82,7 +82,7 @@ export class MealPlanRepository {
 
   async getMealPlanById(id: number): Promise<MealPlan | null> {
     const plan = await this.dbclient.meal_plan.findUnique({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
       include: {
         meal_plan_recipe: {
           include: {
@@ -99,27 +99,27 @@ export class MealPlanRepository {
     });
     if (!plan) return null;
     return {
-      id: Number(plan.id),
-      user_id: Number(plan.user_id),
+      id: (plan.id),
+      user_id: (plan.user_id),
       week_start_date: plan.week_start_date.toISOString(),
       created_at: plan.created_at.toISOString(),
       meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
-        id: Number(mpr.id),
-        plan_id: Number(mpr.plan_id),
-        recipe_id: Number(mpr.recipe_id),
+        id: (mpr.id),
+        plan_id: (mpr.plan_id),
+        recipe_id: (mpr.recipe_id),
         date: mpr.date.toISOString(),
         meal_type: mpr.meal_type,
-        planned_servings: Number(mpr.planned_servings),
+        planned_servings: (mpr.planned_servings),
         recipe: mpr.recipe
           ? {
-              id: Number(mpr.recipe.id),
-              user_id: mpr.recipe.user_id ? Number(mpr.recipe.user_id) : null,
+              id: (mpr.recipe.id),
+              user_id: mpr.recipe.user_id ? (mpr.recipe.user_id) : null,
               name: mpr.recipe.name,
-              servings: Number(mpr.recipe.servings),
-              kcal_per_serving: Number(mpr.recipe.kcal_per_serving),
-              protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
-              carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
-              fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
+              servings: (mpr.recipe.servings),
+              kcal_per_serving: (mpr.recipe.kcal_per_serving),
+              protein_g_per_serving: (mpr.recipe.protein_g_per_serving),
+              carbs_g_per_serving: (mpr.recipe.carbs_g_per_serving),
+              fat_g_per_serving: (mpr.recipe.fat_g_per_serving),
               created_at: mpr.recipe.created_at.toISOString(),
             }
           : undefined,
@@ -129,10 +129,11 @@ export class MealPlanRepository {
 
   async getMealPlanForWeek(userId: number, weekStartDate: Date): Promise<MealPlan | null> {
     const normalizedDate = normalizeToMonday(weekStartDate);
+    
     const plan = await this.dbclient.meal_plan.findUnique({
       where: {
         user_id_week_start_date: {
-          user_id: BigInt(userId),
+          user_id: (userId),
           week_start_date: normalizedDate,
         },
       },
@@ -150,29 +151,30 @@ export class MealPlanRepository {
         },
       },
     });
+    
     if (!plan) return null;
     return {
-      id: Number(plan.id),
-      user_id: Number(plan.user_id),
+      id: (plan.id),
+      user_id: (plan.user_id),
       week_start_date: plan.week_start_date.toISOString(),
       created_at: plan.created_at.toISOString(),
       meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
-        id: Number(mpr.id),
-        plan_id: Number(mpr.plan_id),
-        recipe_id: Number(mpr.recipe_id),
+        id: (mpr.id),
+        plan_id: (mpr.plan_id),
+        recipe_id: (mpr.recipe_id),
         date: mpr.date.toISOString(),
         meal_type: mpr.meal_type,
-        planned_servings: Number(mpr.planned_servings),
+        planned_servings: (mpr.planned_servings),
         recipe: mpr.recipe
           ? {
-              id: Number(mpr.recipe.id),
-              user_id: mpr.recipe.user_id ? Number(mpr.recipe.user_id) : null,
+              id: (mpr.recipe.id),
+              user_id: mpr.recipe.user_id ? (mpr.recipe.user_id) : null,
               name: mpr.recipe.name,
-              servings: Number(mpr.recipe.servings),
-              kcal_per_serving: Number(mpr.recipe.kcal_per_serving),
-              protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
-              carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
-              fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
+              servings: (mpr.recipe.servings),
+              kcal_per_serving: (mpr.recipe.kcal_per_serving),
+              protein_g_per_serving: (mpr.recipe.protein_g_per_serving),
+              carbs_g_per_serving: (mpr.recipe.carbs_g_per_serving),
+              fat_g_per_serving: (mpr.recipe.fat_g_per_serving),
               created_at: mpr.recipe.created_at.toISOString(),
             }
           : undefined,
@@ -182,15 +184,17 @@ export class MealPlanRepository {
 
   async createMealPlan(user_id: number, week_start_date: Date): Promise<MealPlan> {
     const normalizedDate = normalizeToMonday(week_start_date);
+    console.log('REPOSITORY - createMealPlan:', { user_id, week_start_date, normalizedDate });
+    
     const plan = await this.dbclient.meal_plan.upsert({
       where: {
         user_id_week_start_date: {
-          user_id: BigInt(user_id),
+          user_id: (user_id),
           week_start_date: normalizedDate,
         },
       },
       create: {
-        user_id: BigInt(user_id),
+        user_id: (user_id),
         week_start_date: normalizedDate,
       },
       update: {},
@@ -208,28 +212,29 @@ export class MealPlanRepository {
         },
       },
     });
+    
     return {
-      id: Number(plan.id),
-      user_id: Number(plan.user_id),
+      id: (plan.id),
+      user_id: (plan.user_id),
       week_start_date: plan.week_start_date.toISOString(),
       created_at: plan.created_at.toISOString(),
       meal_plan_recipe: plan.meal_plan_recipe?.map((mpr) => ({
-        id: Number(mpr.id),
-        plan_id: Number(mpr.plan_id),
-        recipe_id: Number(mpr.recipe_id),
+        id: (mpr.id),
+        plan_id: (mpr.plan_id),
+        recipe_id: (mpr.recipe_id),
         date: mpr.date.toISOString(),
         meal_type: mpr.meal_type,
-        planned_servings: Number(mpr.planned_servings),
+        planned_servings: (mpr.planned_servings),
         recipe: mpr.recipe
           ? {
-              id: Number(mpr.recipe.id),
-              user_id: mpr.recipe.user_id ? Number(mpr.recipe.user_id) : null,
+              id: (mpr.recipe.id),
+              user_id: mpr.recipe.user_id ? (mpr.recipe.user_id) : null,
               name: mpr.recipe.name,
-              servings: Number(mpr.recipe.servings),
-              kcal_per_serving: Number(mpr.recipe.kcal_per_serving),
-              protein_g_per_serving: Number(mpr.recipe.protein_g_per_serving),
-              carbs_g_per_serving: Number(mpr.recipe.carbs_g_per_serving),
-              fat_g_per_serving: Number(mpr.recipe.fat_g_per_serving),
+              servings: (mpr.recipe.servings),
+              kcal_per_serving: (mpr.recipe.kcal_per_serving),
+              protein_g_per_serving: (mpr.recipe.protein_g_per_serving),
+              carbs_g_per_serving: (mpr.recipe.carbs_g_per_serving),
+              fat_g_per_serving: (mpr.recipe.fat_g_per_serving),
               created_at: mpr.recipe.created_at.toISOString(),
             }
           : undefined,
@@ -239,7 +244,7 @@ export class MealPlanRepository {
 
   async deleteMealPlan(id: number): Promise<void> {
     await this.dbclient.meal_plan.delete({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
     });
   }
 
@@ -253,8 +258,8 @@ export class MealPlanRepository {
     const normalizedDate = normalizeDateOnly(date);
     const result = await this.dbclient.meal_plan_recipe.create({
       data: {
-        plan_id: BigInt(plan_id),
-        recipe_id: BigInt(recipe_id),
+        plan_id: (plan_id),
+        recipe_id: (recipe_id),
         date: normalizedDate,
         meal_type,
         planned_servings,
@@ -270,22 +275,22 @@ export class MealPlanRepository {
       },
     });
     return {
-      id: Number(result.id),
-      plan_id: Number(result.plan_id),
-      recipe_id: Number(result.recipe_id),
+      id: (result.id),
+      plan_id: (result.plan_id),
+      recipe_id: (result.recipe_id),
       date: result.date.toISOString(),
       meal_type: result.meal_type,
-      planned_servings: Number(result.planned_servings),
+      planned_servings: (result.planned_servings),
       recipe: result.recipe
         ? {
-            id: Number(result.recipe.id),
-            user_id: result.recipe.user_id ? Number(result.recipe.user_id) : null,
+            id: (result.recipe.id),
+            user_id: result.recipe.user_id ? (result.recipe.user_id) : null,
             name: result.recipe.name,
-            servings: Number(result.recipe.servings),
-            kcal_per_serving: Number(result.recipe.kcal_per_serving),
-            protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
-            carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
-            fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
+            servings: (result.recipe.servings),
+            kcal_per_serving: (result.recipe.kcal_per_serving),
+            protein_g_per_serving: (result.recipe.protein_g_per_serving),
+            carbs_g_per_serving: (result.recipe.carbs_g_per_serving),
+            fat_g_per_serving: (result.recipe.fat_g_per_serving),
             created_at: result.recipe.created_at.toISOString(),
           }
         : undefined,
@@ -297,7 +302,7 @@ export class MealPlanRepository {
     planned_servings: number
   ): Promise<MealPlanRecipe> {
     const result = await this.dbclient.meal_plan_recipe.update({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
       data: { planned_servings },
       include: {
         recipe: {
@@ -310,22 +315,22 @@ export class MealPlanRepository {
       },
     });
     return {
-      id: Number(result.id),
-      plan_id: Number(result.plan_id),
-      recipe_id: Number(result.recipe_id),
+      id: (result.id),
+      plan_id: (result.plan_id),
+      recipe_id: (result.recipe_id),
       date: result.date.toISOString(),
       meal_type: result.meal_type,
-      planned_servings: Number(result.planned_servings),
+      planned_servings: (result.planned_servings),
       recipe: result.recipe
         ? {
-            id: Number(result.recipe.id),
-            user_id: result.recipe.user_id ? Number(result.recipe.user_id) : null,
+            id: (result.recipe.id),
+            user_id: result.recipe.user_id ? (result.recipe.user_id) : null,
             name: result.recipe.name,
-            servings: Number(result.recipe.servings),
-            kcal_per_serving: Number(result.recipe.kcal_per_serving),
-            protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
-            carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
-            fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
+            servings: (result.recipe.servings),
+            kcal_per_serving: (result.recipe.kcal_per_serving),
+            protein_g_per_serving: (result.recipe.protein_g_per_serving),
+            carbs_g_per_serving: (result.recipe.carbs_g_per_serving),
+            fat_g_per_serving: (result.recipe.fat_g_per_serving),
             created_at: result.recipe.created_at.toISOString(),
           }
         : undefined,
@@ -334,7 +339,7 @@ export class MealPlanRepository {
 
   async removeRecipeFromMealPlan(id: number): Promise<void> {
     await this.dbclient.meal_plan_recipe.delete({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
     });
   }
 }

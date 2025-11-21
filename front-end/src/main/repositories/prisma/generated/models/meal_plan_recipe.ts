@@ -30,32 +30,32 @@ export type Meal_plan_recipeAvgAggregateOutputType = {
   id: number | null
   plan_id: number | null
   recipe_id: number | null
-  planned_servings: runtime.Decimal | null
+  planned_servings: number | null
 }
 
 export type Meal_plan_recipeSumAggregateOutputType = {
-  id: bigint | null
-  plan_id: bigint | null
-  recipe_id: bigint | null
-  planned_servings: runtime.Decimal | null
+  id: number | null
+  plan_id: number | null
+  recipe_id: number | null
+  planned_servings: number | null
 }
 
 export type Meal_plan_recipeMinAggregateOutputType = {
-  id: bigint | null
-  plan_id: bigint | null
+  id: number | null
+  plan_id: number | null
   date: Date | null
   meal_type: $Enums.meal_plan_recipe_meal_type | null
-  recipe_id: bigint | null
-  planned_servings: runtime.Decimal | null
+  recipe_id: number | null
+  planned_servings: number | null
 }
 
 export type Meal_plan_recipeMaxAggregateOutputType = {
-  id: bigint | null
-  plan_id: bigint | null
+  id: number | null
+  plan_id: number | null
   date: Date | null
   meal_type: $Enums.meal_plan_recipe_meal_type | null
-  recipe_id: bigint | null
-  planned_servings: runtime.Decimal | null
+  recipe_id: number | null
+  planned_servings: number | null
 }
 
 export type Meal_plan_recipeCountAggregateOutputType = {
@@ -198,12 +198,12 @@ export type meal_plan_recipeGroupByArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 export type Meal_plan_recipeGroupByOutputType = {
-  id: bigint
-  plan_id: bigint
+  id: number
+  plan_id: number
   date: Date
   meal_type: $Enums.meal_plan_recipe_meal_type
-  recipe_id: bigint
-  planned_servings: runtime.Decimal
+  recipe_id: number
+  planned_servings: number
   _count: Meal_plan_recipeCountAggregateOutputType | null
   _avg: Meal_plan_recipeAvgAggregateOutputType | null
   _sum: Meal_plan_recipeSumAggregateOutputType | null
@@ -230,12 +230,12 @@ export type meal_plan_recipeWhereInput = {
   AND?: Prisma.meal_plan_recipeWhereInput | Prisma.meal_plan_recipeWhereInput[]
   OR?: Prisma.meal_plan_recipeWhereInput[]
   NOT?: Prisma.meal_plan_recipeWhereInput | Prisma.meal_plan_recipeWhereInput[]
-  id?: Prisma.BigIntFilter<"meal_plan_recipe"> | bigint | number
-  plan_id?: Prisma.BigIntFilter<"meal_plan_recipe"> | bigint | number
+  id?: Prisma.IntFilter<"meal_plan_recipe"> | number
+  plan_id?: Prisma.IntFilter<"meal_plan_recipe"> | number
   date?: Prisma.DateTimeFilter<"meal_plan_recipe"> | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFilter<"meal_plan_recipe"> | $Enums.meal_plan_recipe_meal_type
-  recipe_id?: Prisma.BigIntFilter<"meal_plan_recipe"> | bigint | number
-  planned_servings?: Prisma.DecimalFilter<"meal_plan_recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"meal_plan_recipe"> | number
+  planned_servings?: Prisma.FloatFilter<"meal_plan_recipe"> | number
   meal_plan?: Prisma.XOR<Prisma.Meal_planScalarRelationFilter, Prisma.meal_planWhereInput>
   recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
 }
@@ -252,15 +252,15 @@ export type meal_plan_recipeOrderByWithRelationInput = {
 }
 
 export type meal_plan_recipeWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: number
   AND?: Prisma.meal_plan_recipeWhereInput | Prisma.meal_plan_recipeWhereInput[]
   OR?: Prisma.meal_plan_recipeWhereInput[]
   NOT?: Prisma.meal_plan_recipeWhereInput | Prisma.meal_plan_recipeWhereInput[]
-  plan_id?: Prisma.BigIntFilter<"meal_plan_recipe"> | bigint | number
+  plan_id?: Prisma.IntFilter<"meal_plan_recipe"> | number
   date?: Prisma.DateTimeFilter<"meal_plan_recipe"> | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFilter<"meal_plan_recipe"> | $Enums.meal_plan_recipe_meal_type
-  recipe_id?: Prisma.BigIntFilter<"meal_plan_recipe"> | bigint | number
-  planned_servings?: Prisma.DecimalFilter<"meal_plan_recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"meal_plan_recipe"> | number
+  planned_servings?: Prisma.FloatFilter<"meal_plan_recipe"> | number
   meal_plan?: Prisma.XOR<Prisma.Meal_planScalarRelationFilter, Prisma.meal_planWhereInput>
   recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
 }, "id">
@@ -283,73 +283,70 @@ export type meal_plan_recipeScalarWhereWithAggregatesInput = {
   AND?: Prisma.meal_plan_recipeScalarWhereWithAggregatesInput | Prisma.meal_plan_recipeScalarWhereWithAggregatesInput[]
   OR?: Prisma.meal_plan_recipeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.meal_plan_recipeScalarWhereWithAggregatesInput | Prisma.meal_plan_recipeScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"meal_plan_recipe"> | bigint | number
-  plan_id?: Prisma.BigIntWithAggregatesFilter<"meal_plan_recipe"> | bigint | number
+  id?: Prisma.IntWithAggregatesFilter<"meal_plan_recipe"> | number
+  plan_id?: Prisma.IntWithAggregatesFilter<"meal_plan_recipe"> | number
   date?: Prisma.DateTimeWithAggregatesFilter<"meal_plan_recipe"> | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeWithAggregatesFilter<"meal_plan_recipe"> | $Enums.meal_plan_recipe_meal_type
-  recipe_id?: Prisma.BigIntWithAggregatesFilter<"meal_plan_recipe"> | bigint | number
-  planned_servings?: Prisma.DecimalWithAggregatesFilter<"meal_plan_recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntWithAggregatesFilter<"meal_plan_recipe"> | number
+  planned_servings?: Prisma.FloatWithAggregatesFilter<"meal_plan_recipe"> | number
 }
 
 export type meal_plan_recipeCreateInput = {
-  id?: bigint | number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: number
   meal_plan: Prisma.meal_planCreateNestedOneWithoutMeal_plan_recipeInput
   recipe: Prisma.recipeCreateNestedOneWithoutMeal_plan_recipeInput
 }
 
 export type meal_plan_recipeUncheckedCreateInput = {
-  id?: bigint | number
-  plan_id: bigint | number
+  id?: number
+  plan_id: number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  recipe_id: bigint | number
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  planned_servings?: number
 }
 
 export type meal_plan_recipeUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   meal_plan?: Prisma.meal_planUpdateOneRequiredWithoutMeal_plan_recipeNestedInput
   recipe?: Prisma.recipeUpdateOneRequiredWithoutMeal_plan_recipeNestedInput
 }
 
 export type meal_plan_recipeUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  plan_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  plan_id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type meal_plan_recipeCreateManyInput = {
-  id?: bigint | number
-  plan_id: bigint | number
+  id?: number
+  plan_id: number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  recipe_id: bigint | number
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  planned_servings?: number
 }
 
 export type meal_plan_recipeUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type meal_plan_recipeUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  plan_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  plan_id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type Meal_plan_recipeListRelationFilter = {
@@ -492,19 +489,18 @@ export type meal_plan_recipeUncheckedUpdateManyWithoutRecipeNestedInput = {
 }
 
 export type meal_plan_recipeCreateWithoutMeal_planInput = {
-  id?: bigint | number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: number
   recipe: Prisma.recipeCreateNestedOneWithoutMeal_plan_recipeInput
 }
 
 export type meal_plan_recipeUncheckedCreateWithoutMeal_planInput = {
-  id?: bigint | number
+  id?: number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  recipe_id: bigint | number
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  planned_servings?: number
 }
 
 export type meal_plan_recipeCreateOrConnectWithoutMeal_planInput = {
@@ -537,28 +533,27 @@ export type meal_plan_recipeScalarWhereInput = {
   AND?: Prisma.meal_plan_recipeScalarWhereInput | Prisma.meal_plan_recipeScalarWhereInput[]
   OR?: Prisma.meal_plan_recipeScalarWhereInput[]
   NOT?: Prisma.meal_plan_recipeScalarWhereInput | Prisma.meal_plan_recipeScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"meal_plan_recipe"> | bigint | number
-  plan_id?: Prisma.BigIntFilter<"meal_plan_recipe"> | bigint | number
+  id?: Prisma.IntFilter<"meal_plan_recipe"> | number
+  plan_id?: Prisma.IntFilter<"meal_plan_recipe"> | number
   date?: Prisma.DateTimeFilter<"meal_plan_recipe"> | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFilter<"meal_plan_recipe"> | $Enums.meal_plan_recipe_meal_type
-  recipe_id?: Prisma.BigIntFilter<"meal_plan_recipe"> | bigint | number
-  planned_servings?: Prisma.DecimalFilter<"meal_plan_recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"meal_plan_recipe"> | number
+  planned_servings?: Prisma.FloatFilter<"meal_plan_recipe"> | number
 }
 
 export type meal_plan_recipeCreateWithoutRecipeInput = {
-  id?: bigint | number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: number
   meal_plan: Prisma.meal_planCreateNestedOneWithoutMeal_plan_recipeInput
 }
 
 export type meal_plan_recipeUncheckedCreateWithoutRecipeInput = {
-  id?: bigint | number
-  plan_id: bigint | number
+  id?: number
+  plan_id: number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: number
 }
 
 export type meal_plan_recipeCreateOrConnectWithoutRecipeInput = {
@@ -588,67 +583,65 @@ export type meal_plan_recipeUpdateManyWithWhereWithoutRecipeInput = {
 }
 
 export type meal_plan_recipeCreateManyMeal_planInput = {
-  id?: bigint | number
+  id?: number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  recipe_id: bigint | number
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  planned_servings?: number
 }
 
 export type meal_plan_recipeUpdateWithoutMeal_planInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   recipe?: Prisma.recipeUpdateOneRequiredWithoutMeal_plan_recipeNestedInput
 }
 
 export type meal_plan_recipeUncheckedUpdateWithoutMeal_planInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type meal_plan_recipeUncheckedUpdateManyWithoutMeal_planInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type meal_plan_recipeCreateManyRecipeInput = {
-  id?: bigint | number
-  plan_id: bigint | number
+  id?: number
+  plan_id: number
   date: Date | string
   meal_type: $Enums.meal_plan_recipe_meal_type
-  planned_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: number
 }
 
 export type meal_plan_recipeUpdateWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   meal_plan?: Prisma.meal_planUpdateOneRequiredWithoutMeal_plan_recipeNestedInput
 }
 
 export type meal_plan_recipeUncheckedUpdateWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  plan_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  plan_id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type meal_plan_recipeUncheckedUpdateManyWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  plan_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  plan_id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   meal_type?: Prisma.Enummeal_plan_recipe_meal_typeFieldUpdateOperationsInput | $Enums.meal_plan_recipe_meal_type
-  planned_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  planned_servings?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 
@@ -688,12 +681,12 @@ export type $meal_plan_recipePayload<ExtArgs extends runtime.Types.Extensions.In
     recipe: Prisma.$recipePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
-    plan_id: bigint
+    id: number
+    plan_id: number
     date: Date
     meal_type: $Enums.meal_plan_recipe_meal_type
-    recipe_id: bigint
-    planned_servings: runtime.Decimal
+    recipe_id: number
+    planned_servings: number
   }, ExtArgs["result"]["meal_plan_recipe"]>
   composites: {}
 }
@@ -1065,12 +1058,12 @@ export interface Prisma__meal_plan_recipeClient<T, Null = never, ExtArgs extends
  * Fields of the meal_plan_recipe model
  */
 export interface meal_plan_recipeFieldRefs {
-  readonly id: Prisma.FieldRef<"meal_plan_recipe", 'BigInt'>
-  readonly plan_id: Prisma.FieldRef<"meal_plan_recipe", 'BigInt'>
+  readonly id: Prisma.FieldRef<"meal_plan_recipe", 'Int'>
+  readonly plan_id: Prisma.FieldRef<"meal_plan_recipe", 'Int'>
   readonly date: Prisma.FieldRef<"meal_plan_recipe", 'DateTime'>
   readonly meal_type: Prisma.FieldRef<"meal_plan_recipe", 'meal_plan_recipe_meal_type'>
-  readonly recipe_id: Prisma.FieldRef<"meal_plan_recipe", 'BigInt'>
-  readonly planned_servings: Prisma.FieldRef<"meal_plan_recipe", 'Decimal'>
+  readonly recipe_id: Prisma.FieldRef<"meal_plan_recipe", 'Int'>
+  readonly planned_servings: Prisma.FieldRef<"meal_plan_recipe", 'Float'>
 }
     
 

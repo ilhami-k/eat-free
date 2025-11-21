@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model inventory_ingredient
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type inventory_ingredientModel = runtime.Types.Result.DefaultSelection<Prisma.$inventory_ingredientPayload>
 
@@ -29,25 +29,25 @@ export type AggregateInventory_ingredient = {
 export type Inventory_ingredientAvgAggregateOutputType = {
   inventory_id: number | null
   ingredient_id: number | null
-  qty_grams: runtime.Decimal | null
+  qty_grams: number | null
 }
 
 export type Inventory_ingredientSumAggregateOutputType = {
-  inventory_id: bigint | null
-  ingredient_id: bigint | null
-  qty_grams: runtime.Decimal | null
+  inventory_id: number | null
+  ingredient_id: number | null
+  qty_grams: number | null
 }
 
 export type Inventory_ingredientMinAggregateOutputType = {
-  inventory_id: bigint | null
-  ingredient_id: bigint | null
-  qty_grams: runtime.Decimal | null
+  inventory_id: number | null
+  ingredient_id: number | null
+  qty_grams: number | null
 }
 
 export type Inventory_ingredientMaxAggregateOutputType = {
-  inventory_id: bigint | null
-  ingredient_id: bigint | null
-  qty_grams: runtime.Decimal | null
+  inventory_id: number | null
+  ingredient_id: number | null
+  qty_grams: number | null
 }
 
 export type Inventory_ingredientCountAggregateOutputType = {
@@ -176,9 +176,9 @@ export type inventory_ingredientGroupByArgs<ExtArgs extends runtime.Types.Extens
 }
 
 export type Inventory_ingredientGroupByOutputType = {
-  inventory_id: bigint
-  ingredient_id: bigint
-  qty_grams: runtime.Decimal
+  inventory_id: number
+  ingredient_id: number
+  qty_grams: number
   _count: Inventory_ingredientCountAggregateOutputType | null
   _avg: Inventory_ingredientAvgAggregateOutputType | null
   _sum: Inventory_ingredientSumAggregateOutputType | null
@@ -205,9 +205,9 @@ export type inventory_ingredientWhereInput = {
   AND?: Prisma.inventory_ingredientWhereInput | Prisma.inventory_ingredientWhereInput[]
   OR?: Prisma.inventory_ingredientWhereInput[]
   NOT?: Prisma.inventory_ingredientWhereInput | Prisma.inventory_ingredientWhereInput[]
-  inventory_id?: Prisma.BigIntFilter<"inventory_ingredient"> | bigint | number
-  ingredient_id?: Prisma.BigIntFilter<"inventory_ingredient"> | bigint | number
-  qty_grams?: Prisma.DecimalFilter<"inventory_ingredient"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id?: Prisma.IntFilter<"inventory_ingredient"> | number
+  ingredient_id?: Prisma.IntFilter<"inventory_ingredient"> | number
+  qty_grams?: Prisma.FloatFilter<"inventory_ingredient"> | number
   ingredients?: Prisma.XOR<Prisma.IngredientsScalarRelationFilter, Prisma.ingredientsWhereInput>
   inventory?: Prisma.XOR<Prisma.InventoryScalarRelationFilter, Prisma.inventoryWhereInput>
 }
@@ -225,9 +225,9 @@ export type inventory_ingredientWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.inventory_ingredientWhereInput | Prisma.inventory_ingredientWhereInput[]
   OR?: Prisma.inventory_ingredientWhereInput[]
   NOT?: Prisma.inventory_ingredientWhereInput | Prisma.inventory_ingredientWhereInput[]
-  inventory_id?: Prisma.BigIntFilter<"inventory_ingredient"> | bigint | number
-  ingredient_id?: Prisma.BigIntFilter<"inventory_ingredient"> | bigint | number
-  qty_grams?: Prisma.DecimalFilter<"inventory_ingredient"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id?: Prisma.IntFilter<"inventory_ingredient"> | number
+  ingredient_id?: Prisma.IntFilter<"inventory_ingredient"> | number
+  qty_grams?: Prisma.FloatFilter<"inventory_ingredient"> | number
   ingredients?: Prisma.XOR<Prisma.IngredientsScalarRelationFilter, Prisma.ingredientsWhereInput>
   inventory?: Prisma.XOR<Prisma.InventoryScalarRelationFilter, Prisma.inventoryWhereInput>
 }, "inventory_id_ingredient_id">
@@ -247,49 +247,49 @@ export type inventory_ingredientScalarWhereWithAggregatesInput = {
   AND?: Prisma.inventory_ingredientScalarWhereWithAggregatesInput | Prisma.inventory_ingredientScalarWhereWithAggregatesInput[]
   OR?: Prisma.inventory_ingredientScalarWhereWithAggregatesInput[]
   NOT?: Prisma.inventory_ingredientScalarWhereWithAggregatesInput | Prisma.inventory_ingredientScalarWhereWithAggregatesInput[]
-  inventory_id?: Prisma.BigIntWithAggregatesFilter<"inventory_ingredient"> | bigint | number
-  ingredient_id?: Prisma.BigIntWithAggregatesFilter<"inventory_ingredient"> | bigint | number
-  qty_grams?: Prisma.DecimalWithAggregatesFilter<"inventory_ingredient"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id?: Prisma.IntWithAggregatesFilter<"inventory_ingredient"> | number
+  ingredient_id?: Prisma.IntWithAggregatesFilter<"inventory_ingredient"> | number
+  qty_grams?: Prisma.FloatWithAggregatesFilter<"inventory_ingredient"> | number
 }
 
 export type inventory_ingredientCreateInput = {
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: number
   ingredients: Prisma.ingredientsCreateNestedOneWithoutInventory_ingredientInput
   inventory: Prisma.inventoryCreateNestedOneWithoutInventory_ingredientInput
 }
 
 export type inventory_ingredientUncheckedCreateInput = {
-  inventory_id: bigint | number
-  ingredient_id: bigint | number
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id: number
+  ingredient_id: number
+  qty_grams?: number
 }
 
 export type inventory_ingredientUpdateInput = {
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   ingredients?: Prisma.ingredientsUpdateOneRequiredWithoutInventory_ingredientNestedInput
   inventory?: Prisma.inventoryUpdateOneRequiredWithoutInventory_ingredientNestedInput
 }
 
 export type inventory_ingredientUncheckedUpdateInput = {
-  inventory_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  ingredient_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  ingredient_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type inventory_ingredientCreateManyInput = {
-  inventory_id: bigint | number
-  ingredient_id: bigint | number
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id: number
+  ingredient_id: number
+  qty_grams?: number
 }
 
 export type inventory_ingredientUpdateManyMutationInput = {
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type inventory_ingredientUncheckedUpdateManyInput = {
-  inventory_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  ingredient_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  ingredient_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type Inventory_ingredientListRelationFilter = {
@@ -303,8 +303,8 @@ export type inventory_ingredientOrderByRelationAggregateInput = {
 }
 
 export type inventory_ingredientInventory_idIngredient_idCompoundUniqueInput = {
-  inventory_id: bigint | number
-  ingredient_id: bigint | number
+  inventory_id: number
+  ingredient_id: number
 }
 
 export type inventory_ingredientCountOrderByAggregateInput = {
@@ -422,13 +422,13 @@ export type inventory_ingredientUncheckedUpdateManyWithoutInventoryNestedInput =
 }
 
 export type inventory_ingredientCreateWithoutIngredientsInput = {
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: number
   inventory: Prisma.inventoryCreateNestedOneWithoutInventory_ingredientInput
 }
 
 export type inventory_ingredientUncheckedCreateWithoutIngredientsInput = {
-  inventory_id: bigint | number
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id: number
+  qty_grams?: number
 }
 
 export type inventory_ingredientCreateOrConnectWithoutIngredientsInput = {
@@ -461,19 +461,19 @@ export type inventory_ingredientScalarWhereInput = {
   AND?: Prisma.inventory_ingredientScalarWhereInput | Prisma.inventory_ingredientScalarWhereInput[]
   OR?: Prisma.inventory_ingredientScalarWhereInput[]
   NOT?: Prisma.inventory_ingredientScalarWhereInput | Prisma.inventory_ingredientScalarWhereInput[]
-  inventory_id?: Prisma.BigIntFilter<"inventory_ingredient"> | bigint | number
-  ingredient_id?: Prisma.BigIntFilter<"inventory_ingredient"> | bigint | number
-  qty_grams?: Prisma.DecimalFilter<"inventory_ingredient"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id?: Prisma.IntFilter<"inventory_ingredient"> | number
+  ingredient_id?: Prisma.IntFilter<"inventory_ingredient"> | number
+  qty_grams?: Prisma.FloatFilter<"inventory_ingredient"> | number
 }
 
 export type inventory_ingredientCreateWithoutInventoryInput = {
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: number
   ingredients: Prisma.ingredientsCreateNestedOneWithoutInventory_ingredientInput
 }
 
 export type inventory_ingredientUncheckedCreateWithoutInventoryInput = {
-  ingredient_id: bigint | number
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ingredient_id: number
+  qty_grams?: number
 }
 
 export type inventory_ingredientCreateOrConnectWithoutInventoryInput = {
@@ -503,43 +503,43 @@ export type inventory_ingredientUpdateManyWithWhereWithoutInventoryInput = {
 }
 
 export type inventory_ingredientCreateManyIngredientsInput = {
-  inventory_id: bigint | number
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id: number
+  qty_grams?: number
 }
 
 export type inventory_ingredientUpdateWithoutIngredientsInput = {
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   inventory?: Prisma.inventoryUpdateOneRequiredWithoutInventory_ingredientNestedInput
 }
 
 export type inventory_ingredientUncheckedUpdateWithoutIngredientsInput = {
-  inventory_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type inventory_ingredientUncheckedUpdateManyWithoutIngredientsInput = {
-  inventory_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type inventory_ingredientCreateManyInventoryInput = {
-  ingredient_id: bigint | number
-  qty_grams?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ingredient_id: number
+  qty_grams?: number
 }
 
 export type inventory_ingredientUpdateWithoutInventoryInput = {
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   ingredients?: Prisma.ingredientsUpdateOneRequiredWithoutInventory_ingredientNestedInput
 }
 
 export type inventory_ingredientUncheckedUpdateWithoutInventoryInput = {
-  ingredient_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ingredient_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type inventory_ingredientUncheckedUpdateManyWithoutInventoryInput = {
-  ingredient_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ingredient_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 
@@ -573,9 +573,9 @@ export type $inventory_ingredientPayload<ExtArgs extends runtime.Types.Extension
     inventory: Prisma.$inventoryPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    inventory_id: bigint
-    ingredient_id: bigint
-    qty_grams: runtime.Decimal
+    inventory_id: number
+    ingredient_id: number
+    qty_grams: number
   }, ExtArgs["result"]["inventory_ingredient"]>
   composites: {}
 }
@@ -947,9 +947,9 @@ export interface Prisma__inventory_ingredientClient<T, Null = never, ExtArgs ext
  * Fields of the inventory_ingredient model
  */
 export interface inventory_ingredientFieldRefs {
-  readonly inventory_id: Prisma.FieldRef<"inventory_ingredient", 'BigInt'>
-  readonly ingredient_id: Prisma.FieldRef<"inventory_ingredient", 'BigInt'>
-  readonly qty_grams: Prisma.FieldRef<"inventory_ingredient", 'Decimal'>
+  readonly inventory_id: Prisma.FieldRef<"inventory_ingredient", 'Int'>
+  readonly ingredient_id: Prisma.FieldRef<"inventory_ingredient", 'Int'>
+  readonly qty_grams: Prisma.FieldRef<"inventory_ingredient", 'Float'>
 }
     
 

@@ -126,7 +126,7 @@ import Button from '../ui/Button.vue'
 
 interface Props {
   item: InventoryIngredientWithDetails
-  inventoryId: bigint
+  inventoryId: number
 }
 
 interface Emits {

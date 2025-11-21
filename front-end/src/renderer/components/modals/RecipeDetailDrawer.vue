@@ -115,7 +115,7 @@ const handleDelete = async () => {
 
   isDeleting.value = true
   try {
-    await recipeService.deleteRecipe(BigInt(props.recipe.id))
+    await recipeService.deleteRecipe(props.recipe.id)
     emit('deleted')
     emit('close')
   } catch (err) {

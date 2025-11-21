@@ -202,7 +202,7 @@ import CreateRecipeModal from '@/renderer/components/modals/CreateRecipeModal.vu
 import RecipeDetailDrawer from '@/renderer/components/modals/RecipeDetailDrawer.vue'
 
 interface Props {
-  currentUserId: bigint
+  currentUserId: number
 }
 
 const props = defineProps<Props>()
@@ -222,7 +222,7 @@ const filteredRecipes = computed(() => {
 
   // Apply filter
   if (activeFilter.value === 'mine') {
-    filtered = filtered.filter(recipe => recipe.user_id === Number(props.currentUserId))
+    filtered = filtered.filter(recipe => recipe.user_id === (props.currentUserId))
   } else if (activeFilter.value === 'recent') {
     filtered = [...filtered].sort((a, b) => 
       new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()

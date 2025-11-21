@@ -3,8 +3,8 @@ import type IInventoryService from '../../shared/interfaces/IInventoryService'
 import type Inventory from '../../shared/inventory'
 
 export interface InventoryIngredientWithDetails {
-  inventory_id: bigint
-  ingredient_id: bigint
+  inventory_id: number
+  ingredient_id: number
   ingredient_name: string
   qty_grams: number
   kcal_per_100g: number
@@ -22,24 +22,26 @@ export function useInventoryService(service: IInventoryService) {
   const mapInventoryEntries = (items: Record<string, unknown>[] | undefined) => {
     if (!items) return [] as InventoryIngredientWithDetails[]
 
-    return items.map((it: Record<string, unknown>) => {
-      // Extract ingredient data if it's nested in the ingredients property
-      const ingredientsData = (it.ingredients as Record<string, unknown> | undefined) || {}
+    return items
+      .map((it: Record<string, unknown>) => {
+        // Extract ingredient data if it's nested in the ingredients property
+        const ingredientsData = (it.ingredients as Record<string, unknown> | undefined) || {}
 
-      return {
-        inventory_id: it.inventory_id as bigint,
-        ingredient_id: it.ingredient_id as bigint,
-        ingredient_name: (ingredientsData.name as string) || (it.ingredient_name as string) || `Ingredient ${String(it.ingredient_id)}`,
-        qty_grams: (it.qty_grams as number) || 0,
-        kcal_per_100g: (ingredientsData.kcal_per_100g as number) || (it.kcal_per_100g as number) || 0,
-        protein_g_per_100g: (ingredientsData.protein_g_per_100g as number) || (it.protein_g_per_100g as number) || 0,
-        carbs_g_per_100g: (ingredientsData.carbs_g_per_100g as number) || (it.carbs_g_per_100g as number) || 0,
-        fat_g_per_100g: (ingredientsData.fat_g_per_100g as number) || (it.fat_g_per_100g as number) || 0,
-      } as InventoryIngredientWithDetails
-    })
+        return {
+          inventory_id: it.inventory_id as number,
+          ingredient_id: it.ingredient_id as number,
+          ingredient_name: (ingredientsData.name as string) || (it.ingredient_name as string) || `Ingredient ${String(it.ingredient_id)}`,
+          qty_grams: (it.qty_grams as number) || 0,
+          kcal_per_100g: (ingredientsData.kcal_per_100g as number) || (it.kcal_per_100g as number) || 0,
+          protein_g_per_100g: (ingredientsData.protein_g_per_100g as number) || (it.protein_g_per_100g as number) || 0,
+          carbs_g_per_100g: (ingredientsData.carbs_g_per_100g as number) || (it.carbs_g_per_100g as number) || 0,
+          fat_g_per_100g: (ingredientsData.fat_g_per_100g as number) || (it.fat_g_per_100g as number) || 0,
+        } as InventoryIngredientWithDetails
+      })
+      .filter(item => item.qty_grams > 0) // Only show items with positive quantities
   }
 
-  const getOrCreateInventory = async (userId: bigint) => {
+  const getOrCreateInventory = async (userId: number) => {
     isLoading.value = true
     error.value = null
     try {
@@ -64,7 +66,7 @@ export function useInventoryService(service: IInventoryService) {
     }
   }
 
-  const addIngredient = async (inventoryId: bigint, ingredientId: bigint, qtyGrams: number) => {
+  const addIngredient = async (inventoryId: number, ingredientId: number, qtyGrams: number) => {
     isLoading.value = true
     error.value = null
     try {
@@ -88,8 +90,8 @@ export function useInventoryService(service: IInventoryService) {
   }
 
   const updateIngredient = async (
-    inventoryId: bigint,
-    ingredientId: bigint,
+    inventoryId: number,
+    ingredientId: number,
     qtyGrams: number
   ) => {
     isLoading.value = true
@@ -114,7 +116,7 @@ export function useInventoryService(service: IInventoryService) {
     }
   }
 
-  const removeIngredient = async (inventoryId: bigint, ingredientId: bigint) => {
+  const removeIngredient = async (inventoryId: number, ingredientId: number) => {
     isLoading.value = true
     error.value = null
     try {

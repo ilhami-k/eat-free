@@ -30,31 +30,31 @@ export type Saved_recipeAvgAggregateOutputType = {
   id: number | null
   user_id: number | null
   recipe_id: number | null
-  default_servings: runtime.Decimal | null
+  default_servings: number | null
 }
 
 export type Saved_recipeSumAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
-  recipe_id: bigint | null
-  default_servings: runtime.Decimal | null
+  id: number | null
+  user_id: number | null
+  recipe_id: number | null
+  default_servings: number | null
 }
 
 export type Saved_recipeMinAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
   name: string | null
-  recipe_id: bigint | null
-  default_servings: runtime.Decimal | null
+  recipe_id: number | null
+  default_servings: number | null
   created_at: Date | null
 }
 
 export type Saved_recipeMaxAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
   name: string | null
-  recipe_id: bigint | null
-  default_servings: runtime.Decimal | null
+  recipe_id: number | null
+  default_servings: number | null
   created_at: Date | null
 }
 
@@ -198,11 +198,11 @@ export type saved_recipeGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 export type Saved_recipeGroupByOutputType = {
-  id: bigint
-  user_id: bigint
+  id: number
+  user_id: number
   name: string
-  recipe_id: bigint
-  default_servings: runtime.Decimal
+  recipe_id: number
+  default_servings: number
   created_at: Date
   _count: Saved_recipeCountAggregateOutputType | null
   _avg: Saved_recipeAvgAggregateOutputType | null
@@ -230,11 +230,11 @@ export type saved_recipeWhereInput = {
   AND?: Prisma.saved_recipeWhereInput | Prisma.saved_recipeWhereInput[]
   OR?: Prisma.saved_recipeWhereInput[]
   NOT?: Prisma.saved_recipeWhereInput | Prisma.saved_recipeWhereInput[]
-  id?: Prisma.BigIntFilter<"saved_recipe"> | bigint | number
-  user_id?: Prisma.BigIntFilter<"saved_recipe"> | bigint | number
+  id?: Prisma.IntFilter<"saved_recipe"> | number
+  user_id?: Prisma.IntFilter<"saved_recipe"> | number
   name?: Prisma.StringFilter<"saved_recipe"> | string
-  recipe_id?: Prisma.BigIntFilter<"saved_recipe"> | bigint | number
-  default_servings?: Prisma.DecimalFilter<"saved_recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"saved_recipe"> | number
+  default_servings?: Prisma.FloatFilter<"saved_recipe"> | number
   created_at?: Prisma.DateTimeFilter<"saved_recipe"> | Date | string
   recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
@@ -253,14 +253,14 @@ export type saved_recipeOrderByWithRelationInput = {
 }
 
 export type saved_recipeWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: number
   AND?: Prisma.saved_recipeWhereInput | Prisma.saved_recipeWhereInput[]
   OR?: Prisma.saved_recipeWhereInput[]
   NOT?: Prisma.saved_recipeWhereInput | Prisma.saved_recipeWhereInput[]
-  user_id?: Prisma.BigIntFilter<"saved_recipe"> | bigint | number
+  user_id?: Prisma.IntFilter<"saved_recipe"> | number
   name?: Prisma.StringFilter<"saved_recipe"> | string
-  recipe_id?: Prisma.BigIntFilter<"saved_recipe"> | bigint | number
-  default_servings?: Prisma.DecimalFilter<"saved_recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"saved_recipe"> | number
+  default_servings?: Prisma.FloatFilter<"saved_recipe"> | number
   created_at?: Prisma.DateTimeFilter<"saved_recipe"> | Date | string
   recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
@@ -284,72 +284,69 @@ export type saved_recipeScalarWhereWithAggregatesInput = {
   AND?: Prisma.saved_recipeScalarWhereWithAggregatesInput | Prisma.saved_recipeScalarWhereWithAggregatesInput[]
   OR?: Prisma.saved_recipeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.saved_recipeScalarWhereWithAggregatesInput | Prisma.saved_recipeScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"saved_recipe"> | bigint | number
-  user_id?: Prisma.BigIntWithAggregatesFilter<"saved_recipe"> | bigint | number
+  id?: Prisma.IntWithAggregatesFilter<"saved_recipe"> | number
+  user_id?: Prisma.IntWithAggregatesFilter<"saved_recipe"> | number
   name?: Prisma.StringWithAggregatesFilter<"saved_recipe"> | string
-  recipe_id?: Prisma.BigIntWithAggregatesFilter<"saved_recipe"> | bigint | number
-  default_servings?: Prisma.DecimalWithAggregatesFilter<"saved_recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntWithAggregatesFilter<"saved_recipe"> | number
+  default_servings?: Prisma.FloatWithAggregatesFilter<"saved_recipe"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"saved_recipe"> | Date | string
 }
 
 export type saved_recipeCreateInput = {
-  id?: bigint | number
   name: string
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: number
   created_at?: Date | string
   recipe: Prisma.recipeCreateNestedOneWithoutSaved_recipeInput
   user: Prisma.userCreateNestedOneWithoutSaved_recipeInput
 }
 
 export type saved_recipeUncheckedCreateInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   name: string
-  recipe_id: bigint | number
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  default_servings?: number
   created_at?: Date | string
 }
 
 export type saved_recipeUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipe?: Prisma.recipeUpdateOneRequiredWithoutSaved_recipeNestedInput
   user?: Prisma.userUpdateOneRequiredWithoutSaved_recipeNestedInput
 }
 
 export type saved_recipeUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type saved_recipeCreateManyInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   name: string
-  recipe_id: bigint | number
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  default_servings?: number
   created_at?: Date | string
 }
 
 export type saved_recipeUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type saved_recipeUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -495,18 +492,17 @@ export type saved_recipeUncheckedUpdateManyWithoutUserNestedInput = {
 }
 
 export type saved_recipeCreateWithoutRecipeInput = {
-  id?: bigint | number
   name: string
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: number
   created_at?: Date | string
   user: Prisma.userCreateNestedOneWithoutSaved_recipeInput
 }
 
 export type saved_recipeUncheckedCreateWithoutRecipeInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   name: string
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: number
   created_at?: Date | string
 }
 
@@ -540,27 +536,26 @@ export type saved_recipeScalarWhereInput = {
   AND?: Prisma.saved_recipeScalarWhereInput | Prisma.saved_recipeScalarWhereInput[]
   OR?: Prisma.saved_recipeScalarWhereInput[]
   NOT?: Prisma.saved_recipeScalarWhereInput | Prisma.saved_recipeScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"saved_recipe"> | bigint | number
-  user_id?: Prisma.BigIntFilter<"saved_recipe"> | bigint | number
+  id?: Prisma.IntFilter<"saved_recipe"> | number
+  user_id?: Prisma.IntFilter<"saved_recipe"> | number
   name?: Prisma.StringFilter<"saved_recipe"> | string
-  recipe_id?: Prisma.BigIntFilter<"saved_recipe"> | bigint | number
-  default_servings?: Prisma.DecimalFilter<"saved_recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"saved_recipe"> | number
+  default_servings?: Prisma.FloatFilter<"saved_recipe"> | number
   created_at?: Prisma.DateTimeFilter<"saved_recipe"> | Date | string
 }
 
 export type saved_recipeCreateWithoutUserInput = {
-  id?: bigint | number
   name: string
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: number
   created_at?: Date | string
   recipe: Prisma.recipeCreateNestedOneWithoutSaved_recipeInput
 }
 
 export type saved_recipeUncheckedCreateWithoutUserInput = {
-  id?: bigint | number
+  id?: number
   name: string
-  recipe_id: bigint | number
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  default_servings?: number
   created_at?: Date | string
 }
 
@@ -591,66 +586,64 @@ export type saved_recipeUpdateManyWithWhereWithoutUserInput = {
 }
 
 export type saved_recipeCreateManyRecipeInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   name: string
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: number
   created_at?: Date | string
 }
 
 export type saved_recipeUpdateWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.userUpdateOneRequiredWithoutSaved_recipeNestedInput
 }
 
 export type saved_recipeUncheckedUpdateWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type saved_recipeUncheckedUpdateManyWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type saved_recipeCreateManyUserInput = {
-  id?: bigint | number
+  id?: number
   name: string
-  recipe_id: bigint | number
-  default_servings?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  default_servings?: number
   created_at?: Date | string
 }
 
 export type saved_recipeUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipe?: Prisma.recipeUpdateOneRequiredWithoutSaved_recipeNestedInput
 }
 
 export type saved_recipeUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type saved_recipeUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  default_servings?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  default_servings?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -691,11 +684,11 @@ export type $saved_recipePayload<ExtArgs extends runtime.Types.Extensions.Intern
     user: Prisma.$userPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
-    user_id: bigint
+    id: number
+    user_id: number
     name: string
-    recipe_id: bigint
-    default_servings: runtime.Decimal
+    recipe_id: number
+    default_servings: number
     created_at: Date
   }, ExtArgs["result"]["saved_recipe"]>
   composites: {}
@@ -1068,11 +1061,11 @@ export interface Prisma__saved_recipeClient<T, Null = never, ExtArgs extends run
  * Fields of the saved_recipe model
  */
 export interface saved_recipeFieldRefs {
-  readonly id: Prisma.FieldRef<"saved_recipe", 'BigInt'>
-  readonly user_id: Prisma.FieldRef<"saved_recipe", 'BigInt'>
+  readonly id: Prisma.FieldRef<"saved_recipe", 'Int'>
+  readonly user_id: Prisma.FieldRef<"saved_recipe", 'Int'>
   readonly name: Prisma.FieldRef<"saved_recipe", 'String'>
-  readonly recipe_id: Prisma.FieldRef<"saved_recipe", 'BigInt'>
-  readonly default_servings: Prisma.FieldRef<"saved_recipe", 'Decimal'>
+  readonly recipe_id: Prisma.FieldRef<"saved_recipe", 'Int'>
+  readonly default_servings: Prisma.FieldRef<"saved_recipe", 'Float'>
   readonly created_at: Prisma.FieldRef<"saved_recipe", 'DateTime'>
 }
     

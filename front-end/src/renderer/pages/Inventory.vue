@@ -80,7 +80,7 @@
     <InventoryItemDetail
       v-if="selectedItem && inventory"
       :item="selectedItem"
-      :inventory-id="BigInt(inventory.id)"
+      :inventory-id="inventory.id"
       @close="selectedItem = null"
       @updated="handleItemUpdated"
       @removed="handleItemRemoved"
@@ -108,7 +108,7 @@ import InventoryEmptyState from '../components/inventory/InventoryEmptyState.vue
 import InventoryMissingView from '../components/inventory/InventoryMissingView.vue'
 
 const props = defineProps<{
-  currentUserId: bigint
+  currentUserId: number
 }>()
 
 // Services
@@ -131,30 +131,21 @@ const ingredients = computed(() => inventoryService.inventoryIngredients.value)
 // Meal plan data for current week
 const currentWeekStart = computed(() => {
   const today = new Date()
-  const dayOfWeek = today.getDay()
+  const dayOfWeek = today.getUTCDay()
   const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1
   const monday = new Date(today)
-  monday.setDate(monday.getDate() - daysToMonday)
-  monday.setHours(0, 0, 0, 0)
+  monday.setUTCDate(monday.getUTCDate() - daysToMonday)
+  monday.setUTCHours(0, 0, 0, 0)
   return monday
 })
 
-const mealPlanRecipes = ref<MealPlanRecipe[]>(
-  (mealPlanService.currentMealPlan.value?.meal_plan_recipe as MealPlanRecipe[]) || []
-)
+const mealPlanRecipes = computed(() => {
+  const recipes = mealPlanService.currentMealPlan.value?.meal_plan_recipe as MealPlanRecipe[] || []
+  console.log('Inventory - Meal plan recipes:', recipes.length)
+  return recipes
+})
 
 const recipes = computed(() => recipeService.recipes.value as RecipeWithIngredients[])
-
-// Watch for changes in meal plan and update the ref
-watch(
-  () => mealPlanService.currentMealPlan.value?.meal_plan_recipe,
-  (newRecipes) => {
-    if (newRecipes) {
-      mealPlanRecipes.value = [...newRecipes] as MealPlanRecipe[]
-    }
-  },
-  { deep: true }
-)
 
 // Use the meal plan inventory check composable
 const {
@@ -199,7 +190,14 @@ const getEmptyMessage = computed(() => {
 // Lifecycle
 onMounted(async () => {
   await inventoryService.getOrCreateInventory(props.currentUserId)
-  await mealPlanService.getMealPlanForWeek(props.currentUserId, currentWeekStart.value)
+  
+  // Try to get meal plan, create if doesn't exist
+  let mealPlan = await mealPlanService.getMealPlanForWeek(props.currentUserId, currentWeekStart.value)
+  if (!mealPlan) {
+    console.log('Inventory - No meal plan found, creating one')
+    mealPlan = await mealPlanService.createMealPlan(props.currentUserId, currentWeekStart.value)
+  }
+  
   await recipeService.fetchRecipes()
 })
 
@@ -221,7 +219,7 @@ const toggleSearchDialog = () => {
 const handleIngredientSelected = async (ingredient: Ingredient) => {
   if (!inventory.value) return
 
-  const ingredientIdBig = BigInt(ingredient.id)
+  const ingredientIdBig = ingredient.id
 
   // Check if ingredient already in inventory
   const existing = ingredients.value.find(i => i.ingredient_id === ingredientIdBig)
@@ -231,7 +229,7 @@ const handleIngredientSelected = async (ingredient: Ingredient) => {
   }
 
   // Add new ingredient with default 100g
-  await inventoryService.addIngredient(BigInt(inventory.value.id), ingredientIdBig, 100)
+  await inventoryService.addIngredient(inventory.value.id, ingredientIdBig, 100)
   
   // Find and select the newly added ingredient
   const newIngredient = ingredients.value.find(i => i.ingredient_id === ingredientIdBig)
@@ -262,13 +260,13 @@ const addMissingIngredient = async (missing: typeof missingIngredients.value[0])
 
   // Add the missing ingredient with the required amount
   await inventoryService.addIngredient(
-    BigInt(inventory.value.id), 
-    BigInt(missing.ingredient_id), 
+    inventory.value.id, 
+    missing.ingredient_id, 
     Math.ceil(missing.required_grams)
   )
   
   // Optionally select it to show the detail drawer
-  const newIngredient = ingredients.value.find(i => Number(i.ingredient_id) === missing.ingredient_id)
+  const newIngredient = ingredients.value.find(i => (i.ingredient_id) === missing.ingredient_id)
   if (newIngredient) {
     selectedItem.value = newIngredient
   }

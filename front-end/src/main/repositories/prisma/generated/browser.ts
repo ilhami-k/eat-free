@@ -29,7 +29,7 @@ export type ingredients = Prisma.ingredientsModel
 export type inventory = Prisma.inventoryModel
 /**
  * Model inventory_ingredient
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type inventory_ingredient = Prisma.inventory_ingredientModel
 /**
@@ -49,12 +49,12 @@ export type meal_plan = Prisma.meal_planModel
 export type meal_plan_recipe = Prisma.meal_plan_recipeModel
 /**
  * Model recipe
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type recipe = Prisma.recipeModel
 /**
  * Model recipe_ingredients
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type recipe_ingredients = Prisma.recipe_ingredientsModel
 /**

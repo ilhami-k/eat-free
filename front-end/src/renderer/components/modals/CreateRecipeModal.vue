@@ -169,7 +169,7 @@ import Button from '@/renderer/components/ui/Button.vue'
 import Modal from '@/renderer/components/ui/Modal.vue'
 
 interface Props {
-  userId?: bigint | null
+  userId?: number | null
 }
 
 interface Emits {
@@ -193,7 +193,7 @@ const form = ref({
   name: '',
   servings: 1,
   ingredients: [] as Array<{
-    ingredient_id: bigint
+    ingredient_id: number
     ingredient_name: string
     qty_grams: number
     kcal_per_100g: number
@@ -276,7 +276,7 @@ const removeIngredient = (index: number) => {
 const addIngredient = (ingredient: Ingredient) => {
   // Add ingredient with default 100g and nutrition data
   form.value.ingredients.push({
-    ingredient_id: BigInt(ingredient.id),
+    ingredient_id: ingredient.id,
     ingredient_name: ingredient.name,
     qty_grams: 100,
     kcal_per_100g: ingredient.kcal_per_100g,

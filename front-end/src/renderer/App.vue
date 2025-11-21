@@ -76,7 +76,7 @@ const {
   resetNavigation 
 } = useNavigation()
 
-const currentUserIdBigInt = computed(() => currentUser.value ? BigInt(currentUser.value.id) : BigInt(0))
+const currentUserIdBigInt = computed(() => currentUser.value ? currentUser.value.id : 0)
 
 // Services for dashboard stats
 const inventoryService = window.electronService?.inventory ? useInventoryService(window.electronService.inventory) : null
@@ -165,14 +165,14 @@ const loadDashboardData = async (): Promise<void> => {
     const promises: Promise<any>[] = []
     
     if (inventoryService) {
-      promises.push(inventoryService.getOrCreateInventory(BigInt(currentUser.value.id)))
+      promises.push(inventoryService.getOrCreateInventory(currentUser.value.id))
     }
     if (recipeService) {
       promises.push(recipeService.fetchRecipes())
     }
     if (journalService) {
       promises.push(journalService.fetchJournalEntries(
-        BigInt(currentUser.value.id),
+        currentUser.value.id,
         new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Last 7 days
         new Date()
       ))

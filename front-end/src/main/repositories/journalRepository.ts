@@ -13,7 +13,7 @@ export class JournalRepository {
   async getJournalEntries(userId: number, startDate?: Date, endDate?: Date): Promise<Journal[]> {
     const result = await this.dbclient.journal.findMany({
       where: {
-        user_id: BigInt(userId),
+        user_id: (userId),
         logged_at: {
           gte: startDate,
           lte: endDate,
@@ -22,24 +22,24 @@ export class JournalRepository {
       include: { recipe: true },
     });
     return result.map((j) => ({
-      id: Number(j.id),
-      user_id: Number(j.user_id),
-      recipe_id: Number(j.recipe_id),
-      servings_eaten: Number(j.servings_eaten),
+      id: (j.id),
+      user_id: (j.user_id),
+      recipe_id: (j.recipe_id),
+      servings_eaten: (j.servings_eaten),
       logged_at: j.logged_at.toISOString(),
-      kcal: Number(j.kcal),
-      protein_g: Number(j.protein_g),
-      carbs_g: Number(j.carbs_g),
-      fat_g: Number(j.fat_g),
+      kcal: (j.kcal),
+      protein_g: (j.protein_g),
+      carbs_g: (j.carbs_g),
+      fat_g: (j.fat_g),
       recipe: j.recipe ? {
-        id: Number(j.recipe.id),
-        user_id: j.recipe.user_id ? Number(j.recipe.user_id) : null,
+        id: (j.recipe.id),
+        user_id: j.recipe.user_id ? (j.recipe.user_id) : null,
         name: j.recipe.name,
-        servings: Number(j.recipe.servings),
-        kcal_per_serving: Number(j.recipe.kcal_per_serving),
-        protein_g_per_serving: Number(j.recipe.protein_g_per_serving),
-        carbs_g_per_serving: Number(j.recipe.carbs_g_per_serving),
-        fat_g_per_serving: Number(j.recipe.fat_g_per_serving),
+        servings: (j.recipe.servings),
+        kcal_per_serving: (j.recipe.kcal_per_serving),
+        protein_g_per_serving: (j.recipe.protein_g_per_serving),
+        carbs_g_per_serving: (j.recipe.carbs_g_per_serving),
+        fat_g_per_serving: (j.recipe.fat_g_per_serving),
         created_at: j.recipe.created_at.toISOString(),
       } : undefined,
     })) as Journal[];
@@ -47,30 +47,30 @@ export class JournalRepository {
 
   async getJournalEntryById(id: number): Promise<Journal | null> {
     const result = await this.dbclient.journal.findUnique({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
       include: { recipe: true },
     });
     if (!result) return null;
     return {
-      id: Number(result.id),
-      user_id: Number(result.user_id),
-      recipe_id: Number(result.recipe_id),
-      servings_eaten: Number(result.servings_eaten),
+      id: (result.id),
+      user_id: (result.user_id),
+      recipe_id: (result.recipe_id),
+      servings_eaten: (result.servings_eaten),
       logged_at: result.logged_at.toISOString(),
-      kcal: Number(result.kcal),
-      protein_g: Number(result.protein_g),
-      carbs_g: Number(result.carbs_g),
-      fat_g: Number(result.fat_g),
+      kcal: (result.kcal),
+      protein_g: (result.protein_g),
+      carbs_g: (result.carbs_g),
+      fat_g: (result.fat_g),
       recipe: result.recipe
         ? {
-            id: Number(result.recipe.id),
-            user_id: result.recipe.user_id ? Number(result.recipe.user_id) : null,
+            id: (result.recipe.id),
+            user_id: result.recipe.user_id ? (result.recipe.user_id) : null,
             name: result.recipe.name,
-            servings: Number(result.recipe.servings),
-            kcal_per_serving: Number(result.recipe.kcal_per_serving),
-            protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
-            carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
-            fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
+            servings: (result.recipe.servings),
+            kcal_per_serving: (result.recipe.kcal_per_serving),
+            protein_g_per_serving: (result.recipe.protein_g_per_serving),
+            carbs_g_per_serving: (result.recipe.carbs_g_per_serving),
+            fat_g_per_serving: (result.recipe.fat_g_per_serving),
             created_at: result.recipe.created_at.toISOString(),
           }
         : undefined,
@@ -91,8 +91,8 @@ export class JournalRepository {
       // 1. Create the journal entry
       const journalEntry = await tx.journal.create({
         data: {
-          user_id: BigInt(user_id),
-          recipe_id: BigInt(recipe_id),
+          user_id: (user_id),
+          recipe_id: (recipe_id),
           servings_eaten,
           kcal,
           protein_g,
@@ -114,24 +114,24 @@ export class JournalRepository {
     });
 
     return {
-      id: Number(result.id),
-      user_id: Number(result.user_id),
-      recipe_id: Number(result.recipe_id),
-      servings_eaten: Number(result.servings_eaten),
+      id: (result.id),
+      user_id: (result.user_id),
+      recipe_id: (result.recipe_id),
+      servings_eaten: (result.servings_eaten),
       logged_at: result.logged_at.toISOString(),
-      kcal: Number(result.kcal),
-      protein_g: Number(result.protein_g),
-      carbs_g: Number(result.carbs_g),
-      fat_g: Number(result.fat_g),
+      kcal: (result.kcal),
+      protein_g: (result.protein_g),
+      carbs_g: (result.carbs_g),
+      fat_g: (result.fat_g),
       recipe: result.recipe ? {
-        id: Number(result.recipe.id),
-        user_id: result.recipe.user_id ? Number(result.recipe.user_id) : null,
+        id: (result.recipe.id),
+        user_id: result.recipe.user_id ? (result.recipe.user_id) : null,
         name: result.recipe.name,
-        servings: Number(result.recipe.servings),
-        kcal_per_serving: Number(result.recipe.kcal_per_serving),
-        protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
-        carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
-        fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
+        servings: (result.recipe.servings),
+        kcal_per_serving: (result.recipe.kcal_per_serving),
+        protein_g_per_serving: (result.recipe.protein_g_per_serving),
+        carbs_g_per_serving: (result.recipe.carbs_g_per_serving),
+        fat_g_per_serving: (result.recipe.fat_g_per_serving),
         created_at: result.recipe.created_at.toISOString(),
       } : undefined,
     } as Journal;
@@ -152,8 +152,8 @@ export class JournalRepository {
       // 1. Create the journal entry
       const journalEntry = await tx.journal.create({
         data: {
-          user_id: BigInt(user_id),
-          recipe_id: BigInt(recipe_id),
+          user_id: (user_id),
+          recipe_id: (recipe_id),
           servings_eaten,
           kcal,
           protein_g,
@@ -175,24 +175,24 @@ export class JournalRepository {
       return journalEntry;
     });
     return {
-      id: Number(result.id),
-      user_id: Number(result.user_id),
-      recipe_id: Number(result.recipe_id),
-      servings_eaten: Number(result.servings_eaten),
+      id: (result.id),
+      user_id: (result.user_id),
+      recipe_id: (result.recipe_id),
+      servings_eaten: (result.servings_eaten),
       logged_at: result.logged_at.toISOString(),
-      kcal: Number(result.kcal),
-      protein_g: Number(result.protein_g),
-      carbs_g: Number(result.carbs_g),
-      fat_g: Number(result.fat_g),
+      kcal: (result.kcal),
+      protein_g: (result.protein_g),
+      carbs_g: (result.carbs_g),
+      fat_g: (result.fat_g),
       recipe: result.recipe ? {
-        id: Number(result.recipe.id),
-        user_id: result.recipe.user_id ? Number(result.recipe.user_id) : null,
+        id: (result.recipe.id),
+        user_id: result.recipe.user_id ? (result.recipe.user_id) : null,
         name: result.recipe.name,
-        servings: Number(result.recipe.servings),
-        kcal_per_serving: Number(result.recipe.kcal_per_serving),
-        protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
-        carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
-        fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
+        servings: (result.recipe.servings),
+        kcal_per_serving: (result.recipe.kcal_per_serving),
+        protein_g_per_serving: (result.recipe.protein_g_per_serving),
+        carbs_g_per_serving: (result.recipe.carbs_g_per_serving),
+        fat_g_per_serving: (result.recipe.fat_g_per_serving),
         created_at: result.recipe.created_at.toISOString(),
       } : undefined,
     } as Journal;
@@ -209,29 +209,29 @@ export class JournalRepository {
     }
   ): Promise<Journal> {
     const result = await this.dbclient.journal.update({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
       data,
       include: { recipe: true },
     });
     return {
-      id: Number(result.id),
-      user_id: Number(result.user_id),
-      recipe_id: Number(result.recipe_id),
-      servings_eaten: Number(result.servings_eaten),
+      id: (result.id),
+      user_id: (result.user_id),
+      recipe_id: (result.recipe_id),
+      servings_eaten: (result.servings_eaten),
       logged_at: result.logged_at.toISOString(),
-      kcal: Number(result.kcal),
-      protein_g: Number(result.protein_g),
-      carbs_g: Number(result.carbs_g),
-      fat_g: Number(result.fat_g),
+      kcal: (result.kcal),
+      protein_g: (result.protein_g),
+      carbs_g: (result.carbs_g),
+      fat_g: (result.fat_g),
       recipe: result.recipe ? {
-        id: Number(result.recipe.id),
-        user_id: result.recipe.user_id ? Number(result.recipe.user_id) : null,
+        id: (result.recipe.id),
+        user_id: result.recipe.user_id ? (result.recipe.user_id) : null,
         name: result.recipe.name,
-        servings: Number(result.recipe.servings),
-        kcal_per_serving: Number(result.recipe.kcal_per_serving),
-        protein_g_per_serving: Number(result.recipe.protein_g_per_serving),
-        carbs_g_per_serving: Number(result.recipe.carbs_g_per_serving),
-        fat_g_per_serving: Number(result.recipe.fat_g_per_serving),
+        servings: (result.recipe.servings),
+        kcal_per_serving: (result.recipe.kcal_per_serving),
+        protein_g_per_serving: (result.recipe.protein_g_per_serving),
+        carbs_g_per_serving: (result.recipe.carbs_g_per_serving),
+        fat_g_per_serving: (result.recipe.fat_g_per_serving),
         created_at: result.recipe.created_at.toISOString(),
       } : undefined,
     } as Journal;
@@ -239,7 +239,7 @@ export class JournalRepository {
 
   async deleteJournalEntry(id: number): Promise<void> {
     await this.dbclient.journal.delete({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
     });
   }
 
@@ -256,7 +256,7 @@ export class JournalRepository {
   ): Promise<void> {
     // Get the recipe to know how many servings it makes
     const recipe = await tx.recipe.findUnique({
-      where: { id: BigInt(recipe_id) },
+      where: { id: (recipe_id) },
       select: { servings: true },
     });
 
@@ -264,11 +264,11 @@ export class JournalRepository {
       throw new Error(`Recipe with id ${recipe_id} not found`);
     }
 
-    const recipe_servings = Number(recipe.servings) || 1;
+    const recipe_servings = (recipe.servings) || 1;
 
     // Get user's inventory
     const inventory = await tx.inventory.findFirst({
-      where: { user_id: BigInt(user_id) },
+      where: { user_id: (user_id) },
     });
 
     if (!inventory) {
@@ -277,7 +277,7 @@ export class JournalRepository {
 
     // Get all ingredients needed for this recipe
     const recipeIngredients = await tx.recipe_ingredients.findMany({
-      where: { recipe_id: BigInt(recipe_id) },
+      where: { recipe_id: (recipe_id) },
     });
 
     // Calculate the scaling factor: servings_eaten / recipe_servings
@@ -285,40 +285,48 @@ export class JournalRepository {
 
     // For each ingredient, deduct from inventory
     for (const recipeIngredient of recipeIngredients) {
-      const qtyNeeded = Number(recipeIngredient.qty_grams) * scalingFactor;
+      const qtyNeeded = (recipeIngredient.qty_grams) * scalingFactor;
 
       // Try to find existing inventory item
-      const existingInventoryItem = await tx.inventory_ingredient.findFirst({
+      const existingInventoryItem = await tx.inventory_ingredient.findUnique({
         where: {
-          inventory_id: inventory.id,
-          ingredient_id: recipeIngredient.ingredient_id,
+          inventory_id_ingredient_id: {
+            inventory_id: inventory.id,
+            ingredient_id: recipeIngredient.ingredient_id,
+          },
         },
       });
 
       if (existingInventoryItem) {
-        // Update existing item - deduct the quantity
-        // Use composite key since inventory_ingredient doesn't have an 'id' field
-        await tx.inventory_ingredient.update({
-          where: {
-            inventory_id_ingredient_id: {
-              inventory_id: inventory.id,
-              ingredient_id: recipeIngredient.ingredient_id,
+        const newQty = (existingInventoryItem.qty_grams) - qtyNeeded;
+        
+        if (newQty <= 0) {
+          // Delete the item if quantity reaches zero or below
+          await tx.inventory_ingredient.delete({
+            where: {
+              inventory_id_ingredient_id: {
+                inventory_id: inventory.id,
+                ingredient_id: recipeIngredient.ingredient_id,
+              },
             },
-          },
-          data: {
-            qty_grams: Number(existingInventoryItem.qty_grams) - qtyNeeded,
-          },
-        });
-      } else {
-        // Create new item with negative quantity (indicating deficit)
-        await tx.inventory_ingredient.create({
-          data: {
-            inventory_id: inventory.id,
-            ingredient_id: recipeIngredient.ingredient_id,
-            qty_grams: -qtyNeeded,
-          },
-        });
+          });
+        } else {
+          // Update existing item - deduct the quantity
+          await tx.inventory_ingredient.update({
+            where: {
+              inventory_id_ingredient_id: {
+                inventory_id: inventory.id,
+                ingredient_id: recipeIngredient.ingredient_id,
+              },
+            },
+            data: {
+              qty_grams: newQty,
+            },
+          });
+        }
       }
+      // If ingredient doesn't exist in inventory, we simply don't create it
+      // The user didn't have it to begin with, so we don't track a deficit
     }
   }
 }

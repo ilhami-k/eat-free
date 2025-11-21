@@ -31,18 +31,18 @@ export type UserAvgAggregateOutputType = {
 }
 
 export type UserSumAggregateOutputType = {
-  id: bigint | null
+  id: number | null
 }
 
 export type UserMinAggregateOutputType = {
-  id: bigint | null
+  id: number | null
   email: string | null
   name: string | null
   created_at: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
-  id: bigint | null
+  id: number | null
   email: string | null
   name: string | null
   created_at: Date | null
@@ -174,7 +174,7 @@ export type userGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 export type UserGroupByOutputType = {
-  id: bigint
+  id: number
   email: string
   name: string
   created_at: Date
@@ -204,7 +204,7 @@ export type userWhereInput = {
   AND?: Prisma.userWhereInput | Prisma.userWhereInput[]
   OR?: Prisma.userWhereInput[]
   NOT?: Prisma.userWhereInput | Prisma.userWhereInput[]
-  id?: Prisma.BigIntFilter<"user"> | bigint | number
+  id?: Prisma.IntFilter<"user"> | number
   email?: Prisma.StringFilter<"user"> | string
   name?: Prisma.StringFilter<"user"> | string
   created_at?: Prisma.DateTimeFilter<"user"> | Date | string
@@ -229,7 +229,7 @@ export type userOrderByWithRelationInput = {
 }
 
 export type userWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: number
   email?: string
   AND?: Prisma.userWhereInput | Prisma.userWhereInput[]
   OR?: Prisma.userWhereInput[]
@@ -259,14 +259,13 @@ export type userScalarWhereWithAggregatesInput = {
   AND?: Prisma.userScalarWhereWithAggregatesInput | Prisma.userScalarWhereWithAggregatesInput[]
   OR?: Prisma.userScalarWhereWithAggregatesInput[]
   NOT?: Prisma.userScalarWhereWithAggregatesInput | Prisma.userScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"user"> | bigint | number
+  id?: Prisma.IntWithAggregatesFilter<"user"> | number
   email?: Prisma.StringWithAggregatesFilter<"user"> | string
   name?: Prisma.StringWithAggregatesFilter<"user"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"user"> | Date | string
 }
 
 export type userCreateInput = {
-  id?: bigint | number
   email: string
   name: string
   created_at?: Date | string
@@ -278,7 +277,7 @@ export type userCreateInput = {
 }
 
 export type userUncheckedCreateInput = {
-  id?: bigint | number
+  id?: number
   email: string
   name: string
   created_at?: Date | string
@@ -290,7 +289,6 @@ export type userUncheckedCreateInput = {
 }
 
 export type userUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -302,7 +300,7 @@ export type userUpdateInput = {
 }
 
 export type userUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -314,21 +312,20 @@ export type userUncheckedUpdateInput = {
 }
 
 export type userCreateManyInput = {
-  id?: bigint | number
+  id?: number
   email: string
   name: string
   created_at?: Date | string
 }
 
 export type userUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type userUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -452,7 +449,6 @@ export type userUpdateOneRequiredWithoutSaved_recipeNestedInput = {
 }
 
 export type userCreateWithoutInventoryInput = {
-  id?: bigint | number
   email: string
   name: string
   created_at?: Date | string
@@ -463,7 +459,7 @@ export type userCreateWithoutInventoryInput = {
 }
 
 export type userUncheckedCreateWithoutInventoryInput = {
-  id?: bigint | number
+  id?: number
   email: string
   name: string
   created_at?: Date | string
@@ -490,7 +486,6 @@ export type userUpdateToOneWithWhereWithoutInventoryInput = {
 }
 
 export type userUpdateWithoutInventoryInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -501,7 +496,7 @@ export type userUpdateWithoutInventoryInput = {
 }
 
 export type userUncheckedUpdateWithoutInventoryInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -512,7 +507,6 @@ export type userUncheckedUpdateWithoutInventoryInput = {
 }
 
 export type userCreateWithoutJournalInput = {
-  id?: bigint | number
   email: string
   name: string
   created_at?: Date | string
@@ -523,7 +517,7 @@ export type userCreateWithoutJournalInput = {
 }
 
 export type userUncheckedCreateWithoutJournalInput = {
-  id?: bigint | number
+  id?: number
   email: string
   name: string
   created_at?: Date | string
@@ -550,7 +544,6 @@ export type userUpdateToOneWithWhereWithoutJournalInput = {
 }
 
 export type userUpdateWithoutJournalInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -561,7 +554,7 @@ export type userUpdateWithoutJournalInput = {
 }
 
 export type userUncheckedUpdateWithoutJournalInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -572,7 +565,6 @@ export type userUncheckedUpdateWithoutJournalInput = {
 }
 
 export type userCreateWithoutMeal_planInput = {
-  id?: bigint | number
   email: string
   name: string
   created_at?: Date | string
@@ -583,7 +575,7 @@ export type userCreateWithoutMeal_planInput = {
 }
 
 export type userUncheckedCreateWithoutMeal_planInput = {
-  id?: bigint | number
+  id?: number
   email: string
   name: string
   created_at?: Date | string
@@ -610,7 +602,6 @@ export type userUpdateToOneWithWhereWithoutMeal_planInput = {
 }
 
 export type userUpdateWithoutMeal_planInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -621,7 +612,7 @@ export type userUpdateWithoutMeal_planInput = {
 }
 
 export type userUncheckedUpdateWithoutMeal_planInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -632,7 +623,6 @@ export type userUncheckedUpdateWithoutMeal_planInput = {
 }
 
 export type userCreateWithoutRecipeInput = {
-  id?: bigint | number
   email: string
   name: string
   created_at?: Date | string
@@ -643,7 +633,7 @@ export type userCreateWithoutRecipeInput = {
 }
 
 export type userUncheckedCreateWithoutRecipeInput = {
-  id?: bigint | number
+  id?: number
   email: string
   name: string
   created_at?: Date | string
@@ -670,7 +660,6 @@ export type userUpdateToOneWithWhereWithoutRecipeInput = {
 }
 
 export type userUpdateWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -681,7 +670,7 @@ export type userUpdateWithoutRecipeInput = {
 }
 
 export type userUncheckedUpdateWithoutRecipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -692,7 +681,6 @@ export type userUncheckedUpdateWithoutRecipeInput = {
 }
 
 export type userCreateWithoutSaved_recipeInput = {
-  id?: bigint | number
   email: string
   name: string
   created_at?: Date | string
@@ -703,7 +691,7 @@ export type userCreateWithoutSaved_recipeInput = {
 }
 
 export type userUncheckedCreateWithoutSaved_recipeInput = {
-  id?: bigint | number
+  id?: number
   email: string
   name: string
   created_at?: Date | string
@@ -730,7 +718,6 @@ export type userUpdateToOneWithWhereWithoutSaved_recipeInput = {
 }
 
 export type userUpdateWithoutSaved_recipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -741,7 +728,7 @@ export type userUpdateWithoutSaved_recipeInput = {
 }
 
 export type userUncheckedUpdateWithoutSaved_recipeInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -851,7 +838,7 @@ export type $userPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     saved_recipe: Prisma.$saved_recipePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
+    id: number
     email: string
     name: string
     created_at: Date
@@ -1229,7 +1216,7 @@ export interface Prisma__userClient<T, Null = never, ExtArgs extends runtime.Typ
  * Fields of the user model
  */
 export interface userFieldRefs {
-  readonly id: Prisma.FieldRef<"user", 'BigInt'>
+  readonly id: Prisma.FieldRef<"user", 'Int'>
   readonly email: Prisma.FieldRef<"user", 'String'>
   readonly name: Prisma.FieldRef<"user", 'String'>
   readonly created_at: Prisma.FieldRef<"user", 'DateTime'>

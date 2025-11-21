@@ -12,29 +12,30 @@ export class IngredientsRepository {
 
   async getIngredients(): Promise<Ingredient[]> {
     const result = await this.dbclient.ingredients.findMany();
+    
     return result.map((ing) => ({
-      id: Number(ing.id),
+      id: (ing.id),
       name: ing.name,
-      kcal_per_100g: Number(ing.kcal_per_100g),
-      protein_g_per_100g: Number(ing.protein_g_per_100g),
-      carbs_g_per_100g: Number(ing.carbs_g_per_100g),
-      fat_g_per_100g: Number(ing.fat_g_per_100g),
+      kcal_per_100g: (ing.kcal_per_100g),
+      protein_g_per_100g: (ing.protein_g_per_100g),
+      carbs_g_per_100g: (ing.carbs_g_per_100g),
+      fat_g_per_100g: (ing.fat_g_per_100g),
       created_at: ing.created_at.toISOString(),
     })) as Ingredient[];
   }
 
   async getIngredientById(id: number): Promise<Ingredient | null> {
     const result = await this.dbclient.ingredients.findUnique({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
     });
     if (!result) return null;
     return {
-      id: Number(result.id),
+      id: (result.id),
       name: result.name,
-      kcal_per_100g: Number(result.kcal_per_100g),
-      protein_g_per_100g: Number(result.protein_g_per_100g),
-      carbs_g_per_100g: Number(result.carbs_g_per_100g),
-      fat_g_per_100g: Number(result.fat_g_per_100g),
+      kcal_per_100g: (result.kcal_per_100g),
+      protein_g_per_100g: (result.protein_g_per_100g),
+      carbs_g_per_100g: (result.carbs_g_per_100g),
+      fat_g_per_100g: (result.fat_g_per_100g),
       created_at: result.created_at.toISOString(),
     } as Ingredient;
   }
@@ -45,12 +46,12 @@ export class IngredientsRepository {
     });
     if (!result) return null;
     return {
-      id: Number(result.id),
+      id: (result.id),
       name: result.name,
-      kcal_per_100g: Number(result.kcal_per_100g),
-      protein_g_per_100g: Number(result.protein_g_per_100g),
-      carbs_g_per_100g: Number(result.carbs_g_per_100g),
-      fat_g_per_100g: Number(result.fat_g_per_100g),
+      kcal_per_100g: (result.kcal_per_100g),
+      protein_g_per_100g: (result.protein_g_per_100g),
+      carbs_g_per_100g: (result.carbs_g_per_100g),
+      fat_g_per_100g: (result.fat_g_per_100g),
       created_at: result.created_at.toISOString(),
     } as Ingredient;
   }
@@ -72,12 +73,12 @@ export class IngredientsRepository {
       },
     });
     return {
-      id: Number(result.id),
+      id: (result.id),
       name: result.name,
-      kcal_per_100g: Number(result.kcal_per_100g),
-      protein_g_per_100g: Number(result.protein_g_per_100g),
-      carbs_g_per_100g: Number(result.carbs_g_per_100g),
-      fat_g_per_100g: Number(result.fat_g_per_100g),
+      kcal_per_100g: (result.kcal_per_100g),
+      protein_g_per_100g: (result.protein_g_per_100g),
+      carbs_g_per_100g: (result.carbs_g_per_100g),
+      fat_g_per_100g: (result.fat_g_per_100g),
       created_at: result.created_at.toISOString(),
     } as Ingredient;
   }
@@ -93,23 +94,23 @@ export class IngredientsRepository {
     }
   ): Promise<Ingredient> {
     const result = await this.dbclient.ingredients.update({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
       data,
     });
     return {
-      id: Number(result.id),
+      id: (result.id),
       name: result.name,
-      kcal_per_100g: Number(result.kcal_per_100g),
-      protein_g_per_100g: Number(result.protein_g_per_100g),
-      carbs_g_per_100g: Number(result.carbs_g_per_100g),
-      fat_g_per_100g: Number(result.fat_g_per_100g),
+      kcal_per_100g: (result.kcal_per_100g),
+      protein_g_per_100g: (result.protein_g_per_100g),
+      carbs_g_per_100g: (result.carbs_g_per_100g),
+      fat_g_per_100g: (result.fat_g_per_100g),
       created_at: result.created_at.toISOString(),
     } as Ingredient;
   }
 
   async deleteIngredient(id: number): Promise<void> {
     await this.dbclient.ingredients.delete({
-      where: { id: BigInt(id) },
+      where: { id: (id) },
     });
   }
 }

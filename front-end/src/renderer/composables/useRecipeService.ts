@@ -4,12 +4,12 @@ import type Recipe from '@/shared/recipe'
 
 export interface RecipeWithIngredients extends Recipe {
   recipe_ingredients?: Array<{
-    recipe_id: bigint
-    ingredient_id: bigint
+    recipe_id: number
+    ingredient_id: number
     qty_grams: number
     notes: string | null
     ingredients: {
-      id: bigint
+      id: number
       name: string
       kcal_per_100g: number
       protein_g_per_100g: number
@@ -40,7 +40,7 @@ export function useRecipeService(service: IRecipeService) {
     }
   }
 
-  const getRecipeById = async (id: bigint) => {
+  const getRecipeById = async (id: number) => {
     isLoading.value = true
     error.value = null
     try {
@@ -76,7 +76,7 @@ export function useRecipeService(service: IRecipeService) {
     }
   }
 
-  const createRecipe = async (recipe: Omit<Recipe, 'id' | 'created_at'>, ingredients?: Array<{ ingredient_id: bigint, qty_grams: number, notes?: string | null }>) => {
+  const createRecipe = async (recipe: Omit<Recipe, 'id' | 'created_at'>, ingredients?: Array<{ ingredient_id: number, qty_grams: number, notes?: string | null }>) => {
     isLoading.value = true
     error.value = null
     try {
@@ -93,18 +93,18 @@ export function useRecipeService(service: IRecipeService) {
   }
 
   const updateRecipe = async (
-    id: bigint,
+    id: number,
     data: Partial<Omit<Recipe, 'id' | 'created_at'>>
   ) => {
     isLoading.value = true
     error.value = null
     try {
       const updated = (await service.updateRecipe(id, data)) as RecipeWithIngredients
-      const index = recipes.value.findIndex(r => r.id === Number(id))
+      const index = recipes.value.findIndex(r => r.id === (id))
       if (index !== -1) {
         recipes.value[index] = updated
       }
-      if (selectedRecipe.value?.id === Number(id)) {
+      if (selectedRecipe.value?.id === (id)) {
         selectedRecipe.value = updated
       }
       return updated
@@ -117,13 +117,13 @@ export function useRecipeService(service: IRecipeService) {
     }
   }
 
-  const deleteRecipe = async (id: bigint) => {
+  const deleteRecipe = async (id: number) => {
     isLoading.value = true
     error.value = null
     try {
       await service.deleteRecipe(id)
-      recipes.value = recipes.value.filter(r => r.id !== Number(id))
-      if (selectedRecipe.value?.id === Number(id)) {
+      recipes.value = recipes.value.filter(r => r.id !== (id))
+      if (selectedRecipe.value?.id === (id)) {
         selectedRecipe.value = null
       }
     } catch (err) {

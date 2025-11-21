@@ -31,12 +31,16 @@ export interface MealPlanWithRecipes extends MealPlan {
   meal_plan_recipe?: Array<MealPlanRecipe & { recipe?: RecipeWithIngredients }>
 }
 
+// Shared state across all instances of the service
+const sharedCurrentMealPlan = ref<MealPlanWithRecipes | null>(null)
+
 export function useMealPlanService(service: IMealPlanService) {
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
-  const currentMealPlan = ref<MealPlanWithRecipes | null>(null)
+  // Use shared state instead of instance-specific state
+  const currentMealPlan = sharedCurrentMealPlan
 
-  const getMealPlanForWeek = async (userId: bigint, weekStartDate: Date) => {
+  const getMealPlanForWeek = async (userId: number, weekStartDate: Date) => {
     isLoading.value = true
     error.value = null
     try {
@@ -44,14 +48,14 @@ export function useMealPlanService(service: IMealPlanService) {
       currentMealPlan.value = (await service.getMealPlanForWeek(userId, normalizedDate)) as MealPlanWithRecipes
       return currentMealPlan.value
     } catch (err) {
-      error.value = err instanceof Error ? err : new Error('Failed to fetch meal plan')
-      console.error('Error fetching meal plan:', err)
+      error.value = err instanceof Error ? err : new Error('Failed to load meal plan')
+      console.error('Error loading meal plan:', err)
     } finally {
       isLoading.value = false
     }
   }
 
-  const createMealPlan = async (userId: bigint, weekStartDate: Date) => {
+  const createMealPlan = async (userId: number, weekStartDate: Date) => {
     isLoading.value = true
     error.value = null
     try {
@@ -68,8 +72,8 @@ export function useMealPlanService(service: IMealPlanService) {
   }
 
   const addRecipeToMealPlan = async (
-    planId: bigint,
-    recipeId: bigint,
+    planId: number,
+    recipeId: number,
     date: Date,
     mealType: MealType,
     plannedServings: number
@@ -88,7 +92,7 @@ export function useMealPlanService(service: IMealPlanService) {
 
       // Refresh meal plan
       if (currentMealPlan.value) {
-        const normalizedWeekStart = normalizeToMonday(currentMealPlan.value.week_start_date)
+        const normalizedWeekStart = normalizeToMonday(new Date(currentMealPlan.value.week_start_date))
         const updated = await service.getMealPlanForWeek(
           currentMealPlan.value.user_id,
           normalizedWeekStart
@@ -106,7 +110,7 @@ export function useMealPlanService(service: IMealPlanService) {
     }
   }
 
-  const updateMealPlanRecipe = async (recipeId: bigint, plannedServings: number) => {
+  const updateMealPlanRecipe = async (recipeId: number, plannedServings: number) => {
     isLoading.value = true
     error.value = null
     try {
@@ -116,7 +120,7 @@ export function useMealPlanService(service: IMealPlanService) {
       if (currentMealPlan.value) {
         const updated = await service.getMealPlanForWeek(
           currentMealPlan.value.user_id,
-          currentMealPlan.value.week_start_date
+          new Date(currentMealPlan.value.week_start_date)
         )
         currentMealPlan.value = updated as MealPlanWithRecipes
       }
@@ -131,7 +135,7 @@ export function useMealPlanService(service: IMealPlanService) {
     }
   }
 
-  const removeRecipeFromMealPlan = async (mealPlanRecipeId: bigint) => {
+  const removeRecipeFromMealPlan = async (mealPlanRecipeId: number) => {
     isLoading.value = true
     error.value = null
     try {
@@ -141,7 +145,7 @@ export function useMealPlanService(service: IMealPlanService) {
       if (currentMealPlan.value) {
         const updated = await service.getMealPlanForWeek(
           currentMealPlan.value.user_id,
-          currentMealPlan.value.week_start_date
+          new Date(currentMealPlan.value.week_start_date)
         )
         currentMealPlan.value = updated as MealPlanWithRecipes
       }
@@ -154,7 +158,7 @@ export function useMealPlanService(service: IMealPlanService) {
     }
   }
 
-  const deleteMealPlan = async (planId: bigint) => {
+  const deleteMealPlan = async (planId: number) => {
     isLoading.value = true
     error.value = null
     try {

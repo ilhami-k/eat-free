@@ -9,9 +9,9 @@ export function recipeService(): IRecipeService {
             const recipes = await ipcRenderer.invoke("recipeRepository:getRecipes")
             return recipes
         },
-        getRecipeById: (id: bigint) => ipcRenderer.invoke("recipeRepository:getRecipeById", id),
+        getRecipeById: (id: number) => ipcRenderer.invoke("recipeRepository:getRecipeById", id),
         createRecipe: (recipe: Omit<Recipe, "id" | "created_at">, ingredients?: RecipeIngredientInput[]) => ipcRenderer.invoke("recipeRepository:createRecipe", recipe, ingredients),
-        updateRecipe: (id: bigint, recipe: Partial<Omit<Recipe, "id" | "created_at">>) => ipcRenderer.invoke("recipeRepository:updateRecipe", id, recipe),
-        deleteRecipe: (id: bigint) => ipcRenderer.invoke("recipeRepository:deleteRecipe", id)
+        updateRecipe: (id: number, recipe: Partial<Omit<Recipe, "id" | "created_at">>) => ipcRenderer.invoke("recipeRepository:updateRecipe", id, recipe),
+        deleteRecipe: (id: number) => ipcRenderer.invoke("recipeRepository:deleteRecipe", id)
     }
 }

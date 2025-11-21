@@ -93,14 +93,14 @@
                     :key="`meal-${mealRecipe.id}`"
                     class="meal-item-card"
                   >
-                    <div class="meal-info">
+                    <div class="meal-text">
                       <p class="meal-name">{{ mealRecipe.recipe?.name }}</p>
                       <p class="meal-details">
                         {{ mealRecipe.planned_servings }} serving{{ mealRecipe.planned_servings !== 1 ? 's' : '' }} · 
                         <span class="meal-kcal">{{ calculateMealCalories(mealRecipe) }} kcal</span>
                       </p>
                     </div>
-                    <button class="remove-btn" @click="removeRecipe(BigInt(mealRecipe.id))">
+                    <button class="remove-btn" @click="removeRecipe(mealRecipe.id)">
                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
                       </svg>
@@ -135,7 +135,7 @@
                         <span class="meal-kcal">{{ calculateMealCalories(mealRecipe) }} kcal</span>
                       </p>
                     </div>
-                    <button class="remove-btn" @click="removeRecipe(BigInt(mealRecipe.id))">
+                    <button class="remove-btn" @click="removeRecipe(mealRecipe.id)">
                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
                       </svg>
@@ -170,7 +170,7 @@
                         <span class="meal-kcal">{{ calculateMealCalories(mealRecipe) }} kcal</span>
                       </p>
                     </div>
-                    <button class="remove-btn" @click="removeRecipe(BigInt(mealRecipe.id))">
+                    <button class="remove-btn" @click="removeRecipe(mealRecipe.id)">
                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
                       </svg>
@@ -189,7 +189,7 @@
       v-if="showAddRecipeDialog && mealPlan"
       :date="selectedDate"
       :mealType="selectedMealType"
-      :planId="BigInt(mealPlan.id)"
+      :planId="mealPlan.id"
       @close="showAddRecipeDialog = false"
       @added="handleRecipeAdded"
     />
@@ -204,7 +204,7 @@ import AddRecipeToMealPlanModal from '@/renderer/components/modals/AddRecipeToMe
 import type { MealType, MealPlanRecipe } from '@/shared/mealPlan'
 
 interface Props {
-  currentUserId: bigint
+  currentUserId: number
 }
 
 const props = defineProps<Props>()
@@ -345,7 +345,7 @@ async function handleRecipeAdded(): Promise<void> {
   await loadMealPlan()
 }
 
-async function removeRecipe(mealPlanRecipeId: bigint): Promise<void> {
+async function removeRecipe(mealPlanRecipeId: number): Promise<void> {
   if (!confirm('Remove this recipe from the meal plan?')) {
     return
   }

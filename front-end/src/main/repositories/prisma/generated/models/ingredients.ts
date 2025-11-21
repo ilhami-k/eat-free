@@ -28,37 +28,37 @@ export type AggregateIngredients = {
 
 export type IngredientsAvgAggregateOutputType = {
   id: number | null
-  kcal_per_100g: runtime.Decimal | null
-  protein_g_per_100g: runtime.Decimal | null
-  carbs_g_per_100g: runtime.Decimal | null
-  fat_g_per_100g: runtime.Decimal | null
+  kcal_per_100g: number | null
+  protein_g_per_100g: number | null
+  carbs_g_per_100g: number | null
+  fat_g_per_100g: number | null
 }
 
 export type IngredientsSumAggregateOutputType = {
-  id: bigint | null
-  kcal_per_100g: runtime.Decimal | null
-  protein_g_per_100g: runtime.Decimal | null
-  carbs_g_per_100g: runtime.Decimal | null
-  fat_g_per_100g: runtime.Decimal | null
+  id: number | null
+  kcal_per_100g: number | null
+  protein_g_per_100g: number | null
+  carbs_g_per_100g: number | null
+  fat_g_per_100g: number | null
 }
 
 export type IngredientsMinAggregateOutputType = {
-  id: bigint | null
+  id: number | null
   name: string | null
-  kcal_per_100g: runtime.Decimal | null
-  protein_g_per_100g: runtime.Decimal | null
-  carbs_g_per_100g: runtime.Decimal | null
-  fat_g_per_100g: runtime.Decimal | null
+  kcal_per_100g: number | null
+  protein_g_per_100g: number | null
+  carbs_g_per_100g: number | null
+  fat_g_per_100g: number | null
   created_at: Date | null
 }
 
 export type IngredientsMaxAggregateOutputType = {
-  id: bigint | null
+  id: number | null
   name: string | null
-  kcal_per_100g: runtime.Decimal | null
-  protein_g_per_100g: runtime.Decimal | null
-  carbs_g_per_100g: runtime.Decimal | null
-  fat_g_per_100g: runtime.Decimal | null
+  kcal_per_100g: number | null
+  protein_g_per_100g: number | null
+  carbs_g_per_100g: number | null
+  fat_g_per_100g: number | null
   created_at: Date | null
 }
 
@@ -208,12 +208,12 @@ export type ingredientsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 export type IngredientsGroupByOutputType = {
-  id: bigint
+  id: number
   name: string
-  kcal_per_100g: runtime.Decimal
-  protein_g_per_100g: runtime.Decimal
-  carbs_g_per_100g: runtime.Decimal
-  fat_g_per_100g: runtime.Decimal
+  kcal_per_100g: number
+  protein_g_per_100g: number
+  carbs_g_per_100g: number
+  fat_g_per_100g: number
   created_at: Date
   _count: IngredientsCountAggregateOutputType | null
   _avg: IngredientsAvgAggregateOutputType | null
@@ -241,12 +241,12 @@ export type ingredientsWhereInput = {
   AND?: Prisma.ingredientsWhereInput | Prisma.ingredientsWhereInput[]
   OR?: Prisma.ingredientsWhereInput[]
   NOT?: Prisma.ingredientsWhereInput | Prisma.ingredientsWhereInput[]
-  id?: Prisma.BigIntFilter<"ingredients"> | bigint | number
+  id?: Prisma.IntFilter<"ingredients"> | number
   name?: Prisma.StringFilter<"ingredients"> | string
-  kcal_per_100g?: Prisma.DecimalFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFilter<"ingredients"> | number
+  protein_g_per_100g?: Prisma.FloatFilter<"ingredients"> | number
+  carbs_g_per_100g?: Prisma.FloatFilter<"ingredients"> | number
+  fat_g_per_100g?: Prisma.FloatFilter<"ingredients"> | number
   created_at?: Prisma.DateTimeFilter<"ingredients"> | Date | string
   inventory_ingredient?: Prisma.Inventory_ingredientListRelationFilter
   recipe_ingredients?: Prisma.Recipe_ingredientsListRelationFilter
@@ -266,15 +266,15 @@ export type ingredientsOrderByWithRelationInput = {
 }
 
 export type ingredientsWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: number
   name?: string
   AND?: Prisma.ingredientsWhereInput | Prisma.ingredientsWhereInput[]
   OR?: Prisma.ingredientsWhereInput[]
   NOT?: Prisma.ingredientsWhereInput | Prisma.ingredientsWhereInput[]
-  kcal_per_100g?: Prisma.DecimalFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFilter<"ingredients"> | number
+  protein_g_per_100g?: Prisma.FloatFilter<"ingredients"> | number
+  carbs_g_per_100g?: Prisma.FloatFilter<"ingredients"> | number
+  fat_g_per_100g?: Prisma.FloatFilter<"ingredients"> | number
   created_at?: Prisma.DateTimeFilter<"ingredients"> | Date | string
   inventory_ingredient?: Prisma.Inventory_ingredientListRelationFilter
   recipe_ingredients?: Prisma.Recipe_ingredientsListRelationFilter
@@ -299,90 +299,87 @@ export type ingredientsScalarWhereWithAggregatesInput = {
   AND?: Prisma.ingredientsScalarWhereWithAggregatesInput | Prisma.ingredientsScalarWhereWithAggregatesInput[]
   OR?: Prisma.ingredientsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ingredientsScalarWhereWithAggregatesInput | Prisma.ingredientsScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"ingredients"> | bigint | number
+  id?: Prisma.IntWithAggregatesFilter<"ingredients"> | number
   name?: Prisma.StringWithAggregatesFilter<"ingredients"> | string
-  kcal_per_100g?: Prisma.DecimalWithAggregatesFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalWithAggregatesFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalWithAggregatesFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalWithAggregatesFilter<"ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatWithAggregatesFilter<"ingredients"> | number
+  protein_g_per_100g?: Prisma.FloatWithAggregatesFilter<"ingredients"> | number
+  carbs_g_per_100g?: Prisma.FloatWithAggregatesFilter<"ingredients"> | number
+  fat_g_per_100g?: Prisma.FloatWithAggregatesFilter<"ingredients"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"ingredients"> | Date | string
 }
 
 export type ingredientsCreateInput = {
-  id?: bigint | number
   name: string
-  kcal_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: number
+  protein_g_per_100g?: number
+  carbs_g_per_100g?: number
+  fat_g_per_100g?: number
   created_at?: Date | string
   inventory_ingredient?: Prisma.inventory_ingredientCreateNestedManyWithoutIngredientsInput
   recipe_ingredients?: Prisma.recipe_ingredientsCreateNestedManyWithoutIngredientsInput
 }
 
 export type ingredientsUncheckedCreateInput = {
-  id?: bigint | number
+  id?: number
   name: string
-  kcal_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: number
+  protein_g_per_100g?: number
+  carbs_g_per_100g?: number
+  fat_g_per_100g?: number
   created_at?: Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUncheckedCreateNestedManyWithoutIngredientsInput
   recipe_ingredients?: Prisma.recipe_ingredientsUncheckedCreateNestedManyWithoutIngredientsInput
 }
 
 export type ingredientsUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  kcal_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUpdateManyWithoutIngredientsNestedInput
   recipe_ingredients?: Prisma.recipe_ingredientsUpdateManyWithoutIngredientsNestedInput
 }
 
 export type ingredientsUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  kcal_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUncheckedUpdateManyWithoutIngredientsNestedInput
   recipe_ingredients?: Prisma.recipe_ingredientsUncheckedUpdateManyWithoutIngredientsNestedInput
 }
 
 export type ingredientsCreateManyInput = {
-  id?: bigint | number
+  id?: number
   name: string
-  kcal_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: number
+  protein_g_per_100g?: number
+  carbs_g_per_100g?: number
+  fat_g_per_100g?: number
   created_at?: Date | string
 }
 
 export type ingredientsUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  kcal_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ingredientsUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  kcal_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -443,28 +440,28 @@ export type IngredientsScalarRelationFilter = {
   isNot?: Prisma.ingredientsWhereInput
 }
 
-export type BigIntFieldUpdateOperationsInput = {
-  set?: bigint | number
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
-}
-
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type ingredientsCreateNestedOneWithoutInventory_ingredientInput = {
@@ -496,23 +493,22 @@ export type ingredientsUpdateOneRequiredWithoutRecipe_ingredientsNestedInput = {
 }
 
 export type ingredientsCreateWithoutInventory_ingredientInput = {
-  id?: bigint | number
   name: string
-  kcal_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: number
+  protein_g_per_100g?: number
+  carbs_g_per_100g?: number
+  fat_g_per_100g?: number
   created_at?: Date | string
   recipe_ingredients?: Prisma.recipe_ingredientsCreateNestedManyWithoutIngredientsInput
 }
 
 export type ingredientsUncheckedCreateWithoutInventory_ingredientInput = {
-  id?: bigint | number
+  id?: number
   name: string
-  kcal_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: number
+  protein_g_per_100g?: number
+  carbs_g_per_100g?: number
+  fat_g_per_100g?: number
   created_at?: Date | string
   recipe_ingredients?: Prisma.recipe_ingredientsUncheckedCreateNestedManyWithoutIngredientsInput
 }
@@ -534,45 +530,43 @@ export type ingredientsUpdateToOneWithWhereWithoutInventory_ingredientInput = {
 }
 
 export type ingredientsUpdateWithoutInventory_ingredientInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  kcal_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipe_ingredients?: Prisma.recipe_ingredientsUpdateManyWithoutIngredientsNestedInput
 }
 
 export type ingredientsUncheckedUpdateWithoutInventory_ingredientInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  kcal_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipe_ingredients?: Prisma.recipe_ingredientsUncheckedUpdateManyWithoutIngredientsNestedInput
 }
 
 export type ingredientsCreateWithoutRecipe_ingredientsInput = {
-  id?: bigint | number
   name: string
-  kcal_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: number
+  protein_g_per_100g?: number
+  carbs_g_per_100g?: number
+  fat_g_per_100g?: number
   created_at?: Date | string
   inventory_ingredient?: Prisma.inventory_ingredientCreateNestedManyWithoutIngredientsInput
 }
 
 export type ingredientsUncheckedCreateWithoutRecipe_ingredientsInput = {
-  id?: bigint | number
+  id?: number
   name: string
-  kcal_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: number
+  protein_g_per_100g?: number
+  carbs_g_per_100g?: number
+  fat_g_per_100g?: number
   created_at?: Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUncheckedCreateNestedManyWithoutIngredientsInput
 }
@@ -594,23 +588,22 @@ export type ingredientsUpdateToOneWithWhereWithoutRecipe_ingredientsInput = {
 }
 
 export type ingredientsUpdateWithoutRecipe_ingredientsInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  kcal_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUpdateManyWithoutIngredientsNestedInput
 }
 
 export type ingredientsUncheckedUpdateWithoutRecipe_ingredientsInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  kcal_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  protein_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  carbs_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  fat_g_per_100g?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  kcal_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  protein_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  carbs_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
+  fat_g_per_100g?: Prisma.FloatFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUncheckedUpdateManyWithoutIngredientsNestedInput
 }
@@ -694,12 +687,12 @@ export type $ingredientsPayload<ExtArgs extends runtime.Types.Extensions.Interna
     recipe_ingredients: Prisma.$recipe_ingredientsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
+    id: number
     name: string
-    kcal_per_100g: runtime.Decimal
-    protein_g_per_100g: runtime.Decimal
-    carbs_g_per_100g: runtime.Decimal
-    fat_g_per_100g: runtime.Decimal
+    kcal_per_100g: number
+    protein_g_per_100g: number
+    carbs_g_per_100g: number
+    fat_g_per_100g: number
     created_at: Date
   }, ExtArgs["result"]["ingredients"]>
   composites: {}
@@ -1072,12 +1065,12 @@ export interface Prisma__ingredientsClient<T, Null = never, ExtArgs extends runt
  * Fields of the ingredients model
  */
 export interface ingredientsFieldRefs {
-  readonly id: Prisma.FieldRef<"ingredients", 'BigInt'>
+  readonly id: Prisma.FieldRef<"ingredients", 'Int'>
   readonly name: Prisma.FieldRef<"ingredients", 'String'>
-  readonly kcal_per_100g: Prisma.FieldRef<"ingredients", 'Decimal'>
-  readonly protein_g_per_100g: Prisma.FieldRef<"ingredients", 'Decimal'>
-  readonly carbs_g_per_100g: Prisma.FieldRef<"ingredients", 'Decimal'>
-  readonly fat_g_per_100g: Prisma.FieldRef<"ingredients", 'Decimal'>
+  readonly kcal_per_100g: Prisma.FieldRef<"ingredients", 'Float'>
+  readonly protein_g_per_100g: Prisma.FieldRef<"ingredients", 'Float'>
+  readonly carbs_g_per_100g: Prisma.FieldRef<"ingredients", 'Float'>
+  readonly fat_g_per_100g: Prisma.FieldRef<"ingredients", 'Float'>
   readonly created_at: Prisma.FieldRef<"ingredients", 'DateTime'>
 }
     

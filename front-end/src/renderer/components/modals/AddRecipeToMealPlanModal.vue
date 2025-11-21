@@ -158,7 +158,7 @@ import type { MealType } from '@/shared/mealPlan'
 interface Props {
   date: Date
   mealType: MealType
-  planId: bigint
+  planId: number
 }
 
 interface Emits {

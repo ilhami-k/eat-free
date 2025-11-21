@@ -32,19 +32,19 @@ export type InventoryAvgAggregateOutputType = {
 }
 
 export type InventorySumAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
 }
 
 export type InventoryMinAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
   created_at: Date | null
 }
 
 export type InventoryMaxAggregateOutputType = {
-  id: bigint | null
-  user_id: bigint | null
+  id: number | null
+  user_id: number | null
   created_at: Date | null
 }
 
@@ -172,8 +172,8 @@ export type inventoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 export type InventoryGroupByOutputType = {
-  id: bigint
-  user_id: bigint
+  id: number
+  user_id: number
   created_at: Date
   _count: InventoryCountAggregateOutputType | null
   _avg: InventoryAvgAggregateOutputType | null
@@ -201,8 +201,8 @@ export type inventoryWhereInput = {
   AND?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
   OR?: Prisma.inventoryWhereInput[]
   NOT?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
-  id?: Prisma.BigIntFilter<"inventory"> | bigint | number
-  user_id?: Prisma.BigIntFilter<"inventory"> | bigint | number
+  id?: Prisma.IntFilter<"inventory"> | number
+  user_id?: Prisma.IntFilter<"inventory"> | number
   created_at?: Prisma.DateTimeFilter<"inventory"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
   inventory_ingredient?: Prisma.Inventory_ingredientListRelationFilter
@@ -217,8 +217,8 @@ export type inventoryOrderByWithRelationInput = {
 }
 
 export type inventoryWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
-  user_id?: bigint | number
+  id?: number
+  user_id?: number
   AND?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
   OR?: Prisma.inventoryWhereInput[]
   NOT?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
@@ -242,53 +242,50 @@ export type inventoryScalarWhereWithAggregatesInput = {
   AND?: Prisma.inventoryScalarWhereWithAggregatesInput | Prisma.inventoryScalarWhereWithAggregatesInput[]
   OR?: Prisma.inventoryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.inventoryScalarWhereWithAggregatesInput | Prisma.inventoryScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"inventory"> | bigint | number
-  user_id?: Prisma.BigIntWithAggregatesFilter<"inventory"> | bigint | number
+  id?: Prisma.IntWithAggregatesFilter<"inventory"> | number
+  user_id?: Prisma.IntWithAggregatesFilter<"inventory"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"inventory"> | Date | string
 }
 
 export type inventoryCreateInput = {
-  id?: bigint | number
   created_at?: Date | string
   user: Prisma.userCreateNestedOneWithoutInventoryInput
   inventory_ingredient?: Prisma.inventory_ingredientCreateNestedManyWithoutInventoryInput
 }
 
 export type inventoryUncheckedCreateInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   created_at?: Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUncheckedCreateNestedManyWithoutInventoryInput
 }
 
 export type inventoryUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.userUpdateOneRequiredWithoutInventoryNestedInput
   inventory_ingredient?: Prisma.inventory_ingredientUpdateManyWithoutInventoryNestedInput
 }
 
 export type inventoryUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
 export type inventoryCreateManyInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   created_at?: Date | string
 }
 
 export type inventoryUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type inventoryUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -377,14 +374,13 @@ export type inventoryUncheckedUpdateOneWithoutUserNestedInput = {
 }
 
 export type inventoryCreateWithoutInventory_ingredientInput = {
-  id?: bigint | number
   created_at?: Date | string
   user: Prisma.userCreateNestedOneWithoutInventoryInput
 }
 
 export type inventoryUncheckedCreateWithoutInventory_ingredientInput = {
-  id?: bigint | number
-  user_id: bigint | number
+  id?: number
+  user_id: number
   created_at?: Date | string
 }
 
@@ -405,25 +401,23 @@ export type inventoryUpdateToOneWithWhereWithoutInventory_ingredientInput = {
 }
 
 export type inventoryUpdateWithoutInventory_ingredientInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.userUpdateOneRequiredWithoutInventoryNestedInput
 }
 
 export type inventoryUncheckedUpdateWithoutInventory_ingredientInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type inventoryCreateWithoutUserInput = {
-  id?: bigint | number
   created_at?: Date | string
   inventory_ingredient?: Prisma.inventory_ingredientCreateNestedManyWithoutInventoryInput
 }
 
 export type inventoryUncheckedCreateWithoutUserInput = {
-  id?: bigint | number
+  id?: number
   created_at?: Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUncheckedCreateNestedManyWithoutInventoryInput
 }
@@ -445,13 +439,12 @@ export type inventoryUpdateToOneWithWhereWithoutUserInput = {
 }
 
 export type inventoryUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUpdateManyWithoutInventoryNestedInput
 }
 
 export type inventoryUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inventory_ingredient?: Prisma.inventory_ingredientUncheckedUpdateManyWithoutInventoryNestedInput
 }
@@ -518,8 +511,8 @@ export type $inventoryPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     inventory_ingredient: Prisma.$inventory_ingredientPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
-    user_id: bigint
+    id: number
+    user_id: number
     created_at: Date
   }, ExtArgs["result"]["inventory"]>
   composites: {}
@@ -892,8 +885,8 @@ export interface Prisma__inventoryClient<T, Null = never, ExtArgs extends runtim
  * Fields of the inventory model
  */
 export interface inventoryFieldRefs {
-  readonly id: Prisma.FieldRef<"inventory", 'BigInt'>
-  readonly user_id: Prisma.FieldRef<"inventory", 'BigInt'>
+  readonly id: Prisma.FieldRef<"inventory", 'Int'>
+  readonly user_id: Prisma.FieldRef<"inventory", 'Int'>
   readonly created_at: Prisma.FieldRef<"inventory", 'DateTime'>
 }
     

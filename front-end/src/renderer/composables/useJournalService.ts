@@ -23,7 +23,7 @@ export function useJournalService(service: IJournalService | undefined, options?
    * Fetch journal entries for a user within a date range
    */
   const fetchJournalEntries = async (
-    userId: bigint,
+    userId: number,
     startDate?: Date,
     endDate?: Date
   ): Promise<Journal[]> => {
@@ -46,7 +46,7 @@ export function useJournalService(service: IJournalService | undefined, options?
   /**
    * Get a single journal entry by ID
    */
-  const getJournalEntryById = async (id: bigint): Promise<Journal | null> => {
+  const getJournalEntryById = async (id: number): Promise<Journal | null> => {
     isLoading.value = true
     error.value = null
 
@@ -67,8 +67,8 @@ export function useJournalService(service: IJournalService | undefined, options?
    * Create a new journal entry
    */
   const createJournalEntry = async (
-    user_id: bigint,
-    recipe_id: bigint,
+    user_id: number,
+    recipe_id: number,
     servings_eaten: number,
     kcal: number,
     protein_g: number,
@@ -104,8 +104,8 @@ export function useJournalService(service: IJournalService | undefined, options?
    * Create a new journal entry with specified time
    */
   const createJournalEntryWithTime = async (
-    user_id: bigint,
-    recipe_id: bigint,
+    user_id: number,
+    recipe_id: number,
     servings_eaten: number,
     kcal: number,
     protein_g: number,
@@ -143,7 +143,7 @@ export function useJournalService(service: IJournalService | undefined, options?
    * Update an existing journal entry
    */
   const updateJournalEntry = async (
-    id: bigint,
+    id: number,
     data: {
       servings_eaten?: number
       kcal?: number
@@ -172,7 +172,7 @@ export function useJournalService(service: IJournalService | undefined, options?
   /**
    * Delete a journal entry
    */
-  const deleteJournalEntry = async (id: bigint): Promise<boolean> => {
+  const deleteJournalEntry = async (id: number): Promise<boolean> => {
     isLoading.value = true
     error.value = null
 

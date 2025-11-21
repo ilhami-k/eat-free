@@ -22,7 +22,7 @@ export function useIngredientsService(service: IIngredientsService) {
     }
   }
 
-  const getIngredientById = async (id: bigint) => {
+  const getIngredientById = async (id: number) => {
     isLoading.value = true
     error.value = null
     try {
@@ -48,9 +48,11 @@ export function useIngredientsService(service: IIngredientsService) {
     try {
       // Filter locally from all ingredients
       const allIngredients = await service.getIngredients()
+      
       ingredients.value = allIngredients.filter(ing =>
         ing.name.toLowerCase().includes(query.toLowerCase())
       )
+      
       return ingredients.value
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to search ingredients')
@@ -89,7 +91,7 @@ export function useIngredientsService(service: IIngredientsService) {
   }
 
   const updateIngredient = async (
-    id: bigint,
+    id: number,
     data: {
       name?: string
       kcal_per_100g?: number
@@ -119,7 +121,7 @@ export function useIngredientsService(service: IIngredientsService) {
     }
   }
 
-  const deleteIngredient = async (id: bigint) => {
+  const deleteIngredient = async (id: number) => {
     isLoading.value = true
     error.value = null
     try {

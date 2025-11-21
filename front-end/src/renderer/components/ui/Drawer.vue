@@ -5,7 +5,7 @@
       <div
         v-if="isOpen"
         @click="$emit('close')"
-        class="fixed inset-0 bg-black/30 z-40"
+        class="fixed inset-0 bg-black/30 z-[55]"
       />
     </transition>
 
@@ -14,7 +14,7 @@
       <div
         v-if="isOpen"
         class="fixed right-0 top-0 h-screen w-full sm:w-96 
-                bg-white shadow-2xl z-50 flex flex-col"
+                bg-white shadow-2xl z-[60] flex flex-col"
       >
         <!-- Header with close -->
         <div class="flex items-center justify-between p-4 border-b border-medium-gray">

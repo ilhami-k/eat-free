@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model recipe_ingredients
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type recipe_ingredientsModel = runtime.Types.Result.DefaultSelection<Prisma.$recipe_ingredientsPayload>
 
@@ -29,26 +29,26 @@ export type AggregateRecipe_ingredients = {
 export type Recipe_ingredientsAvgAggregateOutputType = {
   recipe_id: number | null
   ingredient_id: number | null
-  qty_grams: runtime.Decimal | null
+  qty_grams: number | null
 }
 
 export type Recipe_ingredientsSumAggregateOutputType = {
-  recipe_id: bigint | null
-  ingredient_id: bigint | null
-  qty_grams: runtime.Decimal | null
+  recipe_id: number | null
+  ingredient_id: number | null
+  qty_grams: number | null
 }
 
 export type Recipe_ingredientsMinAggregateOutputType = {
-  recipe_id: bigint | null
-  ingredient_id: bigint | null
-  qty_grams: runtime.Decimal | null
+  recipe_id: number | null
+  ingredient_id: number | null
+  qty_grams: number | null
   notes: string | null
 }
 
 export type Recipe_ingredientsMaxAggregateOutputType = {
-  recipe_id: bigint | null
-  ingredient_id: bigint | null
-  qty_grams: runtime.Decimal | null
+  recipe_id: number | null
+  ingredient_id: number | null
+  qty_grams: number | null
   notes: string | null
 }
 
@@ -182,9 +182,9 @@ export type recipe_ingredientsGroupByArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 export type Recipe_ingredientsGroupByOutputType = {
-  recipe_id: bigint
-  ingredient_id: bigint
-  qty_grams: runtime.Decimal
+  recipe_id: number
+  ingredient_id: number
+  qty_grams: number
   notes: string | null
   _count: Recipe_ingredientsCountAggregateOutputType | null
   _avg: Recipe_ingredientsAvgAggregateOutputType | null
@@ -212,9 +212,9 @@ export type recipe_ingredientsWhereInput = {
   AND?: Prisma.recipe_ingredientsWhereInput | Prisma.recipe_ingredientsWhereInput[]
   OR?: Prisma.recipe_ingredientsWhereInput[]
   NOT?: Prisma.recipe_ingredientsWhereInput | Prisma.recipe_ingredientsWhereInput[]
-  recipe_id?: Prisma.BigIntFilter<"recipe_ingredients"> | bigint | number
-  ingredient_id?: Prisma.BigIntFilter<"recipe_ingredients"> | bigint | number
-  qty_grams?: Prisma.DecimalFilter<"recipe_ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"recipe_ingredients"> | number
+  ingredient_id?: Prisma.IntFilter<"recipe_ingredients"> | number
+  qty_grams?: Prisma.FloatFilter<"recipe_ingredients"> | number
   notes?: Prisma.StringNullableFilter<"recipe_ingredients"> | string | null
   ingredients?: Prisma.XOR<Prisma.IngredientsScalarRelationFilter, Prisma.ingredientsWhereInput>
   recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
@@ -235,9 +235,9 @@ export type recipe_ingredientsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.recipe_ingredientsWhereInput | Prisma.recipe_ingredientsWhereInput[]
   OR?: Prisma.recipe_ingredientsWhereInput[]
   NOT?: Prisma.recipe_ingredientsWhereInput | Prisma.recipe_ingredientsWhereInput[]
-  recipe_id?: Prisma.BigIntFilter<"recipe_ingredients"> | bigint | number
-  ingredient_id?: Prisma.BigIntFilter<"recipe_ingredients"> | bigint | number
-  qty_grams?: Prisma.DecimalFilter<"recipe_ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"recipe_ingredients"> | number
+  ingredient_id?: Prisma.IntFilter<"recipe_ingredients"> | number
+  qty_grams?: Prisma.FloatFilter<"recipe_ingredients"> | number
   notes?: Prisma.StringNullableFilter<"recipe_ingredients"> | string | null
   ingredients?: Prisma.XOR<Prisma.IngredientsScalarRelationFilter, Prisma.ingredientsWhereInput>
   recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.recipeWhereInput>
@@ -259,56 +259,56 @@ export type recipe_ingredientsScalarWhereWithAggregatesInput = {
   AND?: Prisma.recipe_ingredientsScalarWhereWithAggregatesInput | Prisma.recipe_ingredientsScalarWhereWithAggregatesInput[]
   OR?: Prisma.recipe_ingredientsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.recipe_ingredientsScalarWhereWithAggregatesInput | Prisma.recipe_ingredientsScalarWhereWithAggregatesInput[]
-  recipe_id?: Prisma.BigIntWithAggregatesFilter<"recipe_ingredients"> | bigint | number
-  ingredient_id?: Prisma.BigIntWithAggregatesFilter<"recipe_ingredients"> | bigint | number
-  qty_grams?: Prisma.DecimalWithAggregatesFilter<"recipe_ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntWithAggregatesFilter<"recipe_ingredients"> | number
+  ingredient_id?: Prisma.IntWithAggregatesFilter<"recipe_ingredients"> | number
+  qty_grams?: Prisma.FloatWithAggregatesFilter<"recipe_ingredients"> | number
   notes?: Prisma.StringNullableWithAggregatesFilter<"recipe_ingredients"> | string | null
 }
 
 export type recipe_ingredientsCreateInput = {
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams: number
   notes?: string | null
   ingredients: Prisma.ingredientsCreateNestedOneWithoutRecipe_ingredientsInput
   recipe: Prisma.recipeCreateNestedOneWithoutRecipe_ingredientsInput
 }
 
 export type recipe_ingredientsUncheckedCreateInput = {
-  recipe_id: bigint | number
-  ingredient_id: bigint | number
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  ingredient_id: number
+  qty_grams: number
   notes?: string | null
 }
 
 export type recipe_ingredientsUpdateInput = {
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ingredients?: Prisma.ingredientsUpdateOneRequiredWithoutRecipe_ingredientsNestedInput
   recipe?: Prisma.recipeUpdateOneRequiredWithoutRecipe_ingredientsNestedInput
 }
 
 export type recipe_ingredientsUncheckedUpdateInput = {
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  ingredient_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  ingredient_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type recipe_ingredientsCreateManyInput = {
-  recipe_id: bigint | number
-  ingredient_id: bigint | number
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  ingredient_id: number
+  qty_grams: number
   notes?: string | null
 }
 
 export type recipe_ingredientsUpdateManyMutationInput = {
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type recipe_ingredientsUncheckedUpdateManyInput = {
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  ingredient_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  ingredient_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -329,8 +329,8 @@ export type recipe_ingredientsOrderByRelevanceInput = {
 }
 
 export type recipe_ingredientsRecipe_idIngredient_idCompoundUniqueInput = {
-  recipe_id: bigint | number
-  ingredient_id: bigint | number
+  recipe_id: number
+  ingredient_id: number
 }
 
 export type recipe_ingredientsCountOrderByAggregateInput = {
@@ -455,14 +455,14 @@ export type NullableStringFieldUpdateOperationsInput = {
 }
 
 export type recipe_ingredientsCreateWithoutIngredientsInput = {
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams: number
   notes?: string | null
   recipe: Prisma.recipeCreateNestedOneWithoutRecipe_ingredientsInput
 }
 
 export type recipe_ingredientsUncheckedCreateWithoutIngredientsInput = {
-  recipe_id: bigint | number
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  qty_grams: number
   notes?: string | null
 }
 
@@ -496,21 +496,21 @@ export type recipe_ingredientsScalarWhereInput = {
   AND?: Prisma.recipe_ingredientsScalarWhereInput | Prisma.recipe_ingredientsScalarWhereInput[]
   OR?: Prisma.recipe_ingredientsScalarWhereInput[]
   NOT?: Prisma.recipe_ingredientsScalarWhereInput | Prisma.recipe_ingredientsScalarWhereInput[]
-  recipe_id?: Prisma.BigIntFilter<"recipe_ingredients"> | bigint | number
-  ingredient_id?: Prisma.BigIntFilter<"recipe_ingredients"> | bigint | number
-  qty_grams?: Prisma.DecimalFilter<"recipe_ingredients"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFilter<"recipe_ingredients"> | number
+  ingredient_id?: Prisma.IntFilter<"recipe_ingredients"> | number
+  qty_grams?: Prisma.FloatFilter<"recipe_ingredients"> | number
   notes?: Prisma.StringNullableFilter<"recipe_ingredients"> | string | null
 }
 
 export type recipe_ingredientsCreateWithoutRecipeInput = {
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams: number
   notes?: string | null
   ingredients: Prisma.ingredientsCreateNestedOneWithoutRecipe_ingredientsInput
 }
 
 export type recipe_ingredientsUncheckedCreateWithoutRecipeInput = {
-  ingredient_id: bigint | number
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ingredient_id: number
+  qty_grams: number
   notes?: string | null
 }
 
@@ -541,50 +541,50 @@ export type recipe_ingredientsUpdateManyWithWhereWithoutRecipeInput = {
 }
 
 export type recipe_ingredientsCreateManyIngredientsInput = {
-  recipe_id: bigint | number
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id: number
+  qty_grams: number
   notes?: string | null
 }
 
 export type recipe_ingredientsUpdateWithoutIngredientsInput = {
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recipe?: Prisma.recipeUpdateOneRequiredWithoutRecipe_ingredientsNestedInput
 }
 
 export type recipe_ingredientsUncheckedUpdateWithoutIngredientsInput = {
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type recipe_ingredientsUncheckedUpdateManyWithoutIngredientsInput = {
-  recipe_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  recipe_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type recipe_ingredientsCreateManyRecipeInput = {
-  ingredient_id: bigint | number
-  qty_grams: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ingredient_id: number
+  qty_grams: number
   notes?: string | null
 }
 
 export type recipe_ingredientsUpdateWithoutRecipeInput = {
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ingredients?: Prisma.ingredientsUpdateOneRequiredWithoutRecipe_ingredientsNestedInput
 }
 
 export type recipe_ingredientsUncheckedUpdateWithoutRecipeInput = {
-  ingredient_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ingredient_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type recipe_ingredientsUncheckedUpdateManyWithoutRecipeInput = {
-  ingredient_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  qty_grams?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ingredient_id?: Prisma.IntFieldUpdateOperationsInput | number
+  qty_grams?: Prisma.FloatFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -621,9 +621,9 @@ export type $recipe_ingredientsPayload<ExtArgs extends runtime.Types.Extensions.
     recipe: Prisma.$recipePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    recipe_id: bigint
-    ingredient_id: bigint
-    qty_grams: runtime.Decimal
+    recipe_id: number
+    ingredient_id: number
+    qty_grams: number
     notes: string | null
   }, ExtArgs["result"]["recipe_ingredients"]>
   composites: {}
@@ -996,9 +996,9 @@ export interface Prisma__recipe_ingredientsClient<T, Null = never, ExtArgs exten
  * Fields of the recipe_ingredients model
  */
 export interface recipe_ingredientsFieldRefs {
-  readonly recipe_id: Prisma.FieldRef<"recipe_ingredients", 'BigInt'>
-  readonly ingredient_id: Prisma.FieldRef<"recipe_ingredients", 'BigInt'>
-  readonly qty_grams: Prisma.FieldRef<"recipe_ingredients", 'Decimal'>
+  readonly recipe_id: Prisma.FieldRef<"recipe_ingredients", 'Int'>
+  readonly ingredient_id: Prisma.FieldRef<"recipe_ingredients", 'Int'>
+  readonly qty_grams: Prisma.FieldRef<"recipe_ingredients", 'Float'>
   readonly notes: Prisma.FieldRef<"recipe_ingredients", 'String'>
 }
     

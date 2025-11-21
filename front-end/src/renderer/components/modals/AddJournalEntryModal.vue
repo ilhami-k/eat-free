@@ -142,7 +142,7 @@ import { useMealPlanService } from '@/renderer/composables/useMealPlanService'
 import Button from '@/renderer/components/ui/Button.vue'
 
 interface Props {
-  userId: bigint
+  userId: number
   date: Date
   mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'
 }
@@ -185,8 +185,8 @@ const todaysMealPlanRecipes = computed(() => {
 })
 
 const mealPlanRecipes = computed(() => {
-  const recipeIds = new Set(todaysMealPlanRecipes.value.map(mpr => BigInt(mpr.recipe_id)))
-  return recipes.value.filter(recipe => recipeIds.has(BigInt(recipe.id)))
+  const recipeIds = new Set(todaysMealPlanRecipes.value.map(mpr => Number(mpr.recipe_id)))
+  return recipes.value.filter(recipe => recipeIds.has(Number(recipe.id)))
 })
 
 const filteredRecipes = computed(() => {
