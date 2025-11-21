@@ -103,15 +103,13 @@ eat-free/
 │   ├── src/
 │   │   ├── main/           # Processus principal Electron
 │   │   │   └── repositories/  # Accès base de données (Prisma)
+│   │   │       └── prisma/    # Schéma et client Prisma
 │   │   ├── preload/        # Script preload (IPC bridge)
 │   │   ├── renderer/       # Interface utilisateur (Vue 3)
 │   │   │   ├── components/
 │   │   │   ├── composables/
 │   │   │   └── pages/
 │   │   └── shared/         # Types partagés
-│   │
-│   ├── prisma/
-│   │   └── schema.prisma   # Schéma Prisma
 │   │
 │   ├── package.json
 │   └── .env                # Configuration (à créer)
