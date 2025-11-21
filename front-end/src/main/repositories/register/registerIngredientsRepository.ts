@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { IngredientsRepository } from "./ingredientsRepository";
+import { IngredientsRepository } from "../ingredientsRepository";
 
 export function registerIngredientsRepository() {
   const ingredientsRepository = new IngredientsRepository();

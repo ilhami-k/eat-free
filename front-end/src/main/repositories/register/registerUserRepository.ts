@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { UserRepository } from "./userRepository";
+import { UserRepository } from "../userRepository";
 
 export function registerUserRepository() {
   const userRepository = new UserRepository();

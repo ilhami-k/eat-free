@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { InventoryRepository } from "./inventoryRepository";
+import { InventoryRepository } from "../inventoryRepository";
 
 export function registerInventoryRepository() {
   const inventoryRepository = new InventoryRepository();

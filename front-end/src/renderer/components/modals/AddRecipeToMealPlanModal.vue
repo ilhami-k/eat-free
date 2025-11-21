@@ -32,14 +32,18 @@
         <div class="h-8 w-8 animate-spin rounded-full border-4 border-fresh-green/20 border-t-fresh-green"></div>
       </div>
 
-      <!-- Recipes List (only show when searching) -->
-      <div v-else-if="!selectedRecipe && searchQuery.length > 0" class="space-y-2 mb-6">
-        <div v-if="filteredRecipes.length === 0" class="py-8 text-center text-neutral-500">
+      <!-- Recipes List -->
+      <div v-else-if="!selectedRecipe" class="space-y-2 mb-6">
+        <div v-if="filteredRecipes.length === 0 && searchQuery.length > 0" class="py-8 text-center text-neutral-500">
           No recipes found matching "{{ searchQuery }}"
+        </div>
+        
+        <div v-else-if="filteredRecipes.length === 0" class="py-8 text-center text-neutral-500">
+          No recipes available. Create a recipe first!
         </div>
 
         <button
-          v-for="recipe in filteredRecipes.slice(0, 3)"
+          v-for="recipe in filteredRecipes.slice(0, 10)"
           :key="`recipe-${recipe.id}`"
           @click="selectRecipe(recipe as any)"
           class="w-full rounded-lg border border-neutral-200 p-4 text-left hover:border-fresh-green hover:bg-fresh-green/5"
@@ -50,19 +54,9 @@
           </p>
         </button>
         
-        <p v-if="filteredRecipes.length > 3" class="text-xs text-center text-neutral-500 pt-2">
-          + {{ filteredRecipes.length - 3 }} more recipe{{ filteredRecipes.length - 3 !== 1 ? 's' : '' }}. Keep typing to refine search.
+        <p v-if="filteredRecipes.length > 10" class="text-xs text-center text-neutral-500 pt-2">
+          + {{ filteredRecipes.length - 10 }} more recipe{{ filteredRecipes.length - 10 !== 1 ? 's' : '' }}. Type to refine search.
         </p>
-      </div>
-      
-      <!-- Prompt to search -->
-      <div v-else-if="!selectedRecipe" class="py-12 text-center">
-        <div class="w-16 h-16 mx-auto mb-3 text-neutral-300">
-          <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <p class="text-neutral-500 text-sm">Start typing to search for recipes</p>
       </div>
 
       <!-- Servings Selector (if recipe selected) -->

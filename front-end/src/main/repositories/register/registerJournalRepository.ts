@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { JournalRepository } from "./journalRepository";
+import { JournalRepository } from "../journalRepository";
 
 export function registerJournalRepository() {
   const journalRepository = new JournalRepository();

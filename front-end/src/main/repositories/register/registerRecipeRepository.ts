@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
-import { RecipeRepository } from "./recipeRepository";
-import Recipe from "../../shared/recipe";
+import { RecipeRepository } from "../recipeRepository";
+import Recipe from "../../../shared/recipe";
 
 export function registerRecipeRepository() {
   const recipeRepository = new RecipeRepository();

@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
-import { MealPlanRepository } from "./mealPlanRepository";
-import { meal_plan_recipe_meal_type } from "./prisma/generated/client";
+import { MealPlanRepository } from "../mealPlanRepository";
+import { meal_plan_recipe_meal_type } from "../prisma/generated/client";
 
 export function registerMealPlanRepository() {
   const mealPlanRepository = new MealPlanRepository();

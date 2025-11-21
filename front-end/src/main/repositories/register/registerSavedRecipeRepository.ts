@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { SavedRecipeRepository } from "./savedRecipeRepository";
+import { SavedRecipeRepository } from "../savedRecipeRepository";
 
 export function registerSavedRecipeRepository() {
   const savedRecipeRepository = new SavedRecipeRepository();
