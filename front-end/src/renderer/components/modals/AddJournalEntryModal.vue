@@ -1,137 +1,164 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <!-- Header -->
-      <div class="mb-6 flex items-start justify-between">
-        <div>
-          <h2 class="text-h2 font-display text-neutral-900">Log {{ mealTypeLabel }}</h2>
-          <p class="mt-1 text-sm text-neutral-600">
-            {{ formatDate(date) }}
-          </p>
-        </div>
-        <button
-          @click="$emit('close')"
-          class="text-neutral-500 hover:text-neutral-700"
-          aria-label="Close"
-        >
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+  <Modal
+    :isOpen="true"
+    title="Log Meal"
+    :subtitle="`${formatDate(date)} - ${mealTypeLabel}`"
+    size="lg"
+    :showDefaultFooter="false"
+    @close="closeModal"
+  >
+
+    <!-- Recipe Source Toggle -->
+    <div class="flex gap-2 mb-4">
+      <button
+        @click="recipeSource = 'all'"
+        :class="[
+          'flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all',
+          recipeSource === 'all'
+            ? 'bg-fresh-green text-white'
+            : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+        ]"
+      >
+        All Recipes
+      </button>
+      <button
+        @click="recipeSource = 'mealplan'"
+        :class="[
+          'flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all',
+          recipeSource === 'mealplan'
+            ? 'bg-fresh-green text-white'
+            : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+        ]"
+      >
+        Today's Meal Plan
+      </button>
+    </div>
+
+    <!-- Search Recipes -->
+    <div v-if="!selectedRecipe" class="mb-6">
+      <Input
+        v-model="searchQuery"
+        label="Search Recipes"
+        placeholder="Type to search recipes..."
+      />
+      <p v-if="searchQuery && displayedRecipes.length > 0" class="mt-2 text-xs text-neutral-500">
+        Showing {{ Math.min(displayedRecipes.length, 3) }} of {{ displayedRecipes.length }} recipe{{ displayedRecipes.length !== 1 ? 's' : '' }}
+      </p>
+    </div>
+
+    <!-- Loading State -->
+    <div v-if="isLoading" class="flex justify-center py-8">
+      <div class="h-8 w-8 animate-spin rounded-full border-4 border-fresh-green/20 border-t-fresh-green"></div>
+    </div>
+
+    <!-- Recipes List -->
+    <div v-else-if="!selectedRecipe" class="space-y-2 mb-6" style="min-height: 150px;">
+      <div v-if="displayedRecipes.length === 0 && searchQuery.length > 0" class="py-8 text-center text-neutral-500">
+        No recipes found matching "{{ searchQuery }}"
+      </div>
+      
+      <div v-else-if="displayedRecipes.length === 0 && recipeSource === 'mealplan'" class="py-8 text-center text-neutral-500">
+        No recipes in today's meal plan
+      </div>
+      
+      <div v-else-if="displayedRecipes.length === 0" class="py-8 text-center text-neutral-500">
+        No recipes available
       </div>
 
-      <!-- Form -->
-      <div class="space-y-4">
-        <!-- Recipe Source Toggle -->
-        <div class="flex gap-2 mb-2">
-          <button
-            @click="recipeSource = 'all'"
-            :class="[
-              'flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all',
-              recipeSource === 'all'
-                ? 'bg-fresh-green text-white'
-                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-            ]"
-          >
-            All Recipes
-          </button>
-          <button
-            @click="recipeSource = 'mealplan'"
-            :class="[
-              'flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all',
-              recipeSource === 'mealplan'
-                ? 'bg-fresh-green text-white'
-                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-            ]"
-          >
-            Today's Meal Plan
-          </button>
-        </div>
+      <button
+        v-for="recipe in displayedRecipes.slice(0, 3)"
+        :key="`recipe-${recipe.id}`"
+        @click="selectRecipe(recipe)"
+        class="w-full rounded-lg border border-neutral-200 p-3 text-left hover:border-fresh-green hover:bg-fresh-green/5 transition-all"
+      >
+        <p class="text-sm font-medium text-neutral-900">{{ recipe.name }}</p>
+        <p class="text-xs text-neutral-500">
+          {{ recipe.kcal_per_serving }} kcal/serving
+        </p>
+      </button>
+      
+      <p v-if="displayedRecipes.length > 3" class="text-xs text-center text-neutral-500 pt-2">
+        + {{ displayedRecipes.length - 3 }} more recipe{{ displayedRecipes.length - 3 !== 1 ? 's' : '' }}. Type to refine search.
+      </p>
+    </div>
 
-        <!-- Recipe Selection -->
-        <div>
-          <label class="block text-sm font-medium text-neutral-900 mb-2">
-            Recipe
-          </label>
-          <select
-            v-model="selectedRecipeId"
-            class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-fresh-green"
-            required
-          >
-            <option :value="null">Select a recipe...</option>
-            <option
-              v-for="recipe in filteredRecipes"
-              :key="`recipe-${recipe.id}`"
-              :value="recipe.id"
-            >
-              {{ recipe.name }} ({{ recipe.kcal_per_serving }} kcal/serving)
-            </option>
-          </select>
-          <p v-if="recipeSource === 'mealplan' && filteredRecipes.length === 0" class="mt-2 text-xs text-neutral-500">
-            No recipes in today's meal plan
-          </p>
-        </div>
-
+    <!-- Servings Selector (if recipe selected) -->
+    <div v-if="selectedRecipe" class="space-y-4">
+      <div class="rounded-lg border border-neutral-200 p-4">
+        <h3 class="mb-3 font-medium text-neutral-900">{{ selectedRecipe.name }}</h3>
+        
         <!-- Servings Input -->
-        <div>
-          <label class="block text-sm font-medium text-neutral-900 mb-2">
-            Servings
-          </label>
-          <input
-            v-model.number="servings"
+        <div class="mb-4">
+          <Input
+            :modelValue="servings.toString()"
+            @update:modelValue="servings = parseFloat($event) || 1"
+            label="Servings"
             type="number"
-            min="0.1"
-            step="0.1"
-            class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-fresh-green"
-            placeholder="1.0"
-            required
+            placeholder="1"
+            min="0.5"
+            step="0.5"
           />
         </div>
 
         <!-- Nutrition Preview -->
-        <div v-if="selectedRecipe" class="rounded-lg bg-sky-blue/10 p-4">
-          <p class="mb-3 text-xs font-medium text-sky-blue/80">Nutritional Values</p>
-          <div class="grid grid-cols-2 gap-3">
+        <div class="rounded-lg bg-sky-blue/10 p-3">
+          <p class="mb-2 text-xs font-medium text-sky-blue/80">Nutrition for {{ servings }} serving(s)</p>
+          <div class="grid grid-cols-4 gap-2">
             <div>
               <p class="text-xs text-neutral-600">Calories</p>
-              <p class="font-medium text-neutral-900">{{ calculatedNutrition.calories }} kcal</p>
+              <p class="text-sm font-medium text-neutral-900">
+                {{ calculatedNutrition.calories }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-neutral-600">Protein</p>
-              <p class="font-medium text-neutral-900">{{ calculatedNutrition.protein }}g</p>
+              <p class="text-sm font-medium text-neutral-900">
+                {{ calculatedNutrition.protein }}g
+              </p>
             </div>
             <div>
               <p class="text-xs text-neutral-600">Carbs</p>
-              <p class="font-medium text-neutral-900">{{ calculatedNutrition.carbs }}g</p>
+              <p class="text-sm font-medium text-neutral-900">
+                {{ calculatedNutrition.carbs }}g
+              </p>
             </div>
             <div>
               <p class="text-xs text-neutral-600">Fat</p>
-              <p class="font-medium text-neutral-900">{{ calculatedNutrition.fat }}g</p>
+              <p class="text-sm font-medium text-neutral-900">
+                {{ calculatedNutrition.fat }}g
+              </p>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Actions -->
-        <div class="flex gap-2 pt-4">
-          <Button
-            variant="secondary"
-            fullWidth
-            @click="$emit('close')"
-          >
-            Cancel
-          </Button>
-          <Button
-            fullWidth
-            @click="handleSubmit"
-            :isLoading="isSubmitting"
-            :disabled="!selectedRecipeId || servings <= 0"
-          >
-            Log Meal
-          </Button>
-        </div>
+      <!-- Action Buttons -->
+      <div class="flex gap-2">
+        <Button
+          variant="secondary"
+          fullWidth
+          @click="selectedRecipe = null; searchQuery = ''"
+        >
+          Choose Different Recipe
+        </Button>
+        <Button
+          fullWidth
+          @click="handleSubmit"
+          :isLoading="isSubmitting"
+        >
+          Log Meal
+        </Button>
       </div>
     </div>
-  </div>
+
+    <!-- Cancel Button -->
+    <div v-if="!selectedRecipe" class="flex gap-2">
+      <Button variant="secondary" fullWidth @click="closeModal">
+        Cancel
+      </Button>
+    </div>
+
+  </Modal>
 </template>
 
 <script setup lang="ts">
@@ -140,6 +167,8 @@ import { useRecipeService, type RecipeWithIngredients } from '@/renderer/composa
 import { useJournalService } from '@/renderer/composables/useJournalService'
 import { useMealPlanService } from '@/renderer/composables/useMealPlanService'
 import Button from '@/renderer/components/ui/Button.vue'
+import Input from '@/renderer/components/ui/Input.vue'
+import Modal from '@/renderer/components/ui/Modal.vue'
 
 interface Props {
   userId: number
@@ -159,12 +188,14 @@ const recipeService = useRecipeService(window.electronService?.recipes)
 const journalService = useJournalService(window.electronService?.journal)
 const mealPlanService = useMealPlanService(window.electronService?.mealPlans)
 
-const selectedRecipeId = ref<bigint | null>(null)
+const selectedRecipe = ref<RecipeWithIngredients | null>(null)
 const servings = ref<number>(1)
 const isSubmitting = ref(false)
 const recipeSource = ref<'all' | 'mealplan'>('all')
+const searchQuery = ref('')
 
 const recipes = computed(() => recipeService.recipes.value)
+const isLoading = computed(() => recipeService.isLoading.value)
 
 const mealTypeLabel = computed(() => {
   return props.mealType.charAt(0).toUpperCase() + props.mealType.slice(1)
@@ -193,9 +224,13 @@ const filteredRecipes = computed(() => {
   return recipeSource.value === 'mealplan' ? mealPlanRecipes.value : recipes.value
 })
 
-const selectedRecipe = computed(() => {
-  if (!selectedRecipeId.value) return null
-  return recipes.value.find(r => r.id === Number(selectedRecipeId.value))
+const displayedRecipes = computed(() => {
+  const query = searchQuery.value.toLowerCase().trim()
+  if (!query) return filteredRecipes.value
+  
+  return filteredRecipes.value.filter(recipe =>
+    recipe.name.toLowerCase().includes(query)
+  )
 })
 
 const calculatedNutrition = computed(() => {
@@ -216,10 +251,19 @@ const calculatedNutrition = computed(() => {
 
 function formatDate(date: Date): string {
   return new Date(date).toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
+    weekday: 'short',
+    month: 'short',
     day: 'numeric',
   })
+}
+
+function selectRecipe(recipe: RecipeWithIngredients): void {
+  selectedRecipe.value = recipe
+  servings.value = Number(recipe.servings) || 1
+}
+
+function closeModal(): void {
+  emit('close')
 }
 
 function getLoggedAtTime(): Date {
@@ -245,7 +289,7 @@ function getLoggedAtTime(): Date {
 }
 
 async function handleSubmit(): Promise<void> {
-  if (!selectedRecipeId.value || servings.value <= 0) {
+  if (!selectedRecipe.value || servings.value <= 0) {
     return
   }
 
@@ -256,7 +300,7 @@ async function handleSubmit(): Promise<void> {
     
     const result = await journalService.createJournalEntryWithTime(
       props.userId,
-      selectedRecipeId.value,
+      selectedRecipe.value.id,
       servings.value,
       nutrition.calories,
       nutrition.protein,
@@ -267,6 +311,7 @@ async function handleSubmit(): Promise<void> {
     
     console.log('Journal entry created:', result)
     emit('added')
+    closeModal()
   } catch (err) {
     console.error('Error creating journal entry:', err)
     alert('Failed to log meal. Please try again.')
@@ -281,7 +326,4 @@ onMounted(async () => {
   const startOfWeek = new Date(props.date)
   await mealPlanService.getMealPlanForWeek(props.userId, startOfWeek)
 })
-
-
-
 </script>

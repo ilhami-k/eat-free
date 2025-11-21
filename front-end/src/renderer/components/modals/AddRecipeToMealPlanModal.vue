@@ -43,19 +43,19 @@
         </div>
 
         <button
-          v-for="recipe in filteredRecipes.slice(0, 10)"
+          v-for="recipe in filteredRecipes.slice(0, 3)"
           :key="`recipe-${recipe.id}`"
           @click="selectRecipe(recipe as any)"
-          class="w-full rounded-lg border border-neutral-200 p-4 text-left hover:border-fresh-green hover:bg-fresh-green/5"
+          class="w-full rounded-lg border border-neutral-200 p-3 text-left hover:border-fresh-green hover:bg-fresh-green/5"
         >
-          <p class="font-medium text-neutral-900">{{ recipe.name }}</p>
-          <p class="text-xs text-neutral-600">
+          <p class="text-sm font-medium text-neutral-900">{{ recipe.name }}</p>
+          <p class="text-xs text-neutral-500">
             {{ recipe.kcal_per_serving }} kcal/serving
           </p>
         </button>
         
-        <p v-if="filteredRecipes.length > 10" class="text-xs text-center text-neutral-500 pt-2">
-          + {{ filteredRecipes.length - 10 }} more recipe{{ filteredRecipes.length - 10 !== 1 ? 's' : '' }}. Type to refine search.
+        <p v-if="filteredRecipes.length > 3" class="text-xs text-center text-neutral-500 pt-2">
+          + {{ filteredRecipes.length - 3 }} more recipe{{ filteredRecipes.length - 3 !== 1 ? 's' : '' }}. Type to refine search.
         </p>
       </div>
 
