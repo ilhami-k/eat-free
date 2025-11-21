@@ -63,13 +63,19 @@ import DashboardStats from '@/renderer/components/dashboard/DashboardStats.vue'
 import DashboardNavCard from '@/renderer/components/dashboard/DashboardNavCard.vue'
 import DashboardQuickActions from '@/renderer/components/dashboard/DashboardQuickActions.vue'
 import { useDashboard } from '@/renderer/composables/useDashboard'
+import type User from '@/shared/user'
 
 type NavigationPage = 'inventory' | 'recipes' | 'mealplans' | 'journal'
+
+interface Props {
+  currentUser: User
+}
 
 interface Emits {
   (e: 'navigate', page: NavigationPage): void
 }
 
+const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 // Use the dashboard controller composable
@@ -80,7 +86,7 @@ const {
   weekMealsCount,
   todayCalories,
   isLoading
-} = useDashboard()
+} = useDashboard(props.currentUser.id)
 
 /**
  * Handle navigation to different pages

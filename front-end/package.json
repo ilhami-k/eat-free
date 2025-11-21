@@ -47,9 +47,8 @@
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^6.19.0",
+    "dotenv": "^16.6.1",
     "electron-squirrel-startup": "^1.0.1",
-    "install": "^0.13.0",
-    "npm": "^11.6.2",
     "vue": "^3.5.22"
   }
 }
