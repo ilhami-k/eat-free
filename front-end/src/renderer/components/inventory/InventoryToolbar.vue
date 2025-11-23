@@ -96,7 +96,6 @@ defineEmits<{
   padding: 1rem;
   position: sticky;
   top: 4.5rem;
-  z-index: 10;
 }
 
 .toolbar-content {
