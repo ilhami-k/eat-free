@@ -125,6 +125,9 @@ defineEmits<{
   padding: 1rem;
   text-align: left;
   box-shadow: 0 2px 8px rgba(255, 107, 129, 0.15);
+  display: flex;
+  flex-direction: column;
+  min-height: 210px;
 }
 
 .card-missing {
@@ -162,6 +165,7 @@ defineEmits<{
 
 .card-body {
   margin-bottom: 0.75rem;
+  flex: 1;
 }
 
 .quantity-display {
@@ -187,17 +191,25 @@ defineEmits<{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.375rem;
-  padding: 0.5rem 0.75rem;
+  gap: 0.3rem;
+  padding: 0 0.75rem;
+  height: 2.5rem;
   background: linear-gradient(135deg, var(--color-fresh-green) 0%, #6bc785 100%);
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 6px rgba(120, 224, 143, 0.3);
+  line-height: 1;
+  margin-top: auto;
+}
+
+.add-button svg {
+  width: 1rem;
+  height: 1rem;
 }
 
 .add-button:hover {
