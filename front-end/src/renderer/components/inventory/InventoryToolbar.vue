@@ -50,7 +50,6 @@
 
       <!-- Status Pill -->
       <button
-        v-if="totalNeeded > 0"
         @click="$emit('update:selectedCategory', missingCount > 0 ? 'missing' : 'low-stock')"
         class="status-pill"
       >
@@ -65,9 +64,7 @@
         <span v-else-if="lowStockCount > 0" class="status-badge status-badge-warning">
           {{ lowStockCount }} low
         </span>
-        <span v-else class="status-badge status-badge-success">
-          ✓ All set
-        </span>
+        <span v-else class="status-badge status-badge-success">All set</span>
       </button>
     </div>
   </div>

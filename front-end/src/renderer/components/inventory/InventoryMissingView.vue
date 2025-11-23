@@ -98,6 +98,7 @@ defineEmits<{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  grid-auto-rows: 1fr;
 }
 
 @media (min-width: 640px) {
@@ -127,7 +128,7 @@ defineEmits<{
   box-shadow: 0 2px 8px rgba(255, 107, 129, 0.15);
   display: flex;
   flex-direction: column;
-  min-height: 210px;
+  height: 100%;
 }
 
 .card-missing {
