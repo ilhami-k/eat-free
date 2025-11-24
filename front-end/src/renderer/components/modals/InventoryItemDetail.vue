@@ -187,7 +187,6 @@ const handleSubmit = async () => {
   } catch (err) {
     generalError.value =
       err instanceof Error ? err.message : 'Failed to update quantity. Please try again.'
-    console.error('Error updating quantity:', err)
   } finally {
     isUpdating.value = false
   }
@@ -206,7 +205,6 @@ const handleRemove = async () => {
   } catch (err) {
     generalError.value =
       err instanceof Error ? err.message : 'Failed to remove ingredient. Please try again.'
-    console.error('Error removing ingredient:', err)
   } finally {
     isRemoving.value = false
   }
@@ -216,4 +214,3 @@ const closeModal = () => {
   emit('close')
 }
 </script>
-

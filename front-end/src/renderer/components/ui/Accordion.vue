@@ -4,9 +4,9 @@
       v-for="item in items"
       :key="item.id"
       @click="toggleItem(item.id)"
-      class="w-full flex items-center justify-between p-4 
+      class="w-full flex items-center justify-between p-4
              bg-white border border-neutral-200 rounded-lg
-             hover:bg-neutral-50 hover:border-neutral-300 
+             hover:bg-neutral-50 hover:border-neutral-300
              transition-colors text-left"
     >
       <div class="flex-1 min-w-0">
@@ -78,7 +78,7 @@ const toggleItem = (id: string | number) => {
 </script>
 
 <style scoped>
-/* Accordion content slide animation */
+
 .accordion-enter-active,
 .accordion-leave-active {
   transition: all 200ms ease-out;

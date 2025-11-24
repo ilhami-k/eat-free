@@ -9,8 +9,8 @@ export interface IngredientRequirement {
   required_grams: number
   available_grams: number
   shortfall_grams: number
-  isMissing: boolean // Not in inventory at all
-  isInsufficient: boolean // In inventory but not enough
+  isMissing: boolean
+  isInsufficient: boolean
 }
 
 export interface InventoryItemStatus {
@@ -26,16 +26,13 @@ export function useMealPlanInventoryCheck(
   inventoryItems: Ref<InventoryIngredientWithDetails[]> | ComputedRef<readonly InventoryIngredientWithDetails[]>,
   recipes: Ref<RecipeWithIngredients[]> | ComputedRef<readonly RecipeWithIngredients[]>
 ) {
-  // Calculate total required ingredients from meal plan
   const requiredIngredients = computed((): Map<number, IngredientRequirement> => {
     const requirements = new Map<number, IngredientRequirement>()
 
-    // For each recipe in the meal plan
     mealPlanRecipes.value.forEach(mealPlanRecipe => {
       const recipe = recipes.value.find(r => r.id === mealPlanRecipe.recipe_id)
       if (!recipe?.recipe_ingredients) return
 
-      // Calculate how much of each ingredient is needed
       const servingMultiplier = mealPlanRecipe.planned_servings / recipe.servings
 
       recipe.recipe_ingredients.forEach(recipeIng => {
@@ -59,7 +56,6 @@ export function useMealPlanInventoryCheck(
       })
     })
 
-    // Check against inventory
     requirements.forEach((requirement, ingredientId) => {
       const inventoryItem = inventoryItems.value.find(
         item => Number(item.ingredient_id) === ingredientId
@@ -81,17 +77,14 @@ export function useMealPlanInventoryCheck(
     return requirements
   })
 
-  // Get list of missing ingredients (not in inventory at all)
   const missingIngredients = computed((): IngredientRequirement[] => {
     return Array.from(requiredIngredients.value.values()).filter(req => req.isMissing)
   })
 
-  // Get list of insufficient ingredients (in inventory but not enough)
   const insufficientIngredients = computed((): IngredientRequirement[] => {
     return Array.from(requiredIngredients.value.values()).filter(req => req.isInsufficient)
   })
 
-  // Get inventory items with their meal plan status
   const inventoryWithStatus = computed((): InventoryItemStatus[] => {
     return inventoryItems.value.map(item => {
       const ingredientId = Number(item.ingredient_id)
@@ -107,7 +100,6 @@ export function useMealPlanInventoryCheck(
     })
   })
 
-  // Summary statistics
   const summary = computed(() => ({
     totalIngredientsNeeded: requiredIngredients.value.size,
     missingCount: missingIngredients.value.length,

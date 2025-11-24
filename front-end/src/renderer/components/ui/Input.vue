@@ -180,8 +180,6 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
   font-style: italic;
 }
 
-/* ========== ACCESSIBILITY ========== */
-
 @media (prefers-reduced-motion: reduce) {
   .input-group__input {
     transition: none;

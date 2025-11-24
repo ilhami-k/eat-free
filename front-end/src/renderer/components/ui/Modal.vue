@@ -134,18 +134,14 @@ const emit = defineEmits<Emits>()
 const contentRef = ref<HTMLElement | null>(null)
 const headerId = computed(() => `modal-title-${Math.random().toString(36).substr(2, 9)}`)
 
-// Handle modal open/close
 watch(() => props.isOpen, (newValue) => {
   if (newValue) {
-    // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden'
   } else {
-    // Restore body scroll when modal is closed
     document.body.style.overflow = ''
   }
 })
 
-// Handle escape key
 const handleEscapeKey = (e: KeyboardEvent) => {
   if (props.closeOnEscape && e.key === 'Escape' && props.isOpen) {
     handleClose()
@@ -182,9 +178,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* ============================================================================
-   MODAL BACKDROP
-   ============================================================================ */
 
 .modal-backdrop {
   position: fixed;
@@ -202,10 +195,6 @@ onBeforeUnmount(() => {
   backdrop-filter: blur(4px);
 }
 
-/* ============================================================================
-   MODAL CONTAINER
-   ============================================================================ */
-
 .modal-container {
   position: relative;
   width: 100%;
@@ -218,7 +207,6 @@ onBeforeUnmount(() => {
   margin: auto;
 }
 
-/* Size Variants */
 .modal-container--sm {
   max-width: 400px;
 }
@@ -239,10 +227,6 @@ onBeforeUnmount(() => {
   max-width: 95vw;
   max-height: 95vh;
 }
-
-/* ============================================================================
-   MODAL CLOSE BUTTON
-   ============================================================================ */
 
 .modal-close {
   position: absolute;
@@ -282,10 +266,6 @@ onBeforeUnmount(() => {
   height: 1.25rem;
 }
 
-/* ============================================================================
-   MODAL HEADER
-   ============================================================================ */
-
 .modal-header {
   padding: var(--spacing-6) var(--spacing-6) var(--spacing-4) var(--spacing-6);
   border-bottom: 1px solid var(--color-medium-gray);
@@ -302,7 +282,7 @@ onBeforeUnmount(() => {
   color: var(--color-black);
   line-height: 1.3;
   margin: 0;
-  padding-right: var(--spacing-8); /* Space for close button */
+  padding-right: var(--spacing-8);
 }
 
 .modal-subtitle {
@@ -312,16 +292,11 @@ onBeforeUnmount(() => {
   line-height: 1.5;
 }
 
-/* ============================================================================
-   MODAL CONTENT (Scrollable)
-   ============================================================================ */
-
 .modal-content {
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-6);
-  
-  /* Custom scrollbar styling */
+
   scrollbar-width: thin;
   scrollbar-color: var(--color-medium-gray) transparent;
 }
@@ -349,10 +324,6 @@ onBeforeUnmount(() => {
   background-color: var(--color-dark-gray);
 }
 
-/* ============================================================================
-   MODAL FOOTER
-   ============================================================================ */
-
 .modal-footer {
   padding: var(--spacing-4) var(--spacing-6) var(--spacing-6) var(--spacing-6);
   border-top: 1px solid var(--color-medium-gray);
@@ -372,11 +343,6 @@ onBeforeUnmount(() => {
   min-width: 120px;
 }
 
-/* ============================================================================
-   ANIMATIONS
-   ============================================================================ */
-
-/* Backdrop Fade Animation */
 .modal-fade-enter-active {
   animation: modal-fade-in var(--duration-slow) var(--ease-out);
 }
@@ -403,7 +369,6 @@ onBeforeUnmount(() => {
   }
 }
 
-/* Modal Scale Animation */
 .modal-scale-enter-active {
   animation: modal-scale-in var(--duration-slow) var(--ease-bounce);
 }
@@ -433,10 +398,6 @@ onBeforeUnmount(() => {
     transform: scale(0.95) translateY(10px);
   }
 }
-
-/* ============================================================================
-   RESPONSIVE DESIGN
-   ============================================================================ */
 
 @media (max-width: 640px) {
   .modal-backdrop {
@@ -474,10 +435,6 @@ onBeforeUnmount(() => {
   }
 }
 
-/* ============================================================================
-   ACCESSIBILITY
-   ============================================================================ */
-
 @media (prefers-reduced-motion: reduce) {
   .modal-fade-enter-active,
   .modal-fade-leave-active,
@@ -491,7 +448,6 @@ onBeforeUnmount(() => {
   }
 }
 
-/* Focus trap for keyboard navigation */
 .modal-container:focus {
   outline: none;
 }

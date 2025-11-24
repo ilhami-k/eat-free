@@ -143,18 +143,15 @@ const validateForm = () => {
   let isValid = true
   generalError.value = ''
 
-  // Clear previous errors
   Object.keys(errors).forEach(key => {
     errors[key as keyof typeof errors] = ''
   })
 
-  // Validate name
   if (!form.name.trim()) {
     errors.name = 'Ingredient name is required'
     isValid = false
   }
 
-  // Validate nutrition values
   if (form.kcal_per_100g < 0) {
     errors.kcal_per_100g = 'Must be a positive number'
     isValid = false
@@ -194,7 +191,6 @@ const handleSubmit = async () => {
   } catch (err) {
     generalError.value =
       err instanceof Error ? err.message : 'Failed to create ingredient. Please try again.'
-    console.error('Error creating ingredient:', err)
   } finally {
     isLoading.value = false
   }

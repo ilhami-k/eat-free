@@ -34,7 +34,7 @@
         <!-- Add Ingredients Section -->
         <div class="rounded-lg border border-neutral-200 p-4">
           <h3 class="mb-3 font-medium text-neutral-900">Ingredients</h3>
-          
+
           <!-- Fixed height container for consistent modal size -->
           <div style="min-height: 340px;">
             <!-- Ingredients List -->
@@ -213,13 +213,12 @@ const isLoadingIngredients = computed(() => ingredientService.isLoading.value)
 const filteredAvailableIngredients = computed(() => {
   const query = ingredientSearchQuery.value.toLowerCase().trim()
   if (!query) return []
-  
-  // Filter out already added ingredients
+
   const addedIds = form.value.ingredients.map(ing => Number(ing.ingredient_id))
   return availableIngredients.value
     .filter(ing => !addedIds.includes(ing.id))
     .filter(ing => ing.name.toLowerCase().includes(query))
-    .slice(0, 3) // Limit to 3 most relevant results
+    .slice(0, 3)
 })
 
 const calculatedNutrition = computed(() => {
@@ -230,7 +229,6 @@ const calculatedNutrition = computed(() => {
   let totalFat = 0
 
   form.value.ingredients.forEach(ing => {
-    // Calculate nutrition based on quantity (grams) and per-100g values
     const factor = ing.qty_grams / 100
     totalKcal += ing.kcal_per_100g * factor
     totalProtein += ing.protein_g_per_100g * factor
@@ -274,7 +272,6 @@ const removeIngredient = (index: number) => {
 }
 
 const addIngredient = (ingredient: Ingredient) => {
-  // Add ingredient with default 100g and nutrition data
   form.value.ingredients.push({
     ingredient_id: ingredient.id,
     ingredient_name: ingredient.name,
@@ -284,7 +281,6 @@ const addIngredient = (ingredient: Ingredient) => {
     carbs_g_per_100g: ingredient.carbs_g_per_100g,
     fat_g_per_100g: ingredient.fat_g_per_100g,
   })
-  // Clear search
   ingredientSearchQuery.value = ''
 }
 
@@ -305,7 +301,6 @@ const handleSubmit = async () => {
       fat_g_per_serving: parseFloat(calculatedNutrition.value.fat),
     }
 
-    // Prepare ingredients for creation
     const ingredientsData = form.value.ingredients.map(ing => ({
       ingredient_id: ing.ingredient_id,
       qty_grams: ing.qty_grams,
@@ -318,7 +313,6 @@ const handleSubmit = async () => {
   } catch (err) {
     generalError.value =
       err instanceof Error ? err.message : 'Failed to create recipe. Please try again.'
-    console.error('Error creating recipe:', err)
   } finally {
     isCreating.value = false
   }
@@ -328,7 +322,6 @@ const closeModal = () => {
   emit('close')
 }
 
-// Fetch ingredients when modal opens
 onMounted(async () => {
   const ingredients = await ingredientService.fetchIngredients()
   if (ingredients) {

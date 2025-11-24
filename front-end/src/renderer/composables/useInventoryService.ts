@@ -34,17 +34,15 @@ export function useInventoryService(service: IInventoryService) {
           fat_g_per_100g: ingredientData?.fat_g_per_100g || 0,
         }
       })
-      .filter(item => item.qty_grams > 0) // Only show items with positive quantities
+      .filter(item => item.qty_grams > 0)
   }
 
   const getOrCreateInventory = async (userId: number) => {
     store.setLoading(true)
     store.clearError()
     try {
-      // First try to get existing inventory
       let userInventory = await service.getInventoryByUserId(userId)
 
-      // If no inventory exists, create one
       if (!userInventory) {
         userInventory = await service.createInventory(userId)
       }
@@ -55,7 +53,6 @@ export function useInventoryService(service: IInventoryService) {
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Failed to get/create inventory')
       store.setError(error)
-      console.error('Error getting/creating inventory:', err)
       throw error
     } finally {
       store.setLoading(false)
@@ -68,7 +65,6 @@ export function useInventoryService(service: IInventoryService) {
     try {
       await service.addIngredientToInventory(inventoryId, ingredientId, qtyGrams)
 
-      // Refresh inventory
       const updated = await service.getInventoryById(inventoryId)
       if (updated) {
         store.setInventory(updated)
@@ -79,7 +75,6 @@ export function useInventoryService(service: IInventoryService) {
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Failed to add ingredient')
       store.setError(error)
-      console.error('Error adding ingredient:', err)
       throw error
     } finally {
       store.setLoading(false)
@@ -96,7 +91,6 @@ export function useInventoryService(service: IInventoryService) {
     try {
       await service.updateIngredientInInventory(inventoryId, ingredientId, qtyGrams)
 
-      // Refresh inventory
       const updated = await service.getInventoryById(inventoryId)
       if (updated) {
         store.setInventory(updated)
@@ -107,7 +101,6 @@ export function useInventoryService(service: IInventoryService) {
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Failed to update ingredient')
       store.setError(error)
-      console.error('Error updating ingredient:', err)
       throw error
     } finally {
       store.setLoading(false)
@@ -120,7 +113,6 @@ export function useInventoryService(service: IInventoryService) {
     try {
       await service.removeIngredientFromInventory(inventoryId, ingredientId)
 
-      // Refresh inventory
       const updated = await service.getInventoryById(inventoryId)
       if (updated) {
         store.setInventory(updated)
@@ -131,7 +123,6 @@ export function useInventoryService(service: IInventoryService) {
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Failed to remove ingredient')
       store.setError(error)
-      console.error('Error removing ingredient:', err)
       throw error
     } finally {
       store.setLoading(false)

@@ -3,11 +3,6 @@ import { PrismaClient, meal_plan_recipe_meal_type } from "./prisma/generated/cli
 import type MealPlan from "../../shared/mealPlan";
 import type { MealPlanRecipe } from "../../shared/mealPlan";
 
-/**
- * Normalize a date to Monday UTC midnight to match the database trigger behavior
- * JavaScript getDay(): 0=Sunday, 1=Monday, ..., 6=Saturday
- * We want Monday as week start
- */
 function normalizeToMonday(date: Date): Date {
   const normalized = new Date(date);
   const dayOfWeek = normalized.getDay();
@@ -17,9 +12,6 @@ function normalizeToMonday(date: Date): Date {
   return normalized;
 }
 
-/**
- * Normalize a date to midnight UTC (keep the actual day, just zero out time)
- */
 function normalizeDateOnly(date: Date): Date {
   const normalized = new Date(date);
   normalized.setUTCHours(0, 0, 0, 0);
@@ -133,7 +125,7 @@ export class MealPlanRepository {
 
   async getMealPlanForWeek(userId: number, weekStartDate: Date): Promise<MealPlan | null> {
     const normalizedDate = normalizeToMonday(weekStartDate);
-    
+
     const plan = await this.dbclient.meal_plan.findUnique({
       where: {
         user_id_week_start_date: {
@@ -155,7 +147,7 @@ export class MealPlanRepository {
         },
       },
     });
-    
+
     if (!plan) return null;
     return {
       id: (plan.id),
@@ -188,8 +180,7 @@ export class MealPlanRepository {
 
   async createMealPlan(user_id: number, week_start_date: Date): Promise<MealPlan> {
     const normalizedDate = normalizeToMonday(week_start_date);
-    console.log('REPOSITORY - createMealPlan:', { user_id, week_start_date, normalizedDate });
-    
+
     const plan = await this.dbclient.meal_plan.upsert({
       where: {
         user_id_week_start_date: {
@@ -216,7 +207,7 @@ export class MealPlanRepository {
         },
       },
     });
-    
+
     return {
       id: (plan.id),
       user_id: (plan.user_id),

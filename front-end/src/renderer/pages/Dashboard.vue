@@ -2,7 +2,7 @@
   <div class="dashboard-wrapper">
     <div class="dashboard">
       <DashboardHero :user-name="userName" />
-      
+
       <DashboardStats
         :inventory-count="inventoryCount"
         :recipes-count="recipesCount"
@@ -78,7 +78,6 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-// Use the dashboard controller composable
 const {
   userName,
   inventoryCount,
@@ -88,9 +87,6 @@ const {
   isLoading
 } = useDashboard(props.currentUser.id)
 
-/**
- * Handle navigation to different pages
- */
 const handleNavigate = (page: NavigationPage) => {
   emit('navigate', page)
 }
@@ -101,7 +97,7 @@ const handleNavigate = (page: NavigationPage) => {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: 5rem; /* Account for fixed navbar height */
+  padding-top: 5rem;
 }
 
 .dashboard {
@@ -112,7 +108,6 @@ const handleNavigate = (page: NavigationPage) => {
   background: transparent;
 }
 
-/* -------- Navigation Cards Grid -------- */
 .nav-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -120,9 +115,6 @@ const handleNavigate = (page: NavigationPage) => {
   margin-bottom: calc(var(--spacing-8) + var(--spacing-4));
 }
 
-/* ==================== RESPONSIVE STYLES ==================== */
-
-/* Mobile devices (< 640px) */
 @media (max-width: 639px) {
   .dashboard {
     padding: 1rem;
@@ -134,7 +126,6 @@ const handleNavigate = (page: NavigationPage) => {
   }
 }
 
-/* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;

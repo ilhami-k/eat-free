@@ -8,7 +8,6 @@ import DashboardNavCard from '@/renderer/components/dashboard/DashboardNavCard.v
 import DashboardQuickActions from '@/renderer/components/dashboard/DashboardQuickActions.vue'
 import type User from '@/shared/user'
 
-// Mock the composable
 vi.mock('@/renderer/composables/useDashboard', () => ({
   useDashboard: vi.fn(() => ({
     userName: ref('Test User'),

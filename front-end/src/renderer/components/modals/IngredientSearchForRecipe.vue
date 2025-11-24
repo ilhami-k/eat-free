@@ -129,7 +129,6 @@ const isLoading = computed(() => ingredientService.isLoading.value)
 const error = computed(() => ingredientService.error.value)
 const filteredIngredients = computed(() => ingredientService.ingredients.value)
 
-// Watch search query and trigger search when user types
 watch(searchQuery, async (query) => {
   if (query.trim()) {
     hasSearched.value = true

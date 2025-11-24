@@ -8,12 +8,12 @@
       </template>
       Previous
     </Button>
-    
+
     <div class="current-date">
       <p class="date-main">{{ formatDate(selectedDate) }}</p>
       <p class="date-sub">{{ formatDayOfWeek(selectedDate) }}</p>
     </div>
-    
+
     <Button variant="ghost" size="sm" @click="$emit('next')">
       <template #iconRight>
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -22,7 +22,7 @@
       </template>
       Next
     </Button>
-    
+
     <Button variant="ghost" size="sm" @click="$emit('today')">Today</Button>
   </div>
 </template>
@@ -88,7 +88,7 @@ function formatDayOfWeek(date: Date): string {
   .date-navigator {
     justify-content: center;
   }
-  
+
   .current-date {
     flex: 0 1 auto;
   }

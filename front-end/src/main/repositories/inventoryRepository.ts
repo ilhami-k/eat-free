@@ -146,7 +146,6 @@ export class InventoryRepository {
     ingredient_id: number,
     qty_grams: number
   ): Promise<void> {
-    // Use upsert to handle case where ingredient already exists (even with 0 grams)
     await this.dbclient.inventory_ingredient.upsert({
       where: {
         inventory_id_ingredient_id: {
@@ -161,7 +160,7 @@ export class InventoryRepository {
       },
       update: {
         qty_grams: {
-          increment: qty_grams, // Add to existing quantity
+          increment: qty_grams,
         },
       },
     });
@@ -172,7 +171,6 @@ export class InventoryRepository {
     ingredient_id: number,
     qty_grams: number
   ): Promise<void> {
-    // If quantity is 0 or less, delete the entry entirely
     if (qty_grams <= 0) {
       await this.dbclient.inventory_ingredient.delete({
         where: {
@@ -183,7 +181,6 @@ export class InventoryRepository {
         },
       });
     } else {
-      // Otherwise, update the quantity
       await this.dbclient.inventory_ingredient.update({
         where: {
           inventory_id_ingredient_id: {

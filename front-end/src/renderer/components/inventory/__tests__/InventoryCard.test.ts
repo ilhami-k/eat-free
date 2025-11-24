@@ -188,7 +188,7 @@ describe('InventoryCard.vue', () => {
       const needInfo = wrapper.find('.need-info')
       expect(needInfo.exists()).toBe(true)
       expect(needInfo.text()).toContain('Need:')
-      expect(needInfo.text()).toContain('451g') // rounded
+      expect(needInfo.text()).toContain('451g')
     })
 
     it('should display shortfall when insufficient (edge case)', () => {
@@ -494,7 +494,6 @@ describe('InventoryCard.vue', () => {
 
       expect(wrapper.find('.ingredient-card').classes()).toContain('card-warning')
       expect(wrapper.find('.status-badge').text()).toContain('Low')
-      // There are two .shortage-value elements, get all and check the second one (shortfall text)
       const shortageElements = wrapper.findAll('.shortage-value')
       expect(shortageElements).toHaveLength(2)
       expect(shortageElements[1].text()).toContain('499g short')

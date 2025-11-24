@@ -39,7 +39,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style scoped>
-/* Smooth scrolling */
+
 aside {
   scroll-behavior: smooth;
 }

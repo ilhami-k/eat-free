@@ -86,9 +86,7 @@ export class JournalRepository {
     carbs_g: number,
     fat_g: number
   ): Promise<Journal> {
-    // Use a transaction to ensure both journal entry and inventory deduction happen atomically
     const result = await this.dbclient.$transaction(async (tx) => {
-      // 1. Create the journal entry
       const journalEntry = await tx.journal.create({
         data: {
           user_id: (user_id),
@@ -102,12 +100,9 @@ export class JournalRepository {
         include: { recipe: true },
       });
 
-      // 2. Deduct ingredients from inventory
       try {
         await this.deductIngredientsFromInventory(tx, user_id, recipe_id, servings_eaten);
       } catch (error) {
-        console.error('Error deducting ingredients from inventory:', error);
-        // Continue anyway - don't fail the journal entry creation
       }
 
       return journalEntry;
@@ -147,9 +142,7 @@ export class JournalRepository {
     fat_g: number,
     logged_at: Date
   ): Promise<Journal> {
-    // Use a transaction to ensure both journal entry and inventory deduction happen atomically
     const result = await this.dbclient.$transaction(async (tx) => {
-      // 1. Create the journal entry
       const journalEntry = await tx.journal.create({
         data: {
           user_id: (user_id),
@@ -164,12 +157,9 @@ export class JournalRepository {
         include: { recipe: true },
       });
 
-      // 2. Deduct ingredients from inventory
       try {
         await this.deductIngredientsFromInventory(tx, user_id, recipe_id, servings_eaten);
       } catch (error) {
-        console.error('Error deducting ingredients from inventory:', error);
-        // Continue anyway - don't fail the journal entry creation
       }
 
       return journalEntry;
@@ -243,18 +233,12 @@ export class JournalRepository {
     });
   }
 
-  /**
-   * Helper method to deduct recipe ingredients from user's inventory
-   * Mirrors the logic from the log_meal stored procedure
-   */
   private async deductIngredientsFromInventory(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     tx: any,
     user_id: number,
     recipe_id: number,
     servings_eaten: number
   ): Promise<void> {
-    // Get the recipe to know how many servings it makes
     const recipe = await tx.recipe.findUnique({
       where: { id: (recipe_id) },
       select: { servings: true },
@@ -266,7 +250,6 @@ export class JournalRepository {
 
     const recipe_servings = (recipe.servings) || 1;
 
-    // Get user's inventory
     const inventory = await tx.inventory.findFirst({
       where: { user_id: (user_id) },
     });
@@ -275,19 +258,15 @@ export class JournalRepository {
       throw new Error(`Inventory for user ${user_id} not found`);
     }
 
-    // Get all ingredients needed for this recipe
     const recipeIngredients = await tx.recipe_ingredients.findMany({
       where: { recipe_id: (recipe_id) },
     });
 
-    // Calculate the scaling factor: servings_eaten / recipe_servings
     const scalingFactor = servings_eaten / recipe_servings;
 
-    // For each ingredient, deduct from inventory
     for (const recipeIngredient of recipeIngredients) {
       const qtyNeeded = (recipeIngredient.qty_grams) * scalingFactor;
 
-      // Try to find existing inventory item
       const existingInventoryItem = await tx.inventory_ingredient.findUnique({
         where: {
           inventory_id_ingredient_id: {
@@ -299,9 +278,8 @@ export class JournalRepository {
 
       if (existingInventoryItem) {
         const newQty = (existingInventoryItem.qty_grams) - qtyNeeded;
-        
+
         if (newQty <= 0) {
-          // Delete the item if quantity reaches zero or below
           await tx.inventory_ingredient.delete({
             where: {
               inventory_id_ingredient_id: {
@@ -311,7 +289,6 @@ export class JournalRepository {
             },
           });
         } else {
-          // Update existing item - deduct the quantity
           await tx.inventory_ingredient.update({
             where: {
               inventory_id_ingredient_id: {
@@ -325,8 +302,6 @@ export class JournalRepository {
           });
         }
       }
-      // If ingredient doesn't exist in inventory, we simply don't create it
-      // The user didn't have it to begin with, so we don't track a deficit
     }
   }
 }

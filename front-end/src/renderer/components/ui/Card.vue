@@ -48,8 +48,6 @@ defineEmits<{
   transition: all var(--duration-normal) var(--ease-in-out);
 }
 
-/* ========== ELEVATION LEVELS ========== */
-
 .card--elevation-none {
   box-shadow: none;
   border: 1px solid var(--color-medium-gray);
@@ -67,8 +65,6 @@ defineEmits<{
   box-shadow: var(--shadow-lg);
 }
 
-/* ========== INTERACTIVE MODE ========== */
-
 .card--interactive {
   cursor: pointer;
 
@@ -82,15 +78,11 @@ defineEmits<{
   }
 }
 
-/* ========== GLASS MORPHISM ========== */
-
 .card--glass {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
-
-/* ========== CONTENT ========== */
 
 .card__content {
   display: flex;
@@ -103,8 +95,6 @@ defineEmits<{
   top: var(--spacing-2);
   right: var(--spacing-2);
 }
-
-/* ========== ACCESSIBILITY ========== */
 
 .card--interactive {
   &:focus-visible {

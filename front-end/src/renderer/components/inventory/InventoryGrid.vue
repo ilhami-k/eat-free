@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-// Grid container component - accepts cards as slots
 </script>
 
 <style scoped>

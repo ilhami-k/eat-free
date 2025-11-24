@@ -28,4 +28,3 @@ export function registerUserRepository() {
     return userRepository.deleteUser(id);
   });
 }
-

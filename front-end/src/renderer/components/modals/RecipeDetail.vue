@@ -132,7 +132,6 @@ const handleDelete = async () => {
     emit('deleted')
     closeModal()
   } catch (err) {
-    console.error('Error deleting recipe:', err)
   } finally {
     isDeleting.value = false
   }

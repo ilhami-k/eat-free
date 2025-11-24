@@ -7,7 +7,6 @@ describe('useInventoryStore', () => {
   let store: ReturnType<typeof useInventoryStore>
 
   beforeEach(() => {
-    // Reset store before each test
     store = useInventoryStore()
     store.reset()
   })
@@ -173,7 +172,6 @@ describe('useInventoryStore', () => {
 
   describe('reset', () => {
     it('should reset all state to initial values', () => {
-      // Set up some state
       const mockInventory: Inventory = {
         id: 1,
         user_id: 1,
@@ -203,16 +201,13 @@ describe('useInventoryStore', () => {
       store.setLoading(true)
       store.setError(mockError)
 
-      // Verify state is set
       expect(store.inventory.value).toEqual(mockInventory)
       expect(store.inventoryIngredients.value).toEqual(mockIngredients)
       expect(store.isLoading.value).toBe(true)
       expect(store.error.value).toEqual(mockError)
 
-      // Reset
       store.reset()
 
-      // Verify all state is reset
       expect(store.inventory.value).toBeNull()
       expect(store.inventoryIngredients.value).toEqual([])
       expect(store.isLoading.value).toBe(false)

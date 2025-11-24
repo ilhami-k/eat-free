@@ -2,7 +2,6 @@ import { ref, computed } from 'vue'
 
 export type View = 'dashboard' | 'inventory' | 'recipes' | 'mealplans' | 'journal' | 'settings'
 
-// Global state
 const activeView = ref<View>('dashboard')
 const navigationHistory = ref<View[]>(['dashboard'])
 const currentHistoryIndex = ref(0)
@@ -12,11 +11,10 @@ export function useNavigation() {
   const canGoForward = computed(() => currentHistoryIndex.value < navigationHistory.value.length - 1)
 
   const navigate = (page: View) => {
-    // If we are not at the end of history, remove future entries
     if (currentHistoryIndex.value < navigationHistory.value.length - 1) {
       navigationHistory.value = navigationHistory.value.slice(0, currentHistoryIndex.value + 1)
     }
-    
+
     navigationHistory.value.push(page)
     currentHistoryIndex.value++
     activeView.value = page

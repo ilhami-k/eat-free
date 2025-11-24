@@ -7,18 +7,12 @@ interface UseUserServiceOptions {
   onError?: (error: Error) => void
 }
 
-/**
- * Composable for managing user operations with loading and error states
- */
 export function useUserService(service: IUserService, options?: UseUserServiceOptions) {
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
   const users = ref<User[]>([])
   const currentUser = ref<User | null>(null)
 
-  /**
-   * Create a new user
-   */
   const createUser = async (name: string, email: string): Promise<User | null> => {
     isLoading.value = true
     error.value = null
@@ -39,9 +33,6 @@ export function useUserService(service: IUserService, options?: UseUserServiceOp
     }
   }
 
-  /**
-   * Fetch all users
-   */
   const fetchUsers = async (): Promise<User[]> => {
     isLoading.value = true
     error.value = null
@@ -59,9 +50,6 @@ export function useUserService(service: IUserService, options?: UseUserServiceOp
     }
   }
 
-  /**
-   * Get a user by ID
-   */
   const getUserById = async (id: number): Promise<User | null> => {
     isLoading.value = true
     error.value = null
@@ -79,9 +67,6 @@ export function useUserService(service: IUserService, options?: UseUserServiceOp
     }
   }
 
-  /**
-   * Update a user
-   */
   const updateUser = async (
     id: number,
     data: { email?: string; name?: string }
@@ -107,9 +92,6 @@ export function useUserService(service: IUserService, options?: UseUserServiceOp
     }
   }
 
-  /**
-   * Delete a user
-   */
   const deleteUser = async (id: number): Promise<boolean> => {
     isLoading.value = true
     error.value = null
@@ -131,35 +113,24 @@ export function useUserService(service: IUserService, options?: UseUserServiceOp
     }
   }
 
-  /**
-   * Set the current user
-   */
   const setCurrentUser = (user: User): void => {
     currentUser.value = user
   }
 
-  /**
-   * Clear the current user
-   */
   const clearCurrentUser = (): void => {
     currentUser.value = null
   }
 
-  /**
-   * Clear error state
-   */
   const clearError = (): void => {
     error.value = null
   }
 
   return {
-    // State (read-only)
     isLoading: readonly(isLoading),
     error: readonly(error),
     users: readonly(users),
     currentUser: readonly(currentUser),
 
-    // Actions
     createUser,
     fetchUsers,
     getUserById,

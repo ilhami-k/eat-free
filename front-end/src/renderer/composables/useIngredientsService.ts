@@ -16,7 +16,6 @@ export function useIngredientsService(service: IIngredientsService) {
       return ingredients.value
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch ingredients')
-      console.error('Error fetching ingredients:', err)
     } finally {
       isLoading.value = false
     }
@@ -31,7 +30,6 @@ export function useIngredientsService(service: IIngredientsService) {
       return ingredient
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch ingredient')
-      console.error('Error fetching ingredient:', err)
     } finally {
       isLoading.value = false
     }
@@ -46,17 +44,15 @@ export function useIngredientsService(service: IIngredientsService) {
     isLoading.value = true
     error.value = null
     try {
-      // Filter locally from all ingredients
       const allIngredients = await service.getIngredients()
-      
+
       ingredients.value = allIngredients.filter(ing =>
         ing.name.toLowerCase().includes(query.toLowerCase())
       )
-      
+
       return ingredients.value
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to search ingredients')
-      console.error('Error searching ingredients:', err)
     } finally {
       isLoading.value = false
     }
@@ -83,7 +79,6 @@ export function useIngredientsService(service: IIngredientsService) {
       return newIngredient
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to create ingredient')
-      console.error('Error creating ingredient:', err)
       throw error.value
     } finally {
       isLoading.value = false
@@ -114,7 +109,6 @@ export function useIngredientsService(service: IIngredientsService) {
       return updated
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to update ingredient')
-      console.error('Error updating ingredient:', err)
       throw error.value
     } finally {
       isLoading.value = false
@@ -132,7 +126,6 @@ export function useIngredientsService(service: IIngredientsService) {
       }
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to delete ingredient')
-      console.error('Error deleting ingredient:', err)
       throw error.value
     } finally {
       isLoading.value = false

@@ -121,12 +121,10 @@ const props = defineProps<{
   currentUserId: number
 }>()
 
-// Services
 const inventoryService = useInventoryService(window.electronService?.inventory)
 const mealPlanService = useMealPlanService(window.electronService?.mealPlans)
 const recipeService = useRecipeService(window.electronService?.recipes)
 
-// Local state
 const searchQuery = ref('')
 const selectedCategory = ref<'all' | 'low-stock' | 'missing'>('all')
 const showSearchDialog = ref(false)
@@ -134,13 +132,11 @@ const selectedItem = ref<InventoryIngredientWithDetails | null>(null)
 const showQuantityDialog = ref(false)
 const pendingIngredient = ref<Ingredient | null>(null)
 
-// Computed state from services
 const isLoading = computed(() => inventoryService.isLoading.value)
 const error = computed(() => inventoryService.error.value)
 const inventory = computed(() => inventoryService.inventory.value)
 const ingredients = computed(() => inventoryService.inventoryIngredients.value)
 
-// Meal plan data for current week
 const currentWeekStart = computed(() => {
   const today = new Date()
   const dayOfWeek = today.getUTCDay()
@@ -153,13 +149,11 @@ const currentWeekStart = computed(() => {
 
 const mealPlanRecipes = computed(() => {
   const recipes = mealPlanService.currentMealPlan.value?.meal_plan_recipe as MealPlanRecipe[] || []
-  console.log('Inventory - Meal plan recipes:', recipes.length)
   return recipes
 })
 
 const recipes = computed(() => recipeService.recipes.value as RecipeWithIngredients[])
 
-// Use the meal plan inventory check composable
 const {
   inventoryWithStatus,
   missingIngredients,
@@ -169,8 +163,7 @@ const {
 
 const filteredIngredients = computed(() => {
   const baseFiltered = inventoryService.searchIngredients(searchQuery.value)
-  
-  // Filter by category
+
   let categoryFiltered = baseFiltered
   if (selectedCategory.value === 'low-stock') {
     categoryFiltered = baseFiltered.filter(item => {
@@ -180,8 +173,7 @@ const filteredIngredients = computed(() => {
       return status?.isNeededForMealPlan && !status.isSufficient
     })
   }
-  
-  // Enhance with meal plan status for display
+
   return categoryFiltered.map(item => {
     const status = inventoryWithStatus.value.find(
       s => s.ingredient.ingredient_id === item.ingredient_id
@@ -199,21 +191,17 @@ const getEmptyMessage = computed(() => {
   return 'Your inventory is empty'
 })
 
-// Lifecycle
 onMounted(async () => {
   await inventoryService.getOrCreateInventory(props.currentUserId)
-  
-  // Try to get meal plan, create if doesn't exist
+
   let mealPlan = await mealPlanService.getMealPlanForWeek(props.currentUserId, currentWeekStart.value)
   if (!mealPlan) {
-    console.log('Inventory - No meal plan found, creating one')
     mealPlan = await mealPlanService.createMealPlan(props.currentUserId, currentWeekStart.value)
   }
-  
+
   await recipeService.fetchRecipes()
 })
 
-// Watchers
 watch(
   () => props.currentUserId,
   async (newUserId) => {
@@ -223,7 +211,6 @@ watch(
   }
 )
 
-// Methods
 const toggleSearchDialog = () => {
   showSearchDialog.value = !showSearchDialog.value
 }
@@ -233,14 +220,12 @@ const handleIngredientSelected = async (ingredient: Ingredient) => {
 
   const ingredientIdBig = ingredient.id
 
-  // Check if ingredient already in inventory
   const existing = ingredients.value.find(i => i.ingredient_id === ingredientIdBig)
   if (existing) {
     selectedItem.value = existing
     return
   }
 
-  // Show quantity dialog for new ingredient
   pendingIngredient.value = ingredient
   showQuantityDialog.value = true
 }
@@ -250,16 +235,13 @@ const handleQuantityConfirmed = async (quantity: number) => {
 
   const ingredientIdBig = pendingIngredient.value.id
 
-  // Add new ingredient with user-specified quantity
   await inventoryService.addIngredient(inventory.value.id, ingredientIdBig, quantity)
-  
-  // Find and select the newly added ingredient
+
   const newIngredient = ingredients.value.find(i => i.ingredient_id === ingredientIdBig)
   if (newIngredient) {
     selectedItem.value = newIngredient
   }
 
-  // Reset pending state
   pendingIngredient.value = null
 }
 
@@ -283,14 +265,12 @@ const retryLoad = async () => {
 const addMissingIngredient = async (missing: typeof missingIngredients.value[0]) => {
   if (!inventory.value) return
 
-  // Add the missing ingredient with the required amount
   await inventoryService.addIngredient(
-    inventory.value.id, 
-    missing.ingredient_id, 
+    inventory.value.id,
+    missing.ingredient_id,
     Math.ceil(missing.required_grams)
   )
-  
-  // Optionally select it to show the detail drawer
+
   const newIngredient = ingredients.value.find(i => (i.ingredient_id) === missing.ingredient_id)
   if (newIngredient) {
     selectedItem.value = newIngredient
@@ -312,7 +292,6 @@ const addMissingIngredient = async (missing: typeof missingIngredients.value[0])
   padding: 1.5rem 1rem;
 }
 
-/* Floating Action Button */
 .fab {
   position: fixed;
   bottom: 2rem;

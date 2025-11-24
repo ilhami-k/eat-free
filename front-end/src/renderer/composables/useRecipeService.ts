@@ -34,7 +34,6 @@ export function useRecipeService(service: IRecipeService) {
       return recipes.value
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch recipes')
-      console.error('Error fetching recipes:', err)
     } finally {
       isLoading.value = false
     }
@@ -49,7 +48,6 @@ export function useRecipeService(service: IRecipeService) {
       return recipe
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch recipe')
-      console.error('Error fetching recipe:', err)
     } finally {
       isLoading.value = false
     }
@@ -70,7 +68,6 @@ export function useRecipeService(service: IRecipeService) {
       return recipes.value
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to search recipes')
-      console.error('Error searching recipes:', err)
     } finally {
       isLoading.value = false
     }
@@ -85,7 +82,6 @@ export function useRecipeService(service: IRecipeService) {
       return newRecipe
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to create recipe')
-      console.error('Error creating recipe:', err)
       throw error.value
     } finally {
       isLoading.value = false
@@ -110,7 +106,6 @@ export function useRecipeService(service: IRecipeService) {
       return updated
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to update recipe')
-      console.error('Error updating recipe:', err)
       throw error.value
     } finally {
       isLoading.value = false
@@ -128,7 +123,6 @@ export function useRecipeService(service: IRecipeService) {
       }
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to delete recipe')
-      console.error('Error deleting recipe:', err)
       throw error.value
     } finally {
       isLoading.value = false

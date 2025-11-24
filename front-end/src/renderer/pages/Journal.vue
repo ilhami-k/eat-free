@@ -4,7 +4,7 @@
     <div class="page-header">
       <div class="header-content">
         <h1 class="page-title">Daily Food Diary</h1>
-        <DateNavigator 
+        <DateNavigator
           :selectedDate="selectedDate"
           @previous="previousDay"
           @next="nextDay"
@@ -116,7 +116,6 @@ interface Props {
 
 const props = defineProps<Props>()
 
-// Daily nutrition goals (these could come from user settings in the future)
 const calorieGoal = ref(2000)
 const proteinGoal = ref(150)
 const carbsGoal = ref(200)
@@ -165,16 +164,15 @@ const caloriesRemainingClass = computed(() => {
   return 'calories-good'
 })
 
-// Categorize entries by meal time
 function getMealEntries(mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'): Journal[] {
   return todayEntries.value.filter(entry => {
     const hour = new Date(entry.logged_at).getHours()
-    
+
     if (mealType === 'breakfast') return hour >= 5 && hour < 11
     if (mealType === 'lunch') return hour >= 11 && hour < 15
     if (mealType === 'dinner') return hour >= 18 && hour < 22
     if (mealType === 'snack') return hour < 5 || (hour >= 15 && hour < 18) || hour >= 22
-    
+
     return false
   })
 }
@@ -209,7 +207,7 @@ async function loadJournalEntries(): Promise<void> {
   dayStart.setHours(0, 0, 0, 0)
   const dayEnd = new Date(selectedDate.value)
   dayEnd.setHours(23, 59, 59, 999)
-  
+
   await journalService.fetchJournalEntries(props.currentUserId, dayStart, dayEnd)
 }
 
@@ -244,7 +242,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* ========== PAGE LAYOUT ========== */
 
 .journal-page {
   display: flex;
@@ -253,8 +250,6 @@ onMounted(async () => {
   background-color: var(--color-light-gray);
   overflow: hidden;
 }
-
-/* ========== HEADER ========== */
 
 .page-header {
   background-color: var(--color-white);
@@ -280,8 +275,6 @@ onMounted(async () => {
   margin: 0;
 }
 
-/* ========== MAIN CONTENT ========== */
-
 .main-content {
   flex: 1;
   overflow-y: auto;
@@ -295,8 +288,6 @@ onMounted(async () => {
   flex-direction: column;
   gap: var(--spacing-4);
 }
-
-/* ========== STATE CONTAINERS ========== */
 
 .state-container {
   display: flex;
@@ -338,15 +329,11 @@ onMounted(async () => {
   margin: 0 0 var(--spacing-4) 0;
 }
 
-/* ========== MEALS GRID ========== */
-
 .meals-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--spacing-4);
 }
-
-/* ========== RESPONSIVE ========== */
 
 @media (max-width: 1024px) {
   .meals-grid {
@@ -358,11 +345,11 @@ onMounted(async () => {
   .page-header {
     padding: var(--spacing-3);
   }
-  
+
   .main-content {
     padding: var(--spacing-3);
   }
-  
+
   .meals-grid {
     grid-template-columns: 1fr;
   }

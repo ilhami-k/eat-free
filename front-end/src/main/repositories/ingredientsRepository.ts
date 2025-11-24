@@ -16,7 +16,7 @@ export class IngredientsRepository {
 
   async getIngredients(): Promise<Ingredient[]> {
     const result = await this.dbclient.ingredients.findMany();
-    
+
     return result.map((ing) => ({
       id: (ing.id),
       name: ing.name,

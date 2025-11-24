@@ -56,11 +56,11 @@
       <div v-if="displayedRecipes.length === 0 && searchQuery.length > 0" class="py-8 text-center text-neutral-500">
         No recipes found matching "{{ searchQuery }}"
       </div>
-      
+
       <div v-else-if="displayedRecipes.length === 0 && recipeSource === 'mealplan'" class="py-8 text-center text-neutral-500">
         No recipes in today's meal plan
       </div>
-      
+
       <div v-else-if="displayedRecipes.length === 0" class="py-8 text-center text-neutral-500">
         No recipes available
       </div>
@@ -76,7 +76,7 @@
           {{ recipe.kcal_per_serving }} kcal/serving
         </p>
       </button>
-      
+
       <p v-if="displayedRecipes.length > 3" class="text-xs text-center text-neutral-500 pt-2">
         + {{ displayedRecipes.length - 3 }} more recipe{{ displayedRecipes.length - 3 !== 1 ? 's' : '' }}. Type to refine search.
       </p>
@@ -86,7 +86,7 @@
     <div v-if="selectedRecipe" class="space-y-4">
       <div class="rounded-lg border border-neutral-200 p-4">
         <h3 class="mb-3 font-medium text-neutral-900">{{ selectedRecipe.name }}</h3>
-        
+
         <!-- Servings Input -->
         <div class="mb-4">
           <Input
@@ -204,11 +204,9 @@ const mealTypeLabel = computed(() => {
 const todaysMealPlanRecipes = computed(() => {
   const mealPlan = mealPlanService.currentMealPlan.value
   if (!mealPlan?.meal_plan_recipe) return []
-  
-  // Get the date string for the selected date (YYYY-MM-DD format)
+
   const selectedDateStr = props.date.toISOString().split('T')[0]
-  
-  // Filter recipes for the selected date
+
   return mealPlan.meal_plan_recipe.filter(mpr => {
     const mprDate = new Date(mpr.date).toISOString().split('T')[0]
     return mprDate === selectedDateStr
@@ -227,7 +225,7 @@ const filteredRecipes = computed(() => {
 const displayedRecipes = computed(() => {
   const query = searchQuery.value.toLowerCase().trim()
   if (!query) return filteredRecipes.value
-  
+
   return filteredRecipes.value.filter(recipe =>
     recipe.name.toLowerCase().includes(query)
   )
@@ -245,7 +243,7 @@ const calculatedNutrition = computed(() => {
     carbs: Math.round(selectedRecipe.value.carbs_g_per_serving * multiplier * 10) / 10,
     fat: Math.round(selectedRecipe.value.fat_g_per_serving * multiplier * 10) / 10,
   }
-  
+
   return result
 })
 
@@ -268,23 +266,22 @@ function closeModal(): void {
 
 function getLoggedAtTime(): Date {
   const loggedAt = new Date(props.date)
-  
-  // Set the time based on meal type
+
   switch (props.mealType) {
     case 'breakfast':
-      loggedAt.setHours(8, 0, 0, 0) // 8:00 AM
+      loggedAt.setHours(8, 0, 0, 0)
       break
     case 'lunch':
-      loggedAt.setHours(12, 30, 0, 0) // 12:30 PM
+      loggedAt.setHours(12, 30, 0, 0)
       break
     case 'dinner':
-      loggedAt.setHours(18, 0, 0, 0) // 6:00 PM
+      loggedAt.setHours(18, 0, 0, 0)
       break
     case 'snack':
-      loggedAt.setHours(15, 0, 0, 0) // 3:00 PM
+      loggedAt.setHours(15, 0, 0, 0)
       break
   }
-  
+
   return loggedAt
 }
 
@@ -297,7 +294,7 @@ async function handleSubmit(): Promise<void> {
   try {
     const nutrition = calculatedNutrition.value
     const loggedAt = getLoggedAtTime()
-    
+
     const result = await journalService.createJournalEntryWithTime(
       props.userId,
       selectedRecipe.value.id,
@@ -308,12 +305,10 @@ async function handleSubmit(): Promise<void> {
       nutrition.fat,
       loggedAt
     )
-    
-    console.log('Journal entry created:', result)
+
     emit('added')
     closeModal()
   } catch (err) {
-    console.error('Error creating journal entry:', err)
     alert('Failed to log meal. Please try again.')
   } finally {
     isSubmitting.value = false
@@ -322,7 +317,6 @@ async function handleSubmit(): Promise<void> {
 
 onMounted(async () => {
   await recipeService.fetchRecipes()
-  // Load meal plan for the current week
   const startOfWeek = new Date(props.date)
   await mealPlanService.getMealPlanForWeek(props.userId, startOfWeek)
 })

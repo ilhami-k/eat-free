@@ -24,8 +24,8 @@
           @click="activeFilter = 'all'"
           :class="[
             'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
-            activeFilter === 'all' 
-              ? 'bg-fresh-green/10 text-fresh-green' 
+            activeFilter === 'all'
+              ? 'bg-fresh-green/10 text-fresh-green'
               : 'text-neutral-600 hover:bg-neutral-100'
           ]"
         >
@@ -35,8 +35,8 @@
           @click="activeFilter = 'mine'"
           :class="[
             'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
-            activeFilter === 'mine' 
-              ? 'bg-fresh-green/10 text-fresh-green' 
+            activeFilter === 'mine'
+              ? 'bg-fresh-green/10 text-fresh-green'
               : 'text-neutral-600 hover:bg-neutral-100'
           ]"
         >
@@ -46,8 +46,8 @@
           @click="activeFilter = 'recent'"
           :class="[
             'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
-            activeFilter === 'recent' 
-              ? 'bg-fresh-green/10 text-fresh-green' 
+            activeFilter === 'recent'
+              ? 'bg-fresh-green/10 text-fresh-green'
               : 'text-neutral-600 hover:bg-neutral-100'
           ]"
         >
@@ -57,8 +57,8 @@
           @click="activeFilter = 'highProtein'"
           :class="[
             'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
-            activeFilter === 'highProtein' 
-              ? 'bg-fresh-green/10 text-fresh-green' 
+            activeFilter === 'highProtein'
+              ? 'bg-fresh-green/10 text-fresh-green'
               : 'text-neutral-600 hover:bg-neutral-100'
           ]"
         >
@@ -68,8 +68,8 @@
           @click="activeFilter = 'lowCalorie'"
           :class="[
             'w-full text-left px-3 py-2 rounded-md font-medium transition-colors',
-            activeFilter === 'lowCalorie' 
-              ? 'bg-fresh-green/10 text-fresh-green' 
+            activeFilter === 'lowCalorie'
+              ? 'bg-fresh-green/10 text-fresh-green'
               : 'text-neutral-600 hover:bg-neutral-100'
           ]"
         >
@@ -220,11 +220,10 @@ const recipes = computed(() => recipeService.recipes.value)
 const filteredRecipes = computed(() => {
   let filtered = recipes.value
 
-  // Apply filter
   if (activeFilter.value === 'mine') {
     filtered = filtered.filter(recipe => recipe.user_id === (props.currentUserId))
   } else if (activeFilter.value === 'recent') {
-    filtered = [...filtered].sort((a, b) => 
+    filtered = [...filtered].sort((a, b) =>
       new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
     ).slice(0, 10)
   } else if (activeFilter.value === 'highProtein') {
@@ -237,7 +236,6 @@ const filteredRecipes = computed(() => {
       .sort((a, b) => a.kcal_per_serving - b.kcal_per_serving)
   }
 
-  // Apply search
   if (searchQuery.value.trim()) {
     filtered = filtered.filter(recipe =>
       recipe.name.toLowerCase().includes(searchQuery.value.toLowerCase())

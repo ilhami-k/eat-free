@@ -126,7 +126,7 @@ const getIcon = (iconType: string) => {
 </script>
 
 <style scoped>
-/* -------- Quick Actions -------- */
+
 .quick-actions {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
   border-radius: var(--radius-2xl);
@@ -316,7 +316,6 @@ const getIcon = (iconType: string) => {
   text-align: center;
 }
 
-/* Responsive breakpoints */
 @media (min-width: 640px) {
   .quick-actions-grid {
     grid-template-columns: repeat(2, 1fr);

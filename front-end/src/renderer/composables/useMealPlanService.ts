@@ -4,11 +4,6 @@ import type MealPlan from '@/shared/mealPlan'
 import type { MealPlanRecipe, MealType } from '@/shared/mealPlan'
 import type { RecipeWithIngredients } from './useRecipeService'
 
-/**
- * Normalize a date to Monday UTC midnight to match the database trigger behavior
- * JavaScript getDay(): 0=Sunday, 1=Monday, ..., 6=Saturday
- * We want Monday as week start
- */
 function normalizeToMonday(date: Date): Date {
   const normalized = new Date(date)
   const dayOfWeek = normalized.getDay()
@@ -18,9 +13,6 @@ function normalizeToMonday(date: Date): Date {
   return normalized
 }
 
-/**
- * Normalize a date to midnight UTC (keep the actual day, just zero out time)
- */
 function normalizeDateOnly(date: Date): Date {
   const normalized = new Date(date)
   normalized.setUTCHours(0, 0, 0, 0)
@@ -31,13 +23,11 @@ export interface MealPlanWithRecipes extends MealPlan {
   meal_plan_recipe?: Array<MealPlanRecipe & { recipe?: RecipeWithIngredients }>
 }
 
-// Shared state across all instances of the service
 const sharedCurrentMealPlan = ref<MealPlanWithRecipes | null>(null)
 
 export function useMealPlanService(service: IMealPlanService) {
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
-  // Use shared state instead of instance-specific state
   const currentMealPlan = sharedCurrentMealPlan
 
   const getMealPlanForWeek = async (userId: number, weekStartDate: Date) => {
@@ -49,7 +39,6 @@ export function useMealPlanService(service: IMealPlanService) {
       return currentMealPlan.value
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to load meal plan')
-      console.error('Error loading meal plan:', err)
     } finally {
       isLoading.value = false
     }
@@ -64,7 +53,6 @@ export function useMealPlanService(service: IMealPlanService) {
       return currentMealPlan.value
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to create meal plan')
-      console.error('Error creating meal plan:', err)
       throw error.value
     } finally {
       isLoading.value = false
@@ -90,7 +78,6 @@ export function useMealPlanService(service: IMealPlanService) {
         plannedServings
       )
 
-      // Refresh meal plan
       if (currentMealPlan.value) {
         const normalizedWeekStart = normalizeToMonday(new Date(currentMealPlan.value.week_start_date))
         const updated = await service.getMealPlanForWeek(
@@ -103,7 +90,6 @@ export function useMealPlanService(service: IMealPlanService) {
       return result
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to add recipe to meal plan')
-      console.error('Error adding recipe:', err)
       throw error.value
     } finally {
       isLoading.value = false
@@ -116,7 +102,6 @@ export function useMealPlanService(service: IMealPlanService) {
     try {
       const result = await service.updateMealPlanRecipe(recipeId, plannedServings)
 
-      // Refresh meal plan
       if (currentMealPlan.value) {
         const updated = await service.getMealPlanForWeek(
           currentMealPlan.value.user_id,
@@ -128,7 +113,6 @@ export function useMealPlanService(service: IMealPlanService) {
       return result
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to update meal plan recipe')
-      console.error('Error updating meal plan recipe:', err)
       throw error.value
     } finally {
       isLoading.value = false
@@ -141,7 +125,6 @@ export function useMealPlanService(service: IMealPlanService) {
     try {
       await service.removeRecipeFromMealPlan(mealPlanRecipeId)
 
-      // Refresh meal plan
       if (currentMealPlan.value) {
         const updated = await service.getMealPlanForWeek(
           currentMealPlan.value.user_id,
@@ -151,7 +134,6 @@ export function useMealPlanService(service: IMealPlanService) {
       }
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to remove recipe from meal plan')
-      console.error('Error removing recipe:', err)
       throw error.value
     } finally {
       isLoading.value = false
@@ -166,7 +148,6 @@ export function useMealPlanService(service: IMealPlanService) {
       currentMealPlan.value = null
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to delete meal plan')
-      console.error('Error deleting meal plan:', err)
       throw error.value
     } finally {
       isLoading.value = false

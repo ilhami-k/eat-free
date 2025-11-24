@@ -4,7 +4,7 @@ import type { RecipeIngredientInput } from "../../shared/interfaces/IRecipeServi
 import Recipe from "../../shared/recipe"
 
 export function recipeService(): IRecipeService {
-    return { 
+    return {
         getRecipes: async () => {
             const recipes = await ipcRenderer.invoke("recipeRepository:getRecipes")
             return recipes

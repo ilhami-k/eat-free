@@ -25,7 +25,7 @@ defineProps<Props>()
 </script>
 
 <style scoped>
-/* -------- Hero Section -------- */
+
 .hero {
   position: relative;
   padding: var(--spacing-2) 0 var(--spacing-4);

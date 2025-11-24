@@ -54,8 +54,8 @@
 
     <!-- Drawer Overlay -->
     <Transition name="drawer-fade">
-      <div 
-        v-if="isDrawerOpen" 
+      <div
+        v-if="isDrawerOpen"
         class="drawer-backdrop"
         @click="isDrawerOpen = false"
         aria-hidden="true"
@@ -64,7 +64,7 @@
 
     <!-- Drawer Panel -->
     <Transition name="drawer-slide">
-      <div 
+      <div
         v-if="isDrawerOpen"
         class="drawer-panel"
         role="dialog"
@@ -74,7 +74,7 @@
         <!-- Drawer Header -->
         <div class="drawer-header">
           <h2 id="drawer-title" class="drawer-title">Menu</h2>
-          <button 
+          <button
             @click="isDrawerOpen = false"
             class="drawer-close-btn"
             aria-label="Close menu"
@@ -87,8 +87,8 @@
 
         <!-- Drawer Content -->
         <div class="drawer-content">
-          <button 
-            v-for="item in menuItems" 
+          <button
+            v-for="item in menuItems"
             :key="item.id"
             @click="handleNavigation(item.id)"
             class="menu-item"
@@ -110,7 +110,7 @@
 
           <!-- Settings / Logout Section -->
           <div class="action-buttons">
-             <button 
+             <button
                 @click="handleNavigation('settings')"
                 class="action-btn action-btn--info"
               >
@@ -120,7 +120,7 @@
                 </svg>
                 <span class="action-label">Settings</span>
              </button>
-             <button 
+             <button
                 @click="$emit('logout')"
                 class="action-btn action-btn--error"
               >
@@ -144,7 +144,7 @@ const { activeView, navigate, goBack, goForward, canGoBack, canGoForward } = use
 const isDrawerOpen = ref(false)
 const isHidden = ref(false)
 const lastScrollY = ref(0)
-const scrollThreshold = 10 // Minimum scroll distance to trigger hide/show
+const scrollThreshold = 10
 
 defineEmits<{
   (e: 'logout'): void
@@ -163,35 +163,28 @@ const handleNavigation = (view: string) => {
   isDrawerOpen.value = false
 }
 
-// Scroll detection logic
 const handleScroll = () => {
   const currentScrollY = window.scrollY
 
-  // If at the top of the page, always show navbar
   if (currentScrollY <= 0) {
     isHidden.value = false
     lastScrollY.value = currentScrollY
     return
   }
 
-  // Check scroll direction
   const scrollDifference = currentScrollY - lastScrollY.value
 
-  // Only trigger if scroll difference exceeds threshold
   if (Math.abs(scrollDifference) > scrollThreshold) {
     if (scrollDifference > 0) {
-      // Scrolling down - hide navbar
       isHidden.value = true
     } else {
-      // Scrolling up - show navbar
       isHidden.value = false
     }
-    
+
     lastScrollY.value = currentScrollY
   }
 }
 
-// Debounced scroll handler for better performance
 let scrollTimeout: number | null = null
 const debouncedScroll = () => {
   if (scrollTimeout) {
@@ -213,9 +206,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ============================================================================
-   🎨 NAVBAR - BubbleBite Design System
-   ============================================================================ */
 
 .bubble-navbar {
   position: fixed;
@@ -231,7 +221,7 @@ onUnmounted(() => {
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(120, 224, 143, 0.1);
-  transition: transform var(--duration-normal) var(--ease-out), 
+  transition: transform var(--duration-normal) var(--ease-out),
               opacity var(--duration-normal) var(--ease-out);
   transform: translateY(0);
 }
@@ -241,14 +231,12 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-/* -------- Navigation Controls -------- */
 .nav-controls {
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
 }
 
-/* -------- Bubble Buttons -------- */
 .nav-bubble-btn {
   position: relative;
   width: 3rem;
@@ -276,7 +264,6 @@ onUnmounted(() => {
   cursor: not-allowed;
 }
 
-/* Bubble Shadow Layer */
 .bubble-shadow {
   position: absolute;
   top: 4px;
@@ -295,7 +282,6 @@ onUnmounted(() => {
   background-color: rgba(26, 26, 26, 0.08);
 }
 
-/* Bubble Content Layer */
 .bubble-content {
   position: relative;
   z-index: 2;
@@ -309,7 +295,6 @@ onUnmounted(() => {
   transition: all var(--duration-normal) var(--ease-out);
 }
 
-/* Bubble Content Variants */
 .bubble-content--green {
   background-color: rgba(120, 224, 143, 0.15);
   color: #2d5a3d;
@@ -328,7 +313,6 @@ onUnmounted(() => {
   background-color: rgba(255, 211, 42, 0.25);
 }
 
-/* Icons */
 .nav-icon {
   width: 1.25rem;
   height: 1.25rem;
@@ -339,7 +323,6 @@ onUnmounted(() => {
   height: 1.5rem;
 }
 
-/* -------- Logo -------- */
 .logo-container {
   position: absolute;
   left: 50%;
@@ -355,11 +338,6 @@ onUnmounted(() => {
   letter-spacing: -0.02em;
 }
 
-/* ============================================================================
-   🎨 DRAWER - Slide-down from Top
-   ============================================================================ */
-
-/* Drawer Backdrop */
 .drawer-backdrop {
   position: fixed;
   inset: 0;
@@ -368,7 +346,6 @@ onUnmounted(() => {
   z-index: var(--z-modal-backdrop);
 }
 
-/* Drawer Panel */
 .drawer-panel {
   position: fixed;
   top: 0;
@@ -384,7 +361,6 @@ onUnmounted(() => {
   max-height: 85vh;
 }
 
-/* Drawer Header */
 .drawer-header {
   padding: var(--spacing-4) var(--spacing-6);
   display: flex;
@@ -419,7 +395,6 @@ onUnmounted(() => {
   height: 1.5rem;
 }
 
-/* Drawer Content */
 .drawer-content {
   padding: var(--spacing-6);
   overflow-y: auto;
@@ -428,7 +403,6 @@ onUnmounted(() => {
   gap: var(--spacing-3);
 }
 
-/* -------- Menu Items -------- */
 .menu-item {
   width: 100%;
   display: flex;
@@ -456,7 +430,6 @@ onUnmounted(() => {
   border: 2px solid rgba(120, 224, 143, 0.3);
 }
 
-/* Menu Item Icon */
 .menu-item-icon {
   width: 3rem;
   height: 3rem;
@@ -472,7 +445,6 @@ onUnmounted(() => {
   transform: scale(1.1);
 }
 
-/* Icon Background Colors */
 .menu-icon--orange {
   background-color: rgba(255, 165, 0, 0.15);
 }
@@ -493,7 +465,6 @@ onUnmounted(() => {
   background-color: rgba(255, 211, 42, 0.15);
 }
 
-/* Menu Item Text */
 .menu-item-text {
   display: flex;
   flex-direction: column;
@@ -514,7 +485,6 @@ onUnmounted(() => {
   color: var(--color-dark-gray);
 }
 
-/* Menu Item Arrow */
 .menu-item-arrow {
   opacity: 0;
   transition: opacity var(--duration-normal) var(--ease-out);
@@ -530,7 +500,6 @@ onUnmounted(() => {
   height: 1.25rem;
 }
 
-/* -------- Action Buttons -------- */
 .action-buttons {
   margin-top: var(--spacing-6);
   padding-top: var(--spacing-6);
@@ -584,11 +553,6 @@ onUnmounted(() => {
   font-weight: 700;
 }
 
-/* ============================================================================
-   ✨ ANIMATIONS - Drawer Transitions
-   ============================================================================ */
-
-/* Fade Animation for Backdrop */
 .drawer-fade-enter-active,
 .drawer-fade-leave-active {
   transition: opacity var(--duration-normal) var(--ease-out);
@@ -599,7 +563,6 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-/* Slide Animation for Drawer Panel */
 .drawer-slide-enter-active {
   transition: transform var(--duration-slower) var(--ease-elastic),
               opacity var(--duration-slow) var(--ease-out);
@@ -620,10 +583,6 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-/* ============================================================================
-   ♿ ACCESSIBILITY - Reduced Motion Support
-   ============================================================================ */
-
 @media (prefers-reduced-motion: reduce) {
   .nav-bubble-btn,
   .menu-item,
@@ -637,10 +596,6 @@ onUnmounted(() => {
     transition-duration: var(--duration-instant) !important;
   }
 }
-
-/* ============================================================================
-   📱 RESPONSIVE - Mobile Optimization
-   ============================================================================ */
 
 @media (max-width: 640px) {
   .logo-text {

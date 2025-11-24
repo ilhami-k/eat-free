@@ -4,16 +4,16 @@
       <h3 class="meal-title">{{ emoji }} {{ mealTitle }}</h3>
       <span class="meal-calories">{{ mealCalories }} kcal</span>
     </div>
-    
+
     <div class="meal-content">
       <div v-if="entries.length === 0" class="empty-meal">
         <p class="empty-text">No items logged</p>
       </div>
-      
+
       <div v-else class="items-content">
         <div class="meal-items">
-          <div 
-            v-for="entry in paginatedEntries" 
+          <div
+            v-for="entry in paginatedEntries"
             :key="`entry-${entry.id}`"
             class="meal-item"
           >
@@ -31,20 +31,20 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Pagination controls -->
         <div v-if="totalPages > 1" class="pagination">
-          <button 
-            class="page-btn" 
-            @click="previousPage" 
+          <button
+            class="page-btn"
+            @click="previousPage"
             :disabled="currentPage === 1"
           >
             ‹
           </button>
           <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
-          <button 
-            class="page-btn" 
-            @click="nextPage" 
+          <button
+            class="page-btn"
+            @click="nextPage"
             :disabled="currentPage === totalPages"
           >
             ›
@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="meal-footer">
       <Button variant="ghost" size="sm" :fullWidth="true" @click="$emit('add-food')">
         <template #iconLeft>
@@ -84,7 +84,6 @@ defineEmits<{
   'delete': [id: number]
 }>()
 
-// Pagination
 const currentPage = ref(1)
 const itemsPerPage = 2
 
@@ -110,7 +109,6 @@ const previousPage = () => {
   }
 }
 
-// Reset to page 1 when entries change
 watch(() => props.entries.length, () => {
   if (currentPage.value > totalPages.value) {
     currentPage.value = 1
@@ -158,7 +156,6 @@ const mealCalories = computed(() => {
   border-radius: var(--radius-full);
 }
 
-/* Content wrapper - takes remaining space */
 .meal-content {
   height: 350px;
   display: flex;
@@ -166,7 +163,6 @@ const mealCalories = computed(() => {
   overflow: hidden;
 }
 
-/* Empty Meal State */
 .empty-meal {
   height: 100%;
   display: flex;
@@ -182,7 +178,6 @@ const mealCalories = computed(() => {
   margin: 0;
 }
 
-/* Items content wrapper */
 .items-content {
   height: 100%;
   display: flex;
@@ -277,7 +272,6 @@ const mealCalories = computed(() => {
   transform: scale(0.95);
 }
 
-/* Pagination */
 .pagination {
   display: flex;
   align-items: center;
@@ -321,7 +315,6 @@ const mealCalories = computed(() => {
   text-align: center;
 }
 
-/* Meal Footer */
 .meal-footer {
   padding-top: var(--spacing-3);
   border-top: 1px solid var(--color-light-gray);

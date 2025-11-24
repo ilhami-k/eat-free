@@ -78,7 +78,7 @@ const iconSvg = computed(() => {
 </script>
 
 <style scoped>
-/* -------- Navigation Card -------- */
+
 .nav-card {
   position: relative;
   background-color: var(--color-white);

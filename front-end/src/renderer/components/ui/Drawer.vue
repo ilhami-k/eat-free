@@ -13,7 +13,7 @@
     <transition name="slide-right">
       <div
         v-if="isOpen"
-        class="fixed right-0 top-0 h-screen w-full sm:w-96 
+        class="fixed right-0 top-0 h-screen w-full sm:w-96
                 bg-white shadow-2xl z-[60] flex flex-col"
       >
         <!-- Header with close -->
@@ -54,7 +54,7 @@ defineEmits<{
 </script>
 
 <style scoped>
-/* Backdrop fade transition */
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 200ms ease-out;
@@ -65,7 +65,6 @@ defineEmits<{
   opacity: 0;
 }
 
-/* Drawer slide transition */
 .slide-right-enter-active,
 .slide-right-leave-active {
   transition: transform 300ms ease-out;
@@ -76,4 +75,3 @@ defineEmits<{
   transform: translateX(100%);
 }
 </style>
-

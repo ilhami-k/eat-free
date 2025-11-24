@@ -69,7 +69,7 @@ const emit = defineEmits<{
   confirm: [quantity: number]
 }>()
 
-const quantity = ref(100) // Default to 100g
+const quantity = ref(100)
 
 const isValid = computed(() => quantity.value > 0)
 

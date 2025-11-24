@@ -96,7 +96,7 @@
                     <div class="meal-text">
                       <p class="meal-name">{{ mealRecipe.recipe?.name }}</p>
                       <p class="meal-details">
-                        {{ mealRecipe.planned_servings }} serving{{ mealRecipe.planned_servings !== 1 ? 's' : '' }} · 
+                        {{ mealRecipe.planned_servings }} serving{{ mealRecipe.planned_servings !== 1 ? 's' : '' }} ·
                         <span class="meal-kcal">{{ calculateMealCalories(mealRecipe) }} kcal</span>
                       </p>
                     </div>
@@ -131,7 +131,7 @@
                     <div class="meal-info">
                       <p class="meal-name">{{ mealRecipe.recipe?.name }}</p>
                       <p class="meal-details">
-                        {{ mealRecipe.planned_servings }} serving{{ mealRecipe.planned_servings !== 1 ? 's' : '' }} · 
+                        {{ mealRecipe.planned_servings }} serving{{ mealRecipe.planned_servings !== 1 ? 's' : '' }} ·
                         <span class="meal-kcal">{{ calculateMealCalories(mealRecipe) }} kcal</span>
                       </p>
                     </div>
@@ -166,7 +166,7 @@
                     <div class="meal-info">
                       <p class="meal-name">{{ mealRecipe.recipe?.name }}</p>
                       <p class="meal-details">
-                        {{ mealRecipe.planned_servings }} serving{{ mealRecipe.planned_servings !== 1 ? 's' : '' }} · 
+                        {{ mealRecipe.planned_servings }} serving{{ mealRecipe.planned_servings !== 1 ? 's' : '' }} ·
                         <span class="meal-kcal">{{ calculateMealCalories(mealRecipe) }} kcal</span>
                       </p>
                     </div>
@@ -315,12 +315,10 @@ async function createMealPlan(): Promise<void> {
     const newPlan = await mealPlanService.createMealPlan(props.currentUserId, currentWeekStart.value)
     mealPlan.value = newPlan
   } catch (err) {
-    console.error('Error creating meal plan:', err)
   }
 }
 
 async function openAddRecipeDialog(date: Date, mealType: MealType): Promise<void> {
-  // Ensure we have a meal plan first
   if (!mealPlan.value) {
     await createMealPlan()
   }
@@ -330,11 +328,9 @@ async function openAddRecipeDialog(date: Date, mealType: MealType): Promise<void
 }
 
 async function openAddRecipeQuick(): Promise<void> {
-  // Ensure we have a meal plan first
   if (!mealPlan.value) {
     await createMealPlan()
   }
-  // Open dialog for today's first meal
   selectedDate.value = new Date()
   selectedMealType.value = 'breakfast'
   showAddRecipeDialog.value = true
@@ -353,7 +349,6 @@ async function removeRecipe(mealPlanRecipeId: number): Promise<void> {
     await mealPlanService.removeRecipeFromMealPlan(mealPlanRecipeId)
     await loadMealPlan()
   } catch (err) {
-    console.error('Error removing recipe:', err)
   }
 }
 
@@ -372,7 +367,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* ========== PAGE LAYOUT ========== */
 
 .meal-plans-page {
   display: flex;
@@ -381,8 +375,6 @@ onMounted(async () => {
   background-color: var(--color-light-gray);
   overflow: hidden;
 }
-
-/* ========== HEADER ========== */
 
 .page-header {
   background-color: var(--color-white);
@@ -420,15 +412,11 @@ onMounted(async () => {
   align-items: center;
 }
 
-/* ========== MAIN CONTENT ========== */
-
 .main-content {
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-4);
 }
-
-/* ========== STATE CONTAINERS ========== */
 
 .state-container {
   display: flex;
@@ -453,7 +441,6 @@ onMounted(async () => {
   }
 }
 
-/* Error Card */
 .error-card {
   max-width: 500px;
   text-align: center;
@@ -471,7 +458,6 @@ onMounted(async () => {
   margin: 0 0 var(--spacing-4) 0;
 }
 
-/* Empty State Card */
 .empty-state-card {
   max-width: 400px;
   text-align: center;
@@ -490,8 +476,6 @@ onMounted(async () => {
   margin: 0 0 var(--spacing-4) 0;
 }
 
-/* ========== WEEK GRID ========== */
-
 .week-grid-container {
   max-width: 1600px;
   margin: 0 auto;
@@ -503,7 +487,6 @@ onMounted(async () => {
   gap: var(--spacing-3);
 }
 
-/* Responsive grid breakpoints */
 @media (min-width: 1400px) {
   .week-grid {
     grid-template-columns: repeat(7, 1fr);
@@ -534,16 +517,12 @@ onMounted(async () => {
   }
 }
 
-/* ========== DAY CARD ========== */
-
 .day-card {
   min-width: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-
-/* ========== DAY HEADER ========== */
 
 .day-header {
   padding-bottom: var(--spacing-3);
@@ -572,15 +551,11 @@ onMounted(async () => {
   margin: 0;
 }
 
-/* ========== MEALS CONTAINER ========== */
-
 .meals-container {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);
 }
-
-/* ========== MEAL SECTION ========== */
 
 .meal-section {
   display: flex;
@@ -597,8 +572,6 @@ onMounted(async () => {
   margin: 0;
 }
 
-/* ========== EMPTY MEAL SLOT ========== */
-
 .empty-meal-slot {
   display: flex;
   align-items: center;
@@ -608,22 +581,18 @@ onMounted(async () => {
   border-radius: var(--radius-lg);
   background-color: rgba(120, 224, 143, 0.02);
   transition: all var(--duration-normal) var(--ease-in-out);
-  
+
   &:hover {
     border-color: var(--color-fresh-green);
     background-color: rgba(120, 224, 143, 0.05);
   }
 }
 
-/* ========== MEAL ITEMS ========== */
-
 .meal-items {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-2);
 }
-
-/* ========== MEAL ITEM CARD ========== */
 
 .meal-item-card {
   display: flex;
@@ -636,11 +605,11 @@ onMounted(async () => {
   box-shadow: var(--shadow-sm);
   transition: all var(--duration-normal) var(--ease-in-out);
   position: relative;
-  
+
   &:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-1px);
-    
+
     .remove-btn {
       opacity: 1;
     }
@@ -673,8 +642,6 @@ onMounted(async () => {
   color: var(--color-fresh-green);
 }
 
-/* ========== REMOVE BUTTON ========== */
-
 .remove-btn {
   flex-shrink: 0;
   width: 28px;
@@ -687,32 +654,30 @@ onMounted(async () => {
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-in-out);
   opacity: 0;
-  
+
   &:hover {
     background-color: #fee2e2;
     color: #dc2626;
   }
-  
+
   &:active {
     transform: scale(0.95);
   }
 }
 
-/* ========== RESPONSIVE ADJUSTMENTS ========== */
-
 @media (max-width: 768px) {
   .page-header {
     padding: var(--spacing-3);
   }
-  
+
   .main-content {
     padding: var(--spacing-3);
   }
-  
+
   .page-title {
     font-size: var(--text-xl);
   }
-  
+
   .header-actions {
     width: 100%;
   }
@@ -722,11 +687,11 @@ onMounted(async () => {
   .page-header {
     padding: var(--spacing-2);
   }
-  
+
   .main-content {
     padding: var(--spacing-2);
   }
-  
+
   .page-title {
     font-size: var(--text-lg);
   }
@@ -736,7 +701,7 @@ onMounted(async () => {
   .meal-item-card:hover {
     transform: none;
   }
-  
+
   .spinner-large {
     animation: none;
   }

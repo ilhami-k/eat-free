@@ -7,9 +7,6 @@ interface UseJournalServiceOptions {
   onError?: (error: Error) => void
 }
 
-/**
- * Composable for managing journal operations with loading and error states
- */
 export function useJournalService(service: IJournalService | undefined, options?: UseJournalServiceOptions) {
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
@@ -19,9 +16,6 @@ export function useJournalService(service: IJournalService | undefined, options?
     throw new Error('Journal service is not available')
   }
 
-  /**
-   * Fetch journal entries for a user within a date range
-   */
   const fetchJournalEntries = async (
     userId: number,
     startDate?: Date,
@@ -43,9 +37,6 @@ export function useJournalService(service: IJournalService | undefined, options?
     }
   }
 
-  /**
-   * Get a single journal entry by ID
-   */
   const getJournalEntryById = async (id: number): Promise<Journal | null> => {
     isLoading.value = true
     error.value = null
@@ -63,9 +54,6 @@ export function useJournalService(service: IJournalService | undefined, options?
     }
   }
 
-  /**
-   * Create a new journal entry
-   */
   const createJournalEntry = async (
     user_id: number,
     recipe_id: number,
@@ -100,9 +88,6 @@ export function useJournalService(service: IJournalService | undefined, options?
     }
   }
 
-  /**
-   * Create a new journal entry with specified time
-   */
   const createJournalEntryWithTime = async (
     user_id: number,
     recipe_id: number,
@@ -139,9 +124,6 @@ export function useJournalService(service: IJournalService | undefined, options?
     }
   }
 
-  /**
-   * Update an existing journal entry
-   */
   const updateJournalEntry = async (
     id: number,
     data: {
@@ -169,9 +151,6 @@ export function useJournalService(service: IJournalService | undefined, options?
     }
   }
 
-  /**
-   * Delete a journal entry
-   */
   const deleteJournalEntry = async (id: number): Promise<boolean> => {
     isLoading.value = true
     error.value = null
@@ -189,20 +168,15 @@ export function useJournalService(service: IJournalService | undefined, options?
     }
   }
 
-  /**
-   * Clear error state
-   */
   const clearError = (): void => {
     error.value = null
   }
 
   return {
-    // State (read-only)
     isLoading: readonly(isLoading),
     error: readonly(error),
     journalEntries: readonly(journalEntries),
 
-    // Actions
     fetchJournalEntries,
     getJournalEntryById,
     createJournalEntry,

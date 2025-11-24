@@ -4,7 +4,6 @@ import { useInventoryStore } from '../useInventoryStore'
 import type IInventoryService from '../../../shared/interfaces/IInventoryService'
 import type Inventory from '../../../shared/inventory'
 
-// Mock the store
 vi.mock('../useInventoryStore', () => ({
   useInventoryStore: vi.fn(),
 }))
@@ -15,7 +14,6 @@ describe('useInventoryService', () => {
   let service: ReturnType<typeof useInventoryService>
 
   beforeEach(() => {
-    // Setup mock store
     mockStore = {
       inventory: { value: null },
       inventoryIngredients: { value: [] },
@@ -31,7 +29,6 @@ describe('useInventoryService', () => {
       reset: vi.fn(),
     } as unknown as ReturnType<typeof useInventoryStore>
 
-    // Setup mock service
     mockService = {
       getInventories: vi.fn(),
       getInventoryById: vi.fn(),
@@ -43,10 +40,8 @@ describe('useInventoryService', () => {
       removeIngredientFromInventory: vi.fn(),
     }
 
-    // Make useInventoryStore return our mock
     vi.mocked(useInventoryStore).mockReturnValue(mockStore)
 
-    // Create service instance
     service = useInventoryService(mockService)
   })
 
@@ -133,7 +128,6 @@ describe('useInventoryService', () => {
 
       await service.getOrCreateInventory(1)
 
-      // Should only include the item with qty > 0
       expect(mockStore.setInventoryIngredients).toHaveBeenCalledWith([
         expect.objectContaining({
           ingredient_name: 'Chicken',
@@ -397,7 +391,6 @@ describe('useInventoryService', () => {
 
       await service.updateIngredient(1, 1, 0)
 
-      // Should only include items with qty > 0
       expect(mockStore.setInventoryIngredients).toHaveBeenCalledWith([
         expect.objectContaining({
           ingredient_name: 'Active Item',
@@ -494,7 +487,6 @@ describe('useInventoryService', () => {
 
   describe('searchIngredients', () => {
     beforeEach(() => {
-      // Setup mock inventory ingredients in store
       mockStore.inventoryIngredients.value = [
         {
           inventory_id: 1,

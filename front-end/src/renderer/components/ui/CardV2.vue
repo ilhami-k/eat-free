@@ -51,7 +51,7 @@ defineEmits<{
 </script>
 
 <style scoped>
-/* Smooth transitions */
+
 div {
   will-change: transform, box-shadow, border-color;
 }

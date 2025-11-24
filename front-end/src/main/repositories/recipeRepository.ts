@@ -4,7 +4,7 @@ import { PrismaClient } from "./prisma/generated/client";
 
 export class RecipeRepository {
   private dbclient: PrismaClient;
-  
+
   constructor(dbclient?: PrismaClient) {
     if (dbclient) {
       this.dbclient = dbclient;

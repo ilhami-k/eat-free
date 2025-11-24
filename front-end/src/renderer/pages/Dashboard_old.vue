@@ -300,16 +300,15 @@ defineEmits<Emits>()
 <style scoped>
 
 .dashboard {
-  /* Removed fixed height and massive padding since SidebarLayout handles it */
+
   width: 100%;
-  /* Background can stay if you want the card-look, but padding is removed to fit layout */
-  background: transparent; 
+
+  background: transparent;
 }
 
-/* -------- Hero Section -------- */
 .hero {
   position: relative;
-  /* Reduced top padding, SidebarLayout provides the base spacing */
+
   padding: var(--spacing-2) 0 var(--spacing-4);
   margin-bottom: var(--spacing-6);
   text-align: center;
@@ -387,10 +386,9 @@ defineEmits<Emits>()
   background-color: var(--color-sky-blue);
 }
 
-/* -------- Stats Grid -------- */
 .stats-grid {
   display: grid;
-  /* Changed minmax to 140px to allow 2 columns on small mobile screens */
+
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: var(--spacing-4);
   margin-bottom: var(--spacing-8);
@@ -401,7 +399,7 @@ defineEmits<Emits>()
   border-radius: var(--radius-xl);
   padding: var(--spacing-4);
   display: flex;
-  flex-direction: column; /* Changed to column for better flexibility on small screens */
+  flex-direction: column;
   align-items: flex-start;
   gap: var(--spacing-3);
   box-shadow: var(--shadow-sm);
@@ -409,7 +407,6 @@ defineEmits<Emits>()
   transition: all var(--duration-normal) var(--ease-out);
 }
 
-/* Tablet and up: switch back to row layout for stats */
 @media (min-width: 640px) {
   .stat-card {
     flex-direction: row;
@@ -498,10 +495,9 @@ defineEmits<Emits>()
   letter-spacing: 0.05em;
 }
 
-/* -------- Navigation Cards -------- */
 .nav-cards {
   display: grid;
-  /* Changed minmax to 280px to fit narrower screens without breaking */
+
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--spacing-6);
   margin-bottom: calc(var(--spacing-8) + var(--spacing-4));
@@ -727,15 +723,14 @@ defineEmits<Emits>()
   color: var(--color-dark-gray);
 }
 
-/* -------- Quick Actions -------- */
 .quick-actions {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
   border-radius: var(--radius-2xl);
   padding: var(--spacing-8);
   box-shadow: var(--shadow-lg);
   border: 2px solid rgba(120, 224, 143, 0.2);
-  margin-bottom: 2rem; /* Reduced bottom margin */
-  padding-bottom: var(--spacing-8); /* Reduced internal bottom padding */
+  margin-bottom: 2rem;
+  padding-bottom: var(--spacing-8);
   backdrop-filter: blur(10px);
 }
 
@@ -761,7 +756,7 @@ defineEmits<Emits>()
 
 .quick-actions-grid {
   display: grid;
-  /* Adjusted minmax to 150px to allow 2 columns on mobile */
+
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: var(--spacing-4);
 }
@@ -911,11 +906,7 @@ defineEmits<Emits>()
   letter-spacing: 0.05em;
 }
 
-/* ==================== RESPONSIVE STYLES ==================== */
-
-/* Mobile devices (< 640px) */
 @media (max-width: 639px) {
-  /* Removed redundant .dashboard padding override */
 
   .hero-title {
     font-size: var(--text-xl);
@@ -934,7 +925,6 @@ defineEmits<Emits>()
     font-size: 0.625rem;
   }
 
-  /* Cleaned up nav card stacking */
   .nav-card {
     padding: var(--spacing-4);
   }
@@ -959,10 +949,9 @@ defineEmits<Emits>()
     font-size: var(--text-sm);
   }
 
-  /* Allow 2 columns for actions on mobile by reducing padding/icon size */
   .quick-action-btn {
     padding: var(--spacing-3);
-    flex-direction: column; /* Stack icon and text on very small screens */
+    flex-direction: column;
     align-items: flex-start;
     text-align: center;
     justify-content: center;
@@ -991,11 +980,10 @@ defineEmits<Emits>()
   }
 
   .quick-action-desc {
-    display: none; /* Hide description on mobile to save space */
+    display: none;
   }
 }
 
-/* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
   .animate-bounce-in,
   .animate-pop,

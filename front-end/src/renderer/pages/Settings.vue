@@ -166,7 +166,7 @@
             </svg>
             <h3>Are you absolutely sure?</h3>
             <p>
-              This action <strong>cannot be undone</strong>. This will permanently delete the account for 
+              This action <strong>cannot be undone</strong>. This will permanently delete the account for
               <strong>{{ user?.email }}</strong> and remove all associated data.
             </p>
           </div>
@@ -228,10 +228,8 @@ const emit = defineEmits<{
   logout: []
 }>()
 
-// Services
 const userService = useUserService(window.electronService?.users)
 
-// State
 const user = ref<User | null>(null)
 const formData = ref({
   name: '',
@@ -244,7 +242,6 @@ const isDeleting = ref(false)
 const showSuccessToast = ref(false)
 const successMessage = ref('')
 
-// Computed
 const isLoading = computed(() => userService.isLoading.value)
 const error = computed(() => userService.error.value)
 
@@ -253,7 +250,6 @@ const hasChanges = computed(() => {
   return formData.value.name !== user.value.name || formData.value.email !== user.value.email
 })
 
-// Methods
 const loadUser = async () => {
   const loadedUser = await userService.getUserById(props.currentUserId)
   if (loadedUser) {
@@ -289,7 +285,6 @@ const handleUpdateProfile = async () => {
       showToast('Profile updated successfully!')
     }
   } catch (err) {
-    console.error('Failed to update profile:', err)
   } finally {
     isUpdating.value = false
   }
@@ -308,7 +303,6 @@ const handleDeleteAccount = async () => {
       }, 1500)
     }
   } catch (err) {
-    console.error('Failed to delete account:', err)
   } finally {
     isDeleting.value = false
     showDeleteConfirmation.value = false
@@ -333,7 +327,6 @@ const formatDate = (dateString: string) => {
   })
 }
 
-// Lifecycle
 onMounted(() => {
   loadUser()
 })
@@ -378,7 +371,6 @@ onMounted(() => {
   padding: 0 1rem;
 }
 
-/* Loading & Error States */
 .loading-state,
 .error-state {
   text-align: center;
@@ -437,7 +429,6 @@ onMounted(() => {
   box-shadow: 0 4px 12px rgba(126, 217, 87, 0.3);
 }
 
-/* Settings Content */
 .settings-content {
   display: flex;
   flex-direction: column;
@@ -501,7 +492,6 @@ onMounted(() => {
   padding: 1.5rem;
 }
 
-/* Form Styles */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -548,7 +538,6 @@ onMounted(() => {
   margin-top: 1.5rem;
 }
 
-/* Buttons */
 .button-primary,
 .button-secondary,
 .button-danger {
@@ -610,7 +599,6 @@ onMounted(() => {
   cursor: not-allowed;
 }
 
-/* Danger Zone */
 .danger-warning {
   display: flex;
   gap: 1rem;
@@ -641,7 +629,6 @@ onMounted(() => {
   line-height: 1.5;
 }
 
-/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -766,7 +753,6 @@ onMounted(() => {
   border-top: 1px solid #e5e7eb;
 }
 
-/* Toast */
 .toast {
   position: fixed;
   bottom: 2rem;
@@ -806,7 +792,6 @@ onMounted(() => {
   animation: spin 1s linear infinite;
 }
 
-/* Responsive */
 @media (max-width: 640px) {
   .form-actions {
     flex-direction: column;

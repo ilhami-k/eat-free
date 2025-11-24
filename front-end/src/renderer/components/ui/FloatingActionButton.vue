@@ -49,7 +49,7 @@ const variantClasses = computed(() => {
 </script>
 
 <style scoped>
-/* Smooth transitions for FAB */
+
 button {
   will-change: transform, box-shadow;
 }

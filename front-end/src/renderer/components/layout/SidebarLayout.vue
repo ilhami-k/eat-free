@@ -13,8 +13,8 @@
       <!-- Main scrollable area -->
       <main class="flex-1 flex flex-col overflow-hidden relative">
         <!-- Page Header -->
-        <header 
-          v-if="$slots.topbar || title" 
+        <header
+          v-if="$slots.topbar || title"
           class="px-6 py-4 md:px-8 lg:px-10 bg-white/50 backdrop-blur-sm border-b border-green-100/50 flex flex-col gap-4 shrink-0 z-10"
         >
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -104,9 +104,8 @@ defineEmits<Emits>()
 </script>
 
 <style scoped>
-/* Smooth scrolling */
+
 .overflow-y-auto {
   scroll-behavior: smooth;
 }
 </style>
-

@@ -31,7 +31,7 @@
         v-for="ingredient in filteredIngredients"
         :key="`ingredient-${ingredient.id}`"
         @click="selectIngredient(ingredient)"
-        class="w-full rounded-lg px-4 py-3 text-left transition-all 
+        class="w-full rounded-lg px-4 py-3 text-left transition-all
                border border-medium-gray bg-white
                hover:bg-fresh-green/10 hover:border-fresh-green
                focus:outline-none focus:ring-2 focus:ring-fresh-green/50"
@@ -99,9 +99,6 @@ const isLoading = computed(() => ingredientService.isLoading.value)
 const error = computed(() => ingredientService.error.value)
 const filteredIngredients = computed(() => {
   const results = ingredientService.ingredients.value
-  console.log('SearchDialog - Total ingredients available:', results.length)
-  console.log('SearchDialog - Search query:', searchQuery.value)
-  console.log('SearchDialog - Filtered results:', results.slice(0, 5).map(i => i.name))
   return results
 })
 

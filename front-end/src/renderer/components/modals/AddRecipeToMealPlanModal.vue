@@ -37,7 +37,7 @@
         <div v-if="filteredRecipes.length === 0 && searchQuery.length > 0" class="py-8 text-center text-neutral-500">
           No recipes found matching "{{ searchQuery }}"
         </div>
-        
+
         <div v-else-if="filteredRecipes.length === 0" class="py-8 text-center text-neutral-500">
           No recipes available. Create a recipe first!
         </div>
@@ -53,7 +53,7 @@
             {{ recipe.kcal_per_serving }} kcal/serving
           </p>
         </button>
-        
+
         <p v-if="filteredRecipes.length > 3" class="text-xs text-center text-neutral-500 pt-2">
           + {{ filteredRecipes.length - 3 }} more recipe{{ filteredRecipes.length - 3 !== 1 ? 's' : '' }}. Type to refine search.
         </p>
@@ -63,7 +63,7 @@
       <div v-if="selectedRecipe" class="space-y-4">
         <div class="rounded-lg border border-neutral-200 p-4">
           <h3 class="mb-3 font-medium text-neutral-900">{{ selectedRecipe.name }}</h3>
-          
+
           <!-- Servings Input -->
           <div class="mb-4">
             <Input
@@ -192,12 +192,11 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-// Debounced search to prevent flickering
 watch(searchQuery, (newQuery) => {
   if (searchTimeout) {
     clearTimeout(searchTimeout)
   }
-  
+
   if (newQuery.trim().length > 0) {
     searchTimeout = setTimeout(async () => {
       await recipeService.searchRecipes(newQuery)
@@ -225,7 +224,6 @@ async function handleAddRecipe(): Promise<void> {
     emit('added')
     closeModal()
   } catch (err) {
-    console.error('Error adding recipe to meal plan:', err)
   } finally {
     isAdding.value = false
   }
@@ -236,7 +234,6 @@ function closeModal(): void {
 }
 
 onMounted(async () => {
-  // Load all recipes on mount for searching
   await recipeService.fetchRecipes()
 })
 </script>

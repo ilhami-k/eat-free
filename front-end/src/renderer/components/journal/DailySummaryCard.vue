@@ -3,7 +3,7 @@
     <div class="summary-header">
       <h2 class="summary-title">Daily Summary</h2>
     </div>
-    
+
     <!-- Calories Remaining -->
     <div class="calories-section">
       <p class="calories-label">Calories Remaining</p>
@@ -27,34 +27,34 @@
           <span class="macro-value">{{ totalProtein }}g / {{ proteinGoal }}g</span>
         </div>
         <div class="macro-bar">
-          <div 
-            class="macro-bar-fill protein" 
+          <div
+            class="macro-bar-fill protein"
             :style="{ width: `${Math.min((totalProtein / proteinGoal) * 100, 100)}%` }"
           ></div>
         </div>
       </div>
-      
+
       <div class="macro-item">
         <div class="macro-header">
           <span class="macro-label">Carbs</span>
           <span class="macro-value">{{ totalCarbs }}g / {{ carbsGoal }}g</span>
         </div>
         <div class="macro-bar">
-          <div 
-            class="macro-bar-fill carbs" 
+          <div
+            class="macro-bar-fill carbs"
             :style="{ width: `${Math.min((totalCarbs / carbsGoal) * 100, 100)}%` }"
           ></div>
         </div>
       </div>
-      
+
       <div class="macro-item">
         <div class="macro-header">
           <span class="macro-label">Fat</span>
           <span class="macro-value">{{ totalFat }}g / {{ fatGoal }}g</span>
         </div>
         <div class="macro-bar">
-          <div 
-            class="macro-bar-fill fat" 
+          <div
+            class="macro-bar-fill fat"
             :style="{ width: `${Math.min((totalFat / fatGoal) * 100, 100)}%` }"
           ></div>
         </div>
@@ -92,7 +92,7 @@ const caloriesRemainingClass = computed(() => {
 </script>
 
 <style scoped>
-/* Daily Summary Card */
+
 .daily-summary-card {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   padding: var(--spacing-5);
@@ -110,7 +110,6 @@ const caloriesRemainingClass = computed(() => {
   margin: 0;
 }
 
-/* Calories Section */
 .calories-section {
   text-align: center;
   padding: var(--spacing-4) 0;
@@ -166,7 +165,6 @@ const caloriesRemainingClass = computed(() => {
   font-weight: 300;
 }
 
-/* Macronutrients Section */
 .macros-section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -226,7 +224,7 @@ const caloriesRemainingClass = computed(() => {
   .macros-section {
     grid-template-columns: 1fr;
   }
-  
+
   .calories-value {
     font-size: 3rem;
   }
@@ -236,7 +234,7 @@ const caloriesRemainingClass = computed(() => {
   .calories-value {
     font-size: 2.5rem;
   }
-  
+
   .daily-summary-card {
     padding: var(--spacing-4);
   }

@@ -9,7 +9,6 @@ interface InventoryState {
   error: Error | null
 }
 
-// Global state - shared across all components
 const state = reactive<InventoryState>({
   inventory: null,
   inventoryIngredients: [],
@@ -18,12 +17,10 @@ const state = reactive<InventoryState>({
 })
 
 export function useInventoryStore() {
-  // Computed values
   const inventoryCount = computed(() => state.inventoryIngredients.length)
-  
+
   const hasInventory = computed(() => state.inventory !== null)
 
-  // Mutations
   const setInventory = (inventory: Inventory | null) => {
     state.inventory = inventory
   }
@@ -52,17 +49,14 @@ export function useInventoryStore() {
   }
 
   return {
-    // Read-only state
     inventory: readonly(computed(() => state.inventory)),
     inventoryIngredients: readonly(computed(() => state.inventoryIngredients)),
     isLoading: readonly(computed(() => state.isLoading)),
     error: readonly(computed(() => state.error)),
-    
-    // Computed
+
     inventoryCount,
     hasInventory,
-    
-    // Actions
+
     setInventory,
     setInventoryIngredients,
     setLoading,

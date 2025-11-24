@@ -136,12 +136,10 @@ const formErrors = ref({
 
 const globalError = ref('')
 
-// Computed properties
 const isFormValid = computed(() => {
   return formData.value.name.trim().length > 0 && formData.value.email.trim().length > 0
 })
 
-// Methods
 const validateForm = (): boolean => {
   formErrors.value = {
     name: '',
@@ -179,7 +177,6 @@ const handleCreateUser = async (): Promise<void> => {
       email: formData.value.email,
     } as User)
 
-    // Reset form after submission
     formData.value = { name: '', email: '' }
   } catch (err) {
     globalError.value = err instanceof Error ? err.message : 'An error occurred'
@@ -190,9 +187,7 @@ const selectUser = (user: User): void => {
   emit('user-created', user)
 }
 
-// Lifecycle
 onMounted(async () => {
-  // Show splash for a minimum duration for better UX
   await new Promise((resolve) => setTimeout(resolve, 1500))
 
   if (props.users.length > 0) {
@@ -325,7 +320,6 @@ onMounted(async () => {
   font-style: italic;
 }
 
-/* User Selection Screen */
 .onboarding__user-list {
   display: flex;
   flex-direction: column;
@@ -376,7 +370,6 @@ onMounted(async () => {
   margin: 0;
 }
 
-/* Animations */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity var(--duration-normal) var(--ease-in-out);
@@ -401,7 +394,6 @@ onMounted(async () => {
   }
 }
 
-/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .onboarding__screen {
     animation: none;
@@ -425,7 +417,6 @@ onMounted(async () => {
   }
 }
 
-/* Responsive breakpoints */
 @media (max-width: 640px) {
   .onboarding {
     padding: var(--spacing-2);

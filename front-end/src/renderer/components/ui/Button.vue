@@ -17,7 +17,7 @@
       <span v-if="$slots.iconLeft" class="button__icon button__icon--left">
         <slot name="iconLeft" />
       </span>
-      
+
       <span class="button__text">
         <slot />
       </span>
@@ -68,19 +68,15 @@ withDefaults(
   overflow: hidden;
   white-space: nowrap;
 
-  /* Focus state */
   &:focus-visible {
     outline: 2px solid var(--color-sky-blue);
     outline-offset: 2px;
   }
 
-  /* Hover animation */
   &:hover:not(.button--disabled) {
     animation: bubble-bounce var(--duration-fast) var(--ease-bounce);
   }
 }
-
-/* ========== VARIANTS ========== */
 
 .button--primary {
   background-color: var(--color-fresh-green);
@@ -141,8 +137,6 @@ withDefaults(
   }
 }
 
-/* ========== SIZES ========== */
-
 .button--sm {
   padding: calc(var(--spacing-1) * 0.5) var(--spacing-2);
   font-size: 0.875rem;
@@ -157,8 +151,6 @@ withDefaults(
   padding: var(--spacing-2) var(--spacing-4);
   font-size: 1.125rem;
 }
-
-/* ========== STATES ========== */
 
 .button--disabled {
   opacity: 0.6;
@@ -177,8 +169,6 @@ withDefaults(
   width: 100%;
 }
 
-/* ========== CONTENT LAYOUT ========== */
-
 .button__content {
   display: flex;
   align-items: center;
@@ -195,8 +185,6 @@ withDefaults(
 .button__text {
   flex: 1;
 }
-
-/* ========== SPINNER ========== */
 
 .button__spinner {
   display: none;
@@ -220,8 +208,6 @@ withDefaults(
     transform: rotate(360deg);
   }
 }
-
-/* ========== ACCESSIBILITY ========== */
 
 @media (prefers-reduced-motion: reduce) {
   .button {

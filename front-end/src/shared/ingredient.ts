@@ -7,4 +7,3 @@ export default interface Ingredient {
   fat_g_per_100g: number;
   created_at: string;
 }
-
